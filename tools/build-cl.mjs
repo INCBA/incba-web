@@ -73,6 +73,7 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
     <loc>${CL}/</loc>
     <xhtml:link rel="alternate" hreflang="es-AR" href="${AR}/"/>
     <xhtml:link rel="alternate" hreflang="es-CL" href="${CL}/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="${AR}/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${AR}/"/>
     <lastmod>${BUILD_DATE}</lastmod>
     <changefreq>monthly</changefreq>
@@ -108,12 +109,13 @@ function build() {
     process.exit(1)
   }
 
-  // Sólo deben sobrevivir las dos referencias a incba.com.ar de hreflang
-  // (es-AR y x-default). Cualquier otra significa una URL sin traducir.
+  // Sólo deben sobrevivir las tres referencias a incba.com.ar de hreflang
+  // (es-AR, es genérico y x-default). Cualquier otra significa una URL
+  // sin traducir, que es lo que desindexaría incba.cl.
   const leftovers = countOf(html, `${AR}/`) + countOf(html, `"${AR}"`)
-  if (leftovers !== 2) {
+  if (leftovers !== 3) {
     console.error(
-      `\nQuedaron ${leftovers} URLs de incba.com.ar en el HTML chileno (deberían ser 2: hreflang es-AR y x-default).\n`
+      `\nQuedaron ${leftovers} URLs de incba.com.ar en el HTML chileno (deberían ser 3: hreflang es-AR, es y x-default).\n`
     )
     process.exit(1)
   }
