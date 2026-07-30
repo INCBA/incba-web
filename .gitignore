@@ -1,0 +1,5 @@
+# Salida del build de incba.cl (se publica sola vía GitHub Actions)
+dist-cl/
+
+# Herramientas locales
+.claude/
