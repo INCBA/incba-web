@@ -3,7 +3,7 @@ name: Publicar espejo incba.cl
 # incba.com.ar se sirve desde este repo. incba.cl necesita un repo aparte
 # porque GitHub Pages admite un solo dominio por sitio (responde 404 a
 # cualquier Host que no coincida con el CNAME). Este workflow deriva la
-# versión chilena desde index.html y la publica en rebofel/incba-web-cl,
+# versión chilena desde index.html y la publica en INCBA/incba-web-cl,
 # así el contenido de ambos dominios sale siempre de la misma fuente.
 
 on:
@@ -41,5 +41,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -q -m "Espejo de incba-web@${GITHUB_SHA::7}"
-          git remote add origin git@github.com:rebofel/incba-web-cl.git
+          git remote add origin git@github.com:INCBA/incba-web-cl.git
           git push -q --force origin master
