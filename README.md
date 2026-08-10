@@ -5,7 +5,7 @@ Sitio de una sola página que se publica en **dos dominios**:
 | Dominio | Público | Se sirve desde |
 |---|---|---|
 | incba.com.ar | Argentina | este repo, GitHub Pages |
-| incba.cl | Chile | `rebofel/incba-web-cl`, GitHub Pages |
+| incba.cl | Chile | `INCBA/incba-web-cl`, GitHub Pages |
 
 ## Cómo editar el contenido
 
@@ -13,9 +13,9 @@ Editá **`index.html` de este repo y nada más**. Al hacer push a `master`:
 
 1. GitHub Pages actualiza incba.com.ar.
 2. El workflow `.github/workflows/deploy-cl.yml` corre `tools/build-cl.mjs`, genera la
-   versión chilena y la publica en `rebofel/incba-web-cl` (~20 segundos).
+   versión chilena y la publica en `INCBA/incba-web-cl` (~20 segundos).
 
-**No edites `rebofel/incba-web-cl` a mano.** Se sobrescribe entero en cada deploy.
+**No edites `INCBA/incba-web-cl` a mano.** Se sobrescribe entero en cada deploy.
 
 Para probar la salida chilena antes de publicar:
 
