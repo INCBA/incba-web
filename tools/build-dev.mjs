@@ -1,5 +1,5 @@
 /**
- * Genera el sitio de staging (dev.incba.com.ar) a partir de index.html.
+ * Genera el sitio de staging (test.incba.com.ar) a partir de index.html.
  *
  * El contenido es idéntico al de producción a propósito: la idea de un staging
  * es mirar exactamente lo que se va a publicar. Lo único que cambia es que este
@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url'
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const OUT = join(ROOT, 'dist-dev')
 
-const DEV_HOST = 'dev.incba.com.ar'
+const DEV_HOST = 'test.incba.com.ar'
 
 const HREFLANG_BLOCK = `  <!-- Versiones por país. El bloque es idéntico en incba.com.ar e incba.cl:
        Google exige que las referencias sean recíprocas y que cada página

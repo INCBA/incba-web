@@ -1,10 +1,10 @@
-name: Publicar staging dev.incba.com.ar
+name: Publicar staging test.incba.com.ar
 
 # Ambiente de staging. Se publica solo desde la rama `dev`, en un repo aparte
 # (INCBA/incba-web-dev) porque GitHub Pages admite un dominio propio por sitio.
 #
 # Flujo de trabajo:
-#   dev    -> dev.incba.com.ar   (noindex, para revisar antes de publicar)
+#   dev    -> test.incba.com.ar   (noindex, para revisar antes de publicar)
 #   master -> incba.com.ar + incba.cl
 #
 # Para pasar algo a producción: merge de `dev` a `master`.

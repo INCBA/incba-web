@@ -6,18 +6,18 @@ Sitio de una sola página. Se publica en **tres sitios** desde este único repo:
 |---|---|---|---|
 | incba.com.ar | `master` | Argentina | este repo, GitHub Pages |
 | incba.cl | `master` | Chile | `INCBA/incba-web-cl`, GitHub Pages |
-| dev.incba.com.ar | `dev` | staging interno | `INCBA/incba-web-dev`, GitHub Pages |
+| test.incba.com.ar | `dev` | staging interno | `INCBA/incba-web-dev`, GitHub Pages |
 
 ## Flujo de trabajo
 
 ```
-dev    ──push──>  dev.incba.com.ar          (revisás acá)
+dev    ──push──>  test.incba.com.ar          (revisás acá)
  │
  └─merge a master──>  incba.com.ar + incba.cl   (producción)
 ```
 
 Editá **`index.html` y nada más**. Trabajá en `dev`, mirá el resultado en
-dev.incba.com.ar, y cuando esté bien hacé merge a `master`.
+test.incba.com.ar, y cuando esté bien hacé merge a `master`.
 
 Al hacer push a **`dev`**: el workflow `deploy-dev.yml` corre `tools/build-dev.mjs` y
 publica en `INCBA/incba-web-dev`.
@@ -31,7 +31,7 @@ enteros en cada deploy.
 
 ### El staging no se indexa
 
-`dev.incba.com.ar` sale con `noindex, nofollow`, sin bloque `hreflang`, sin sitemap y
+`test.incba.com.ar` sale con `noindex, nofollow`, sin bloque `hreflang`, sin sitemap y
 con `robots.txt` bloqueando todo. Es a propósito: un clon indexable de incba.com.ar le
 competiría por las mismas búsquedas y se metería en el grupo hreflang AR/CL. La
 canónica sigue apuntando a producción. Si tocás esas etiquetas en `index.html`, el
