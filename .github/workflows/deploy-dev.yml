@@ -1,0 +1,48 @@
+name: Publicar staging dev.incba.com.ar
+
+# Ambiente de staging. Se publica solo desde la rama `dev`, en un repo aparte
+# (INCBA/incba-web-dev) porque GitHub Pages admite un dominio propio por sitio.
+#
+# Flujo de trabajo:
+#   dev    -> dev.incba.com.ar   (noindex, para revisar antes de publicar)
+#   master -> incba.com.ar + incba.cl
+#
+# Para pasar algo a producción: merge de `dev` a `master`.
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # El runner ya trae Node y el script no usa dependencias.
+      - name: Generar sitio de staging
+        run: node tools/build-dev.mjs
+
+      - name: Publicar en incba-web-dev
+        env:
+          DEPLOY_KEY: ${{ secrets.DEV_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts
+
+          cd dist-dev
+          git init -q -b master
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Staging de incba-web@${GITHUB_SHA::7}"
+          git remote add origin git@github.com:INCBA/incba-web-dev.git
+          git push -q --force origin master

@@ -1,29 +1,50 @@
 # INCBA — sitio institucional
 
-Sitio de una sola página que se publica en **dos dominios**:
+Sitio de una sola página. Se publica en **tres sitios** desde este único repo:
 
-| Dominio | Público | Se sirve desde |
-|---|---|---|
-| incba.com.ar | Argentina | este repo, GitHub Pages |
-| incba.cl | Chile | `INCBA/incba-web-cl`, GitHub Pages |
+| Sitio | Rama | Público | Se sirve desde |
+|---|---|---|---|
+| incba.com.ar | `master` | Argentina | este repo, GitHub Pages |
+| incba.cl | `master` | Chile | `INCBA/incba-web-cl`, GitHub Pages |
+| dev.incba.com.ar | `dev` | staging interno | `INCBA/incba-web-dev`, GitHub Pages |
 
-## Cómo editar el contenido
+## Flujo de trabajo
 
-Editá **`index.html` de este repo y nada más**. Al hacer push a `master`:
-
-1. GitHub Pages actualiza incba.com.ar.
-2. El workflow `.github/workflows/deploy-cl.yml` corre `tools/build-cl.mjs`, genera la
-   versión chilena y la publica en `INCBA/incba-web-cl` (~20 segundos).
-
-**No edites `INCBA/incba-web-cl` a mano.** Se sobrescribe entero en cada deploy.
-
-Para probar la salida chilena antes de publicar:
-
-```bash
-node tools/build-cl.mjs
+```
+dev    ──push──>  dev.incba.com.ar          (revisás acá)
+ │
+ └─merge a master──>  incba.com.ar + incba.cl   (producción)
 ```
 
-Queda en `dist-cl/` (ignorado por git).
+Editá **`index.html` y nada más**. Trabajá en `dev`, mirá el resultado en
+dev.incba.com.ar, y cuando esté bien hacé merge a `master`.
+
+Al hacer push a **`dev`**: el workflow `deploy-dev.yml` corre `tools/build-dev.mjs` y
+publica en `INCBA/incba-web-dev`.
+
+Al hacer push a **`master`**: GitHub Pages actualiza incba.com.ar, y `deploy-cl.yml`
+corre `tools/build-cl.mjs` y publica la versión chilena en `INCBA/incba-web-cl`
+(~20 segundos).
+
+**No edites `INCBA/incba-web-cl` ni `INCBA/incba-web-dev` a mano.** Se sobrescriben
+enteros en cada deploy.
+
+### El staging no se indexa
+
+`dev.incba.com.ar` sale con `noindex, nofollow`, sin bloque `hreflang`, sin sitemap y
+con `robots.txt` bloqueando todo. Es a propósito: un clon indexable de incba.com.ar le
+competiría por las mismas búsquedas y se metería en el grupo hreflang AR/CL. La
+canónica sigue apuntando a producción. Si tocás esas etiquetas en `index.html`, el
+build de staging falla en vez de publicar algo indexable.
+
+Para generar cualquiera de las dos salidas localmente:
+
+```bash
+node tools/build-cl.mjs    # -> dist-cl/
+node tools/build-dev.mjs   # -> dist-dev/
+```
+
+Ambas carpetas están ignoradas por git.
 
 ### Si el build falla
 
