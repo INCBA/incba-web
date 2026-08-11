@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es-AR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>INCBA — Consultora Tecnológica en Argentina | Conectamos sistemas. Aceleramos negocios.</title>
-  <meta name="description" content="Consultora tecnológica en Argentina y Chile. Integramos eCommerce, ERP y CRM, automatizamos procesos y preparamos su infraestructura para IA aplicada.">
+  <title>Integración de sistemas ERP, CRM y eCommerce | INCBA</title>
+  <meta name="description" content="Consultora tecnológica en Argentina y Chile. Integramos eCommerce, ERP y CRM con arquitectura API, automatizamos procesos y preparamos tu empresa para IA.">
   <meta name="keywords" content="consultora tecnológica, integración empresarial, arquitectura API, automatización, inteligencia artificial, ERP, CRM, eCommerce, Argentina, Chile">
   <meta name="author" content="INCBA Technology Consulting">
   <meta name="robots" content="index, follow">
@@ -21,12 +21,13 @@
   <link rel="alternate" hreflang="x-default" href="https://incba.com.ar/">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="img/icon-192.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
-  <link rel="manifest" href="site.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
 
-  <!-- Open Graph -->
+  <!-- Open Graph. Los enlaces se comparten sobre todo en LinkedIn, que es el
+       canal principal del plan de marketing: sin esto la tarjeta sale mal. -->
   <meta property="og:title" content="INCBA — Technology Consulting">
   <meta property="og:description" content="Conectamos sistemas. Aceleramos negocios. Integración de eCommerce, ERP y CRM, automatización e IA aplicada para empresas de Argentina y Chile.">
   <meta property="og:type" content="website">
@@ -48,6 +49,28 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "INCBA Technology Consulting",
+    "alternateName": "INCBA",
+    "url": "https://incba.com.ar",
+    "logo": "https://incba.com.ar/img/logo-light.png",
+    "description": "Consultora tecnológica que integra eCommerce, ERP y CRM mediante arquitectura API, automatiza procesos y prepara la infraestructura para inteligencia artificial aplicada.",
+    "areaServed": [
+      {
+        "@type": "Country",
+        "name": "AR"
+      },
+      {
+        "@type": "Country",
+        "name": "CL"
+      }
+    ],
+    "sameAs": []
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "INCBA Technology Consulting",
     "url": "https://incba.com.ar",
@@ -57,17 +80,39 @@
       "@type": "PostalAddress",
       "addressCountry": "AR"
     },
-    "areaServed": ["AR", "CL"],
-    "serviceType": ["Consultoría tecnológica", "Integración de sistemas", "Automatización", "Inteligencia artificial aplicada"],
-    "knowsAbout": ["ERP", "CRM", "eCommerce", "API", "IA", "Automatización"],
+    "areaServed": [
+      "AR",
+      "CL"
+    ],
+    "serviceType": [
+      "Consultoría tecnológica",
+      "Integración de sistemas",
+      "Automatización",
+      "Inteligencia artificial aplicada"
+    ],
+    "knowsAbout": [
+      "ERP",
+      "CRM",
+      "eCommerce",
+      "API",
+      "IA",
+      "Automatización"
+    ],
     "sameAs": []
   }
   </script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Anclas del sitio de una sola página -> rutas nuevas. Retirable desde 2027-02-11. -->
+  <script>
+    (function () {
+      var m = {"#servicios":"/servicios","#proceso":"/proceso","#resultados":"/casos-de-exito","#diferencial":"/por-que-incba","#partners":"/partners","#clientes":"/clientes","#contacto":"/contacto","#equipo":"/equipo","#quienes-somos":"/equipo","#problema":"/","#solucion":"/","#inicio":"/"};
+      var d = m[window.location.hash];
+      if (d && d !== window.location.pathname) window.location.replace(d);
+    })();
+  </script>
 </head>
 <body>
 
@@ -76,24 +121,26 @@
        ============================== -->
   <nav class="nav" id="nav">
     <div class="container">
-      <a href="#" class="nav-logo">
-        <div class="logo-img-wrap"><img src="img/logo-light.png" alt="INCBA"></div>
+      <a href="/" class="nav-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
         <span class="logo-sub">Technology Consulting</span>
       </a>
       <div class="nav-links" id="nav-links">
-        <a href="#servicios">Servicios</a>
-        <a href="#proceso">Proceso</a>
-        <a href="#resultados">Resultados</a>
-        <a href="#diferencial">Por qué INCBA</a>
-        <a href="#partners">Partners</a>
-        <a href="#clientes">Clientes</a>
-        <a href="#contacto" class="btn btn-primary nav-cta">Conversemos</a>
+        <a href="/servicios">Servicios</a>
+        <a href="/proceso">Proceso</a>
+        <a href="/casos-de-exito">Casos de éxito</a>
+        <a href="/por-que-incba">Por qué INCBA</a>
+        <a href="/equipo">Equipo</a>
+        <a href="/partners">Partners</a>
+        <a href="/clientes">Clientes</a>
+        <a href="/contacto" class="btn btn-primary nav-cta">Conversemos</a>
       </div>
       <button class="nav-mobile-toggle" aria-label="Menú">
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
+
 
   <!-- ==============================
        HERO
@@ -118,11 +165,11 @@
           inteligencia artificial aplicada.
         </p>
         <div class="hero-buttons fade-up stagger-3">
-          <a href="#contacto" class="btn btn-primary">
+          <a href="/contacto" class="btn btn-primary">
             Agendar diagnóstico
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
-          <a href="#partners" class="btn btn-secondary">
+          <a href="/partners" class="btn btn-secondary">
             Programa de Partners
           </a>
         </div>
@@ -489,138 +536,6 @@
   </section>
 
   <!-- ==============================
-       BRAND DECODER
-       ============================== -->
-  <section class="decoder-section" id="quienes-somos">
-    <div class="container">
-      <div class="decoder-header fade-up">
-        <span class="section-label">¿Qué significa INCBA?</span>
-      </div>
-
-      <!-- Animated circuit lines background -->
-      <svg class="decoder-circuits" viewBox="0 0 1200 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="circuit-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#00C896" stop-opacity="0"/>
-            <stop offset="50%" stop-color="#00C896" stop-opacity="0.3"/>
-            <stop offset="100%" stop-color="#00C896" stop-opacity="0"/>
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-        <!-- Horizontal lines -->
-        <line x1="0" y1="80" x2="1200" y2="80" stroke="url(#circuit-grad)" stroke-width="1" class="circuit-line cl-1"/>
-        <line x1="0" y1="200" x2="1200" y2="200" stroke="url(#circuit-grad)" stroke-width="1" class="circuit-line cl-2"/>
-        <line x1="0" y1="320" x2="1200" y2="320" stroke="url(#circuit-grad)" stroke-width="1" class="circuit-line cl-3"/>
-        <!-- Vertical pulse lines -->
-        <line x1="200" y1="0" x2="200" y2="400" stroke="url(#circuit-grad)" stroke-width="1" class="circuit-line cl-4"/>
-        <line x1="600" y1="0" x2="600" y2="400" stroke="url(#circuit-grad)" stroke-width="1" class="circuit-line cl-5"/>
-        <line x1="1000" y1="0" x2="1000" y2="400" stroke="url(#circuit-grad)" stroke-width="1" class="circuit-line cl-6"/>
-        <!-- Junction dots -->
-        <circle cx="200" cy="80" r="3" fill="#00C896" opacity="0.5" filter="url(#glow)" class="circuit-dot cd-1"/>
-        <circle cx="600" cy="200" r="3" fill="#00C896" opacity="0.5" filter="url(#glow)" class="circuit-dot cd-2"/>
-        <circle cx="1000" cy="320" r="3" fill="#00C896" opacity="0.5" filter="url(#glow)" class="circuit-dot cd-3"/>
-        <circle cx="200" cy="320" r="3" fill="#00C896" opacity="0.4" filter="url(#glow)" class="circuit-dot cd-4"/>
-        <circle cx="1000" cy="80" r="3" fill="#00C896" opacity="0.4" filter="url(#glow)" class="circuit-dot cd-5"/>
-      </svg>
-
-      <div class="decoder-letters" id="decoder">
-        <div class="decoder-letter fade-up stagger-1" data-letter="I">
-          <div class="letter-glyph">
-            <span class="letter-char">I</span>
-            <div class="letter-scanline"></div>
-          </div>
-          <div class="letter-connector">
-            <svg viewBox="0 0 40 60" xmlns="http://www.w3.org/2000/svg">
-              <line x1="20" y1="0" x2="20" y2="50" stroke="#00C896" stroke-width="2" stroke-dasharray="4 4" class="connector-line"/>
-              <circle cx="20" cy="54" r="4" fill="#00C896" class="connector-dot"/>
-            </svg>
-          </div>
-          <div class="letter-meaning">
-            <span class="meaning-word">Innovation</span>
-            <span class="meaning-desc">Tecnología aplicada con criterio</span>
-          </div>
-        </div>
-
-        <div class="decoder-letter fade-up stagger-2" data-letter="N">
-          <div class="letter-glyph">
-            <span class="letter-char">N</span>
-            <div class="letter-scanline"></div>
-          </div>
-          <div class="letter-connector">
-            <svg viewBox="0 0 40 60" xmlns="http://www.w3.org/2000/svg">
-              <line x1="20" y1="0" x2="20" y2="50" stroke="#00C896" stroke-width="2" stroke-dasharray="4 4" class="connector-line"/>
-              <circle cx="20" cy="54" r="4" fill="#00C896" class="connector-dot"/>
-            </svg>
-          </div>
-          <div class="letter-meaning">
-            <span class="meaning-ampersand">&amp;</span>
-          </div>
-        </div>
-
-        <div class="decoder-letter fade-up stagger-3" data-letter="C">
-          <div class="letter-glyph">
-            <span class="letter-char">C</span>
-            <div class="letter-scanline"></div>
-          </div>
-          <div class="letter-connector">
-            <svg viewBox="0 0 40 60" xmlns="http://www.w3.org/2000/svg">
-              <line x1="20" y1="0" x2="20" y2="50" stroke="#00C896" stroke-width="2" stroke-dasharray="4 4" class="connector-line"/>
-              <circle cx="20" cy="54" r="4" fill="#00C896" class="connector-dot"/>
-            </svg>
-          </div>
-          <div class="letter-meaning">
-            <span class="meaning-word">Consulting</span>
-            <span class="meaning-desc">Diagnóstico y estrategia</span>
-          </div>
-        </div>
-
-        <div class="decoder-sep">for</div>
-
-        <div class="decoder-letter fade-up stagger-4" data-letter="B">
-          <div class="letter-glyph">
-            <span class="letter-char letter-accent">B</span>
-            <div class="letter-scanline"></div>
-          </div>
-          <div class="letter-connector">
-            <svg viewBox="0 0 40 60" xmlns="http://www.w3.org/2000/svg">
-              <line x1="20" y1="0" x2="20" y2="50" stroke="#00C896" stroke-width="2" stroke-dasharray="4 4" class="connector-line"/>
-              <circle cx="20" cy="54" r="4" fill="#00C896" class="connector-dot"/>
-            </svg>
-          </div>
-          <div class="letter-meaning">
-            <span class="meaning-word">Business</span>
-            <span class="meaning-desc">Enfocados en su negocio</span>
-          </div>
-        </div>
-
-        <div class="decoder-letter fade-up stagger-5" data-letter="A">
-          <div class="letter-glyph">
-            <span class="letter-char">A</span>
-            <div class="letter-scanline"></div>
-          </div>
-          <div class="letter-connector">
-            <svg viewBox="0 0 40 60" xmlns="http://www.w3.org/2000/svg">
-              <line x1="20" y1="0" x2="20" y2="50" stroke="#00C896" stroke-width="2" stroke-dasharray="4 4" class="connector-line"/>
-              <circle cx="20" cy="54" r="4" fill="#00C896" class="connector-dot"/>
-            </svg>
-          </div>
-          <div class="letter-meaning">
-            <span class="meaning-word">Acceleration</span>
-            <span class="meaning-desc">Resultados medibles</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="decoder-tagline fade-up">
-        <p>Innovation &amp; Consulting for Business Acceleration</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==============================
        PROBLEM
        ============================== -->
   <section class="section section-alt" id="problema">
@@ -781,507 +696,76 @@
   </section>
 
   <!-- ==============================
-       SERVICES
+       RESÚMENES — puerta de entrada a cada página
        ============================== -->
-  <section class="section" id="servicios">
-    <!-- Tech hex grid decoration -->
-    <div class="section-deco section-deco-right">
-      <svg class="deco-hex" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><polygon points="100,10 170,50 170,130 100,170 30,130 30,50" fill="none" stroke="rgba(0,200,150,0.06)" stroke-width="1"/><polygon points="100,30 150,60 150,120 100,150 50,120 50,60" fill="none" stroke="rgba(0,200,150,0.04)" stroke-width="1" stroke-dasharray="6 3"><animateTransform attributeName="transform" type="rotate" from="0 100 100" to="-360 100 100" dur="40s" repeatCount="indefinite"/></polygon><circle cx="100" cy="10" r="2" fill="rgba(0,200,150,0.2)"><animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="25s" repeatCount="indefinite"/></circle></svg>
-    </div>
+  <section class="section" id="resumenes">
     <div class="container">
       <div class="section-header center fade-up">
-        <span class="section-label">Qué hacemos</span>
-        <h2>Servicios de integración y<br>evolución tecnológica</h2>
+        <span class="section-label">Recorrido</span>
+        <h2>Por dónde seguir</h2>
         <p class="section-subtitle">
-          Cada intervención responde a una necesidad concreta del negocio, 
-          con arquitectura diseñada para durar.
+          Cada bloque tiene su página, con el detalle completo.
         </p>
       </div>
       <div class="services-grid">
 
-        <div class="service-card fade-up stagger-1">
-          <div class="service-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M4 20V9a2 2 0 0 1 2-2h2V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3h2a2 2 0 0 1 2 2v11"/><path d="M9 20v-6h6v6"/><path d="M8 7h8"/><path d="M10 11h1"/><path d="M13 11h1"/></svg>
-          </div>
-          <h3>Integración de plataformas</h3>
-          <p>Conectamos eCommerce, ERP, CRM y sistemas internos para que operen como un ecosistema unificado con datos sincronizados en tiempo real.</p>
-        </div>
+        <a href="/servicios" class="service-card resumen-card fade-up stagger-1">
+          <h3>Servicios</h3>
+          <p>Cada intervención responde a una necesidad concreta del negocio, con arquitectura diseñada para durar.</p>
+          <span class="resumen-link">Ver los seis servicios</span>
+        </a>
 
-        <div class="service-card fade-up stagger-2">
-          <div class="service-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="7.5 4.21 12 6.81 16.5 4.21"/><polyline points="7.5 19.79 7.5 14.6 3 12"/><polyline points="21 12 16.5 14.6 16.5 19.79"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-          </div>
-          <h3>Arquitectura API</h3>
-          <p>Diseñamos e implementamos capas de API robustas y documentadas que permiten la comunicación segura entre todas las plataformas del negocio.</p>
-        </div>
+        <a href="/proceso" class="service-card resumen-card fade-up stagger-2">
+          <h3>Cómo trabajamos</h3>
+          <p>Cada proyecto sigue un proceso claro con entregables concretos y validación en cada etapa.</p>
+          <span class="resumen-link">Conocé el proceso</span>
+        </a>
 
-        <div class="service-card fade-up stagger-3">
-          <div class="service-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          </div>
-          <h3>Modernización de sistemas</h3>
-          <p>Migramos y reestructuramos sistemas legacy para que sean escalables, mantenibles y compatibles con tecnologías actuales.</p>
-        </div>
+        <a href="/casos-de-exito" class="service-card resumen-card fade-up stagger-3">
+          <h3>Casos de éxito</h3>
+          <p>Mejoras concretas y medibles en la operación diaria: menos errores, menos horas de carga manual, más control.</p>
+          <span class="resumen-link">Ver qué cambia</span>
+        </a>
 
-        <div class="service-card fade-up stagger-4">
-          <div class="service-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          </div>
-          <h3>Automatización de procesos</h3>
-          <p>Identificamos procesos manuales críticos y los automatizamos con flujos inteligentes que reducen errores y tiempos de ejecución.</p>
-        </div>
+        <a href="/por-que-incba" class="service-card resumen-card fade-up stagger-4">
+          <h3>Por qué INCBA</h3>
+          <p>Somos una consultora tecnológica: entendemos primero el negocio y después diseñamos, integramos y mantenemos los sistemas que lo sostienen.</p>
+          <span class="resumen-link">Ver el diferencial</span>
+        </a>
 
-        <div class="service-card fade-up stagger-5">
-          <div class="service-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4c0 2 1 3.5 2 4.5"/><path d="M12 2a4 4 0 0 1 4 4c0 2-1 3.5-2 4.5"/><path d="M8 14a6.5 6.5 0 0 0 8 0"/><path d="M12 10v12"/><path d="m8 18 4 4 4-4"/></svg>
-          </div>
-          <h3>Infraestructura para IA</h3>
-          <p>Ordenamos datos, APIs y procesos para que su infraestructura pueda incorporar analítica avanzada, modelos predictivos e IA aplicada.</p>
-        </div>
+        <a href="/equipo" class="service-card resumen-card fade-up stagger-5">
+          <h3>Equipo</h3>
+          <p>Un equipo chico y senior, que se involucra directamente en la operación de cada cliente. Sin capas intermedias.</p>
+          <span class="resumen-link">Conocé al equipo</span>
+        </a>
 
-        <div class="service-card fade-up stagger-6">
-          <div class="service-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-          </div>
-          <h3>Desarrollo estratégico</h3>
-          <p>Construimos soluciones a medida con tecnología moderna, alineadas a la estrategia del negocio. Cada desarrollo queda documentado y preparado para mantenerse en el tiempo.</p>
-        </div>
+        <a href="/partners" class="service-card resumen-card fade-up stagger-6">
+          <h3>Programa de Partners</h3>
+          <p>Capacidad técnica senior para agencias y consultoras que necesitan resolver integraciones bajo su propia marca.</p>
+          <span class="resumen-link">Ver el programa</span>
+        </a>
 
-      </div>
-    </div>
-  </section>
+        <a href="/clientes" class="service-card resumen-card fade-up stagger-1">
+          <h3>Clientes</h3>
+          <p>Empresas de comercio, industria y agroindustria de Argentina y Chile que ya trabajan con nosotros.</p>
+          <span class="resumen-link">Ver la cartera</span>
+        </a>
 
-  <!-- ==============================
-       PROCESS
-       ============================== -->
-  <section class="section section-dark" id="proceso">
-    <div class="container">
-      <div class="section-header center fade-up">
-        <span class="section-label">Cómo trabajamos</span>
-        <h2>Metodología estructurada,<br>resultados verificables</h2>
-        <p class="section-subtitle" style="color: var(--gray-400);">
-          Cada proyecto sigue un proceso claro con entregables concretos 
-          y validación en cada etapa.
-        </p>
-      </div>
-      <div class="process-steps">
-
-        <div class="process-step fade-up stagger-1">
-          <div class="process-step-num">1</div>
-          <h3>Diagnóstico</h3>
-          <p>Relevamos el ecosistema actual, identificamos puntos de fricción y oportunidades de integración.</p>
-        </div>
-
-        <div class="process-step fade-up stagger-2">
-          <div class="process-step-num">2</div>
-          <h3>Diseño de arquitectura</h3>
-          <p>Definimos la arquitectura de integración, los flujos de datos y la estrategia técnica alineada al negocio.</p>
-        </div>
-
-        <div class="process-step fade-up stagger-3">
-          <div class="process-step-num">3</div>
-          <h3>Implementación</h3>
-          <p>Ejecutamos el desarrollo con demos progresivas. Usted valida cada avance antes de continuar.</p>
-        </div>
-
-        <div class="process-step fade-up stagger-4">
-          <div class="process-step-num">4</div>
-          <h3>Evolución</h3>
-          <p>Optimizamos, escalamos y preparamos la infraestructura para nuevas integraciones y adopción de IA.</p>
-        </div>
+        <a href="/contacto" class="service-card resumen-card fade-up stagger-2">
+          <h3>Contacto</h3>
+          <p>Contanos qué sistemas necesitás integrar o qué procesos querés automatizar. El diagnóstico no tiene costo.</p>
+          <span class="resumen-link">Agendá un diagnóstico</span>
+        </a>
 
       </div>
     </div>
   </section>
 
-  <!-- ==============================
-       BENEFITS
-       ============================== -->
-  <section class="section" id="resultados">
-    <div class="container">
-      <div class="section-header center fade-up">
-        <span class="section-label">Resultados</span>
-        <h2>Qué cambia en su operación</h2>
-        <p class="section-subtitle">
-          Mejoras concretas y medibles en la operación diaria: menos errores, 
-          menos horas de carga manual, más control.
-        </p>
-      </div>
-      <div class="benefits-grid">
 
-        <div class="benefit fade-up stagger-1">
-          <div class="benefit-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4L21 7"/><path d="M21 7h-6"/><path d="M21 7v6"/></svg>
-          </div>
-          <div>
-            <h3>Reducción de errores operativos</h3>
-            <p>La sincronización automática elimina la carga manual de datos y los errores que genera.</p>
-          </div>
-        </div>
-
-        <div class="benefit fade-up stagger-2">
-          <div class="benefit-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div>
-            <h3>Mejora en tiempos de procesamiento</h3>
-            <p>Procesos que llevaban horas de trabajo manual pasan a resolverse en minutos, y el equipo recupera ese tiempo para tareas de más valor.</p>
-          </div>
-        </div>
-
-        <div class="benefit fade-up stagger-3">
-          <div class="benefit-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-          </div>
-          <div>
-            <h3>Mayor control y trazabilidad</h3>
-            <p>Visibilidad unificada de datos comerciales, operativos y financieros en tiempo real.</p>
-          </div>
-        </div>
-
-        <div class="benefit fade-up stagger-4">
-          <div class="benefit-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16"/><path d="M10 4v16"/></svg>
-          </div>
-          <div>
-            <h3>Datos consolidados para decisiones</h3>
-            <p>Una base de datos unificada, lista para reportes, tableros y analítica avanzada.</p>
-          </div>
-        </div>
-
-        <div class="benefit fade-up stagger-5">
-          <div class="benefit-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          </div>
-          <div>
-            <h3>Continuidad operativa asegurada</h3>
-            <p>Una arquitectura sólida que no interrumpe la operación, ni durante la implementación ni después.</p>
-          </div>
-        </div>
-
-        <div class="benefit fade-up stagger-6">
-          <div class="benefit-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4c0 2 1 3.5 2 4.5"/><path d="M12 2a4 4 0 0 1 4 4c0 2-1 3.5-2 4.5"/><path d="M8 14a6.5 6.5 0 0 0 8 0"/><path d="M12 10v12"/></svg>
-          </div>
-          <div>
-            <h3>Infraestructura preparada para IA</h3>
-            <p>Datos estructurados y APIs listas para incorporar inteligencia artificial cuando su negocio lo requiera.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ==============================
-       MANIFESTO
-       ============================== -->
-  <section class="manifesto">
-    <!-- Animated cyber grid -->
-    <div class="manifesto-grid"></div>
-    <div class="manifesto-glow"></div>
-    <!-- Floating data streams -->
-    <div class="data-stream ds-1"></div>
-    <div class="data-stream ds-2"></div>
-    <div class="data-stream ds-3"></div>
-    <div class="container fade-up">
-      <div class="manifesto-bracket">&lt;</div>
-      <blockquote>
-        &ldquo;Las empresas no necesitan más sistemas.<br>
-        Necesitan que los sistemas <span class="accent">funcionen juntos</span>.&rdquo;
-      </blockquote>
-      <div class="manifesto-bracket manifesto-bracket-close">/&gt;</div>
-      <p class="manifesto-sub">
-        Nos dedicamos a eso: a que el eCommerce, el ERP, el CRM y el resto de las plataformas<br>
-        operen como un solo sistema, con datos consistentes de punta a punta.
-      </p>
-      <div class="manifesto-cursor">_</div>
-    </div>
-  </section>
-
-  <!-- ==============================
-       WHY INCBA
-       ============================== -->
-  <section class="section section-dark" id="diferencial">
-    <div class="container">
-      <div class="section-header center fade-up">
-        <span class="section-label">Diferencial</span>
-        <h2>Por qué INCBA</h2>
-        <p class="section-subtitle" style="color: var(--gray-400);">
-          Somos una consultora tecnológica: entendemos primero el negocio<br>
-          y después diseñamos, integramos y mantenemos los sistemas que lo sostienen.
-        </p>
-      </div>
-      <div class="why-grid">
-
-        <div class="why-card fade-up stagger-1">
-          <div class="why-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          </div>
-          <h3>Estrategia antes que ejecución</h3>
-          <p>Cada decisión técnica responde a una necesidad del negocio: antes de implementar una herramienta, evaluamos qué problema resuelve y qué retorno deja.</p>
-        </div>
-
-        <div class="why-card fade-up stagger-2">
-          <div class="why-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-          </div>
-          <h3>Arquitectura sólida</h3>
-          <p>Construimos infraestructura pensada para el largo plazo: escalable, documentada y fácil de mantener.</p>
-        </div>
-
-        <div class="why-card fade-up stagger-3">
-          <div class="why-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <h3>Compromiso senior</h3>
-          <p>Los ingenieros que diseñan la solución son los mismos que la implementan y participan de cada reunión.</p>
-        </div>
-
-        <div class="why-card fade-up stagger-4">
-          <div class="why-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          </div>
-          <h3>Experiencia regional</h3>
-          <p>Operamos en Argentina y Chile con conocimiento profundo de la realidad empresarial y tecnológica de la región.</p>
-        </div>
-
-        <div class="why-card fade-up stagger-5">
-          <div class="why-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          </div>
-          <h3>Integración real</h3>
-          <p>Diseñamos flujos bidireccionales con trazabilidad completa: si un sistema se cae, la integración se recupera sin perder datos.</p>
-        </div>
-
-        <div class="why-card fade-up stagger-6">
-          <div class="why-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-          </div>
-          <h3>Evolución constante</h3>
-          <p>La integración de hoy deja la base lista para lo que sigue: analítica avanzada, automatización e IA aplicada.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ==============================
-       TEAM
-       ============================== -->
-  <section class="section" id="equipo">
-    <div class="container">
-      <div class="section-header center fade-up">
-        <span class="section-label">Equipo</span>
-        <h2>Quiénes somos</h2>
-      </div>
-      <div class="team-grid">
-
-        <div class="team-member fade-up stagger-1">
-          <div class="team-avatar">
-            <img src="img/felipe.jpg" alt="Felipe Rebolledo" />
-          </div>
-          <h3>Felipe Rebolledo</h3>
-          <p class="team-role">Tech Lead &middot; Full Stack</p>
-          <p class="team-desc">Desarrollador full stack especializado en sistemas e infraestructura. Lidera la estrategia técnica, la arquitectura y la ejecución de cada proyecto.</p>
-        </div>
-
-        <div class="team-member fade-up stagger-2">
-          <div class="team-avatar">
-            <img src="img/benjamin.jpg" alt="Benjamín Navarrete" />
-          </div>
-          <h3>Ing. Benjamín Navarrete</h3>
-          <p class="team-role">Full Stack &middot; Automatizaciones &amp; IA</p>
-          <p class="team-desc">Ingeniero Informático especializado en automatizaciones e inteligencia artificial aplicada a la integración de sistemas.</p>
-        </div>
-
-        <div class="team-member fade-up stagger-3">
-          <div class="team-avatar">
-            <img src="img/camilo.jpg" alt="Camilo Acencio" />
-          </div>
-          <h3>Ing. Camilo Acencio</h3>
-          <p class="team-role">Full Stack &middot; Backend &amp; DevOps</p>
-          <p class="team-desc">Ingeniero Informático especializado en backend, servidores y deployment de infraestructura.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ==============================
-       PARTNERS
-       ============================== -->
-  <section class="section" id="partners">
-    <div class="container">
-      <div class="partners-layout">
-        <div class="partners-text fade-up">
-          <span class="section-label">Para agencias</span>
-          <h2>Programa de Partners</h2>
-          <p>
-            Si eres una agencia digital, un estudio de diseño o una consultora de negocios, 
-            puedes ofrecer servicios de integración tecnológica de alto nivel a tus 
-            clientes, sin desarrollar internamente.
-          </p>
-          <div class="partners-perks">
-            <div class="perk">
-              <div class="perk-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <div class="perk-text">
-                <h4>White-label disponible</h4>
-                <p>Ejecutamos bajo tu marca. Tu cliente no necesita saber que estamos detrás.</p>
-              </div>
-            </div>
-            <div class="perk">
-              <div class="perk-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              </div>
-              <div class="perk-text">
-                <h4>Comisión por referido</h4>
-                <p>Modelo de revenue share transparente por cada proyecto que nos refieras.</p>
-              </div>
-            </div>
-            <div class="perk">
-              <div class="perk-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-              </div>
-              <div class="perk-text">
-                <h4>Material de venta listo</h4>
-                <p>Te entregamos propuestas, decks y documentación técnica adaptada a tu cliente.</p>
-              </div>
-            </div>
-            <div class="perk">
-              <div class="perk-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              </div>
-              <div class="perk-text">
-                <h4>Soporte técnico conjunto</h4>
-                <p>Participamos en reuniones con tu cliente si lo necesitas. Equipo senior dedicado.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="partners-visual fade-up stagger-2">
-          <div class="partners-card">
-            <h3>Amplía tu oferta sin ampliar tu equipo</h3>
-            <p>
-              Tus clientes te piden integraciones que no puedes resolver con tu equipo actual: 
-              nosotros ponemos la capacidad técnica y tú mantienes la relación comercial.
-            </p>
-            <a href="mailto:felipe@incba.com.ar?subject=Programa%20de%20Partners" class="btn btn-primary">
-              Quiero ser Partner
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==============================
-       CLIENTS CAROUSEL
-       ============================== -->
-  <section class="clients-section" id="clientes">
-    <div class="container">
-      <div class="clients-header fade-up">
-        <span class="section-label">Confianza</span>
-        <h2>Empresas que confían en nosotros</h2>
-      </div>
-    </div>
-    <div class="carousel-wrapper">
-      <div class="carousel-track">
-        <div class="carousel-slide"><img src="img/clients/rincon-de-ideas.png" alt="Rincón de Ideas" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/silexis.png" alt="Silexis" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/ipone.png" alt="iPone" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/btob.png" alt="BtoB" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/fullerton.png" alt="Fullerton" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/norviguet.png" alt="Norviguet" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/clinica-creare.png" alt="Clínica Creare" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/betamotor.png" alt="Betamotor" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/jaque-content.png" alt="Jaque Content" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/rc-ingenieria.png" alt="RC Ingeniería" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/ingav.png" alt="INGAV" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/camino-estrellas.png" alt="Camino de las Estrellas" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/dietetica-almendra.webp" alt="Dietética Almendra" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/onalulu-deco.webp" alt="Onalulú Deco" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/norpan.png" alt="NOR-PAN" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/xinu.png" alt="Xinu Perfumería" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/preciowow.png" alt="Precio WOW" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/docesoles.png" alt="Doce Soles" loading="lazy"></div>
-        <!-- Duplicated for seamless loop -->
-        <div class="carousel-slide"><img src="img/clients/rincon-de-ideas.png" alt="Rincón de Ideas" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/silexis.png" alt="Silexis" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/ipone.png" alt="iPone" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/btob.png" alt="BtoB" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/fullerton.png" alt="Fullerton" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/norviguet.png" alt="Norviguet" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/clinica-creare.png" alt="Clínica Creare" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/betamotor.png" alt="Betamotor" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/jaque-content.png" alt="Jaque Content" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/rc-ingenieria.png" alt="RC Ingeniería" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/ingav.png" alt="INGAV" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/camino-estrellas.png" alt="Camino de las Estrellas" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/dietetica-almendra.webp" alt="Dietética Almendra" loading="lazy"></div>
-        <div class="carousel-slide dark-card"><img src="img/clients/onalulu-deco.webp" alt="Onalulú Deco" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/norpan.png" alt="NOR-PAN" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/xinu.png" alt="Xinu Perfumería" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/preciowow.png" alt="Precio WOW" loading="lazy"></div>
-        <div class="carousel-slide"><img src="img/clients/docesoles.png" alt="Doce Soles" loading="lazy"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==============================
-       CTA / CONTACT
-       ============================== -->
-  <section class="cta-section" id="contacto">
-    <div class="cta-mesh"></div>
-    <div class="orb orb-cta-1"></div>
-    <div class="orb orb-cta-2"></div>
-    <div class="container">
-      <div class="cta-content fade-up">
-        <span class="section-label" style="justify-content: center;">Contacto</span>
-        <h2>¿Comenzamos?</h2>
-        <p>
-          El primer paso es un diagnóstico sin costo de su ecosistema tecnológico actual, 
-          para ver cómo integrar, modernizar y acelerar su operación.
-        </p>
-        <div class="cta-actions">
-          <a href="mailto:felipe@incba.com.ar?subject=Consulta%20desde%20incba.com.ar" class="btn btn-primary">
-            Conversemos
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </a>
-          <a href="https://wa.me/543517142702" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
-            WhatsApp
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-          </a>
-        </div>
-        <div class="cta-info">
-          <div class="cta-info-item">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            <a href="mailto:felipe@incba.com.ar">felipe@incba.com.ar</a>
-          </div>
-          <div class="cta-info-item">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <a href="tel:+543517142702">+54 351 714 2702</a>
-          </div>
-          <div class="cta-info-item">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            <span>Argentina &amp; Chile</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==============================
-       FOOTER
-       ============================== -->
   <footer class="footer">
     <div class="container">
-      <a href="#" class="footer-logo">
-        <div class="logo-img-wrap"><img src="img/logo-light.png" alt="INCBA"></div>
+      <a href="/" class="footer-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
         <span class="logo-sub">Technology Consulting</span>
       </a>
       <span class="footer-copy">&copy; 2026 INCBA. Todos los derechos reservados.</span>
@@ -1289,6 +773,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 </html>
