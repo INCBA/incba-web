@@ -230,8 +230,10 @@ function buildPage(site, page, sections, partials) {
     ctaCurrent: page.slug === 'contacto' ? ' aria-current="page"' : '',
   })
 
+  // El <main> no es sólo semántica: es el que permite anclar el footer abajo en
+  // las páginas cortas, que en el sitio de una sola página nunca hacían falta.
   const html = fill(
-    [head, nav, '', breadcrumbs(page) + body, '', partials.footer].join('\n'),
+    [head, nav, '', '  <main>', breadcrumbs(page) + body, '  </main>', '', partials.footer].join('\n'),
     vars
   )
 

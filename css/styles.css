@@ -2120,3 +2120,30 @@ a.resumen-card { display: block; color: inherit; }
   .page-top { padding: 88px 0 20px; }
   .enlaces-relacionados { padding: 56px 0; }
 }
+
+/* Footer al fondo en las páginas cortas.
+   En el sitio de una sola página nunca hizo falta: siempre había scroll de
+   sobra. Con nueve rutas, /clientes y /contacto no llegan a llenar la ventana
+   y el footer quedaba flotando a media pantalla.
+
+   El que se estira es la última sección, no un relleno vacío: /contacto
+   termina en .cta-section y /clientes en .clients-section, las dos navy igual
+   que el footer, así que un hueco con el fondo del body cortaría el bloque
+   oscuro con una franja blanca. Estirando la sección, su fondo llega hasta el
+   footer y no se nota la costura. */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
+/* flex-grow sólo actúa si sobra espacio: en las páginas largas no hace nada. */
+main > *:last-child { flex: 1 0 auto; }
+
+.footer { flex-shrink: 0; }
