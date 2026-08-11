@@ -1,0 +1,392 @@
+  <!-- ==============================
+       HERO
+       ============================== -->
+  <section class="hero" id="inicio">
+    <div class="hero-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="container hero-layout">
+      <div class="hero-content">
+        <div class="hero-badge fade-up">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 10-5.12 5.12L8 12.25"/></svg>
+          Technology Consulting — {{countryPairAmp}}
+        </div>
+        <h1 class="fade-up stagger-1">
+          Conectamos sistemas.<br><span class="accent">Aceleramos negocios.</span>
+        </h1>
+        <p class="hero-subtitle fade-up stagger-2">
+          Integramos eCommerce, ERP y CRM mediante arquitectura API, automatización 
+          y desarrollo estratégico. Dejamos su infraestructura preparada para 
+          inteligencia artificial aplicada.
+        </p>
+        <div class="hero-buttons fade-up stagger-3">
+          <a href="/contacto" class="btn btn-primary">
+            Agendar diagnóstico
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="/partners" class="btn btn-secondary">
+            Programa de Partners
+          </a>
+        </div>
+        <div class="hero-metrics fade-up stagger-4">
+          <div class="hero-metric">
+            <div class="hero-metric-value" data-count="18" data-suffix="+">0+</div>
+            <div class="hero-metric-label">Empresas atendidas</div>
+          </div>
+          <div class="hero-metric">
+            <div class="hero-metric-value">AR &amp; CL</div>
+            <div class="hero-metric-label">Operación regional</div>
+          </div>
+          <div class="hero-metric">
+            <div class="hero-metric-value">Senior</div>
+            <div class="hero-metric-label">Equipo en cada proyecto</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Illustration: Car to Rocket -->
+      <div class="hero-illustration fade-up stagger-2">
+        <svg class="hero-svg" viewBox="0 0 480 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="vGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#00C896"/>
+              <stop offset="100%" stop-color="#00A87D"/>
+            </linearGradient>
+            <linearGradient id="trG" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" stop-color="#00C896" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#00C896" stop-opacity="0.5"/>
+            </linearGradient>
+            <linearGradient id="flameG" x1="100%" y1="50%" x2="0%" y2="50%">
+              <stop offset="0%" stop-color="#00C896" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#00C896" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="hGl"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <filter id="sGl"><feGaussianBlur stdDeviation="12"/></filter>
+            <filter id="fGl"><feGaussianBlur stdDeviation="16"/></filter>
+          </defs>
+
+          <!-- Background glow -->
+          <circle cx="270" cy="230" r="130" fill="rgba(0,200,150,0.03)" filter="url(#sGl)"/>
+
+          <!-- Orbit rings -->
+          <ellipse cx="270" cy="230" rx="190" ry="190" stroke="rgba(0,200,150,0.05)" stroke-width="1" fill="none">
+            <animateTransform attributeName="transform" type="rotate" from="0 270 230" to="360 270 230" dur="50s" repeatCount="indefinite"/>
+          </ellipse>
+          <ellipse cx="270" cy="230" rx="135" ry="135" stroke="rgba(0,200,150,0.035)" stroke-width="1" stroke-dasharray="8 6" fill="none">
+            <animateTransform attributeName="transform" type="rotate" from="360 270 230" to="0 270 230" dur="35s" repeatCount="indefinite"/>
+          </ellipse>
+
+          <!-- System blocks (bottom-left) -->
+          <g class="data-block db-1">
+            <rect x="18" y="290" width="50" height="50" rx="10" fill="rgba(0,200,150,0.06)" stroke="rgba(0,200,150,0.18)" stroke-width="1"/>
+            <rect x="30" y="304" width="26" height="3" rx="1.5" fill="rgba(0,200,150,0.3)"/>
+            <rect x="30" y="311" width="18" height="3" rx="1.5" fill="rgba(0,200,150,0.2)"/>
+            <rect x="30" y="318" width="22" height="3" rx="1.5" fill="rgba(0,200,150,0.15)"/>
+            <text x="27" y="352" fill="rgba(0,200,150,0.25)" font-size="8" font-family="Manrope,sans-serif" font-weight="600">ERP</text>
+          </g>
+          <g class="data-block db-2">
+            <rect x="85" y="345" width="50" height="50" rx="10" fill="rgba(0,200,150,0.06)" stroke="rgba(0,200,150,0.18)" stroke-width="1"/>
+            <circle cx="110" cy="363" r="8" fill="none" stroke="rgba(0,200,150,0.25)" stroke-width="1"/>
+            <circle cx="110" cy="363" r="3" fill="rgba(0,200,150,0.35)"/>
+            <rect x="96" y="376" width="28" height="3" rx="1.5" fill="rgba(0,200,150,0.2)"/>
+            <text x="92" y="408" fill="rgba(0,200,150,0.25)" font-size="8" font-family="Manrope,sans-serif" font-weight="600">CRM</text>
+          </g>
+          <g class="data-block db-3">
+            <rect x="20" y="195" width="44" height="44" rx="8" fill="rgba(0,200,150,0.06)" stroke="rgba(0,200,150,0.14)" stroke-width="1"/>
+            <path d="M34 214 l7 7 l12-14" stroke="rgba(0,200,150,0.35)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <text x="18" y="252" fill="rgba(0,200,150,0.25)" font-size="8" font-family="Manrope,sans-serif" font-weight="600">eCOM</text>
+          </g>
+
+          <!-- Flow lines towards vehicle center -->
+          <path d="M68 290 C140 268, 180 255, 220 242" stroke="url(#trG)" stroke-width="1.5" fill="none" stroke-dasharray="200" stroke-dashoffset="200">
+            <animate attributeName="stroke-dashoffset" from="200" to="0" dur="2.5s" fill="freeze" begin="0.3s"/>
+          </path>
+          <path d="M135 345 C175 310, 200 280, 230 252" stroke="url(#trG)" stroke-width="1.2" fill="none" stroke-dasharray="200" stroke-dashoffset="200">
+            <animate attributeName="stroke-dashoffset" from="200" to="0" dur="2.8s" fill="freeze" begin="0.6s"/>
+          </path>
+          <path d="M64 217 C110 220, 165 230, 215 238" stroke="url(#trG)" stroke-width="1" fill="none" stroke-dasharray="200" stroke-dashoffset="200">
+            <animate attributeName="stroke-dashoffset" from="200" to="0" dur="2.2s" fill="freeze" begin="0.9s"/>
+          </path>
+          <!-- Traveling dots -->
+          <circle r="3" fill="#00C896" opacity="0.8" filter="url(#hGl)">
+            <animateMotion dur="3s" repeatCount="indefinite" path="M68 290 C140 268, 180 255, 220 242"/>
+          </circle>
+          <circle r="2.5" fill="#00C896" opacity="0.6">
+            <animateMotion dur="3.5s" repeatCount="indefinite" path="M135 345 C175 310, 200 280, 230 252" begin="0.7s"/>
+          </circle>
+          <circle r="2" fill="#00C896" opacity="0.7">
+            <animateMotion dur="2.8s" repeatCount="indefinite" path="M64 217 C110 220, 165 230, 215 238" begin="1.2s"/>
+          </circle>
+
+          <!-- Road / ground ref -->
+          <line x1="120" y1="286" x2="440" y2="286" stroke="rgba(0,200,150,0.06)" stroke-width="1" stroke-dasharray="6 4"/>
+
+          <!-- ====== SIDE-PROFILE CAR (retro sedan facing right) ====== -->
+          <g class="morph-car">
+            <!-- Shadow -->
+            <ellipse cx="265" cy="288" rx="90" ry="4" fill="rgba(0,200,150,0.04)"/>
+
+            <!-- Car body -->
+            <path d="
+              M170,286
+              L177,286
+              A19,19 0 0,1 215,286
+              L298,286
+              A19,19 0 0,1 336,286
+              L360,286
+              L360,262
+              C360,259 358,256 354,254
+              L318,248
+              C312,244 307,236 302,228
+              L286,218
+              L220,218
+              C214,218 208,224 204,232
+              L196,246
+              L180,250
+              C176,252 172,256 172,262
+              Z
+            " fill="url(#vGrad)" filter="url(#hGl)"/>
+
+            <!-- Upper body highlight -->
+            <path d="
+              M180,250
+              L196,246
+              L204,232
+              C208,224 214,218 220,218
+              L286,218
+              L302,228
+              C307,236 312,244 318,248
+              L354,254
+              L180,254
+              Z
+            " fill="rgba(255,255,255,0.07)"/>
+
+            <!-- Belt line chrome -->
+            <line x1="178" y1="254" x2="356" y2="254" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+            <!-- Rear window -->
+            <path d="M210,250 L218,232 L220,222 L248,222 L248,250 Z" fill="rgba(11,28,45,0.55)" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+            <!-- Front windshield -->
+            <path d="M254,250 L254,222 L284,222 L298,232 L306,248 L306,250 Z" fill="rgba(11,28,45,0.55)" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+            <!-- B-pillar -->
+            <rect x="249" y="220" width="4" height="32" rx="1" fill="rgba(0,200,150,0.25)"/>
+
+            <!-- Headlight -->
+            <ellipse cx="357" cy="260" rx="5" ry="4" fill="rgba(0,200,150,0.45)"/>
+            <ellipse cx="357" cy="260" rx="10" ry="8" fill="rgba(0,200,150,0.06)"/>
+            <!-- Taillight -->
+            <rect x="172" y="256" width="5" height="8" rx="2" fill="rgba(200,60,60,0.35)"/>
+
+            <!-- Door line -->
+            <line x1="250" y1="254" x2="250" y2="280" stroke="rgba(255,255,255,0.05)" stroke-width="0.8"/>
+            <!-- Door handle -->
+            <rect x="260" y="258" width="8" height="2" rx="1" fill="rgba(255,255,255,0.1)"/>
+
+            <!-- Front bumper -->
+            <rect x="354" y="270" width="8" height="12" rx="2" fill="rgba(0,200,150,0.12)"/>
+            <!-- Rear bumper -->
+            <rect x="170" y="270" width="6" height="12" rx="2" fill="rgba(0,200,150,0.1)"/>
+
+            <!-- Rear wheel -->
+            <g class="car-wheel">
+              <circle cx="196" cy="286" r="19" fill="rgba(11,28,45,0.92)" stroke="rgba(0,200,150,0.25)" stroke-width="1.5"/>
+              <circle cx="196" cy="286" r="13" fill="none" stroke="rgba(0,200,150,0.08)" stroke-width="0.8"/>
+              <circle cx="196" cy="286" r="6" fill="rgba(0,200,150,0.12)" stroke="rgba(0,200,150,0.15)" stroke-width="0.5"/>
+              <g>
+                <line x1="196" y1="274" x2="196" y2="298" stroke="rgba(0,200,150,0.1)" stroke-width="0.7"/>
+                <line x1="184" y1="286" x2="208" y2="286" stroke="rgba(0,200,150,0.1)" stroke-width="0.7"/>
+                <line x1="188" y1="278" x2="204" y2="294" stroke="rgba(0,200,150,0.07)" stroke-width="0.5"/>
+                <line x1="204" y1="278" x2="188" y2="294" stroke="rgba(0,200,150,0.07)" stroke-width="0.5"/>
+                <animateTransform attributeName="transform" type="rotate" from="0 196 286" to="360 196 286" dur="0.8s" repeatCount="indefinite"/>
+              </g>
+            </g>
+
+            <!-- Front wheel -->
+            <g class="car-wheel">
+              <circle cx="317" cy="286" r="19" fill="rgba(11,28,45,0.92)" stroke="rgba(0,200,150,0.25)" stroke-width="1.5"/>
+              <circle cx="317" cy="286" r="13" fill="none" stroke="rgba(0,200,150,0.08)" stroke-width="0.8"/>
+              <circle cx="317" cy="286" r="6" fill="rgba(0,200,150,0.12)" stroke="rgba(0,200,150,0.15)" stroke-width="0.5"/>
+              <g>
+                <line x1="317" y1="274" x2="317" y2="298" stroke="rgba(0,200,150,0.1)" stroke-width="0.7"/>
+                <line x1="305" y1="286" x2="329" y2="286" stroke="rgba(0,200,150,0.1)" stroke-width="0.7"/>
+                <line x1="309" y1="278" x2="325" y2="294" stroke="rgba(0,200,150,0.07)" stroke-width="0.5"/>
+                <line x1="325" y1="278" x2="309" y2="294" stroke="rgba(0,200,150,0.07)" stroke-width="0.5"/>
+                <animateTransform attributeName="transform" type="rotate" from="0 317 286" to="360 317 286" dur="0.8s" repeatCount="indefinite"/>
+              </g>
+            </g>
+
+            <!-- Exhaust puffs -->
+            <circle cx="165" cy="280" r="4" fill="rgba(0,200,150,0.04)">
+              <animate attributeName="cx" dur="2s" repeatCount="indefinite" values="165;130"/>
+              <animate attributeName="r" dur="2s" repeatCount="indefinite" values="3;10"/>
+              <animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="0.1;0"/>
+            </circle>
+            <circle cx="162" cy="276" r="3" fill="rgba(0,200,150,0.03)">
+              <animate attributeName="cx" dur="2.5s" repeatCount="indefinite" values="162;122" begin="0.5s"/>
+              <animate attributeName="r" dur="2.5s" repeatCount="indefinite" values="2;8" begin="0.5s"/>
+              <animate attributeName="opacity" dur="2.5s" repeatCount="indefinite" values="0.08;0" begin="0.5s"/>
+            </circle>
+            <circle cx="160" cy="283" r="2" fill="rgba(0,200,150,0.03)">
+              <animate attributeName="cx" dur="2.2s" repeatCount="indefinite" values="160;128" begin="1s"/>
+              <animate attributeName="r" dur="2.2s" repeatCount="indefinite" values="2;7" begin="1s"/>
+              <animate attributeName="opacity" dur="2.2s" repeatCount="indefinite" values="0.06;0" begin="1s"/>
+            </circle>
+          </g>
+
+          <!-- ====== TRANSITION ENERGY COCOON ====== -->
+          <!-- Outer ring sweep -->
+          <g class="morph-ring-outer">
+            <ellipse cx="270" cy="258" rx="100" ry="40" fill="none" stroke="rgba(0,200,150,0.2)" stroke-width="1.5"/>
+            <ellipse cx="270" cy="258" rx="100" ry="40" fill="none" stroke="rgba(0,200,150,0.05)" stroke-width="6"/>
+          </g>
+          <!-- Middle glow envelope -->
+          <g class="morph-glow">
+            <ellipse cx="270" cy="258" rx="75" ry="30" fill="rgba(0,200,150,0.08)" filter="url(#fGl)"/>
+          </g>
+          <!-- Core flash -->
+          <g class="morph-core">
+            <ellipse cx="270" cy="258" rx="45" ry="20" fill="rgba(0,200,150,0.5)" filter="url(#sGl)"/>
+          </g>
+          <!-- Energy particles (fly outward during burst) -->
+          <g class="morph-particles">
+            <circle class="mp mp-1" cx="270" cy="258" r="2.5" fill="#00C896"/>
+            <circle class="mp mp-2" cx="270" cy="258" r="2" fill="#00C896"/>
+            <circle class="mp mp-3" cx="270" cy="258" r="3" fill="#00C896"/>
+            <circle class="mp mp-4" cx="270" cy="258" r="1.5" fill="#00C896"/>
+            <circle class="mp mp-5" cx="270" cy="258" r="2" fill="#00C896"/>
+            <circle class="mp mp-6" cx="270" cy="258" r="1.5" fill="#00C896"/>
+            <circle class="mp mp-7" cx="270" cy="258" r="2" fill="#00C896"/>
+            <circle class="mp mp-8" cx="270" cy="258" r="1.5" fill="#00C896"/>
+          </g>
+
+          <!-- ====== SIDE-PROFILE ROCKET (facing right, tilted upward) ====== -->
+          <g class="morph-rocket">
+            <g transform="rotate(-10, 270, 250)">
+              <!-- Shadow (subtler since tilted) -->
+              <ellipse cx="265" cy="288" rx="70" ry="3" fill="rgba(0,200,150,0.02)"/>
+
+              <!-- Rocket body -->
+              <path d="
+                M168,258
+                C168,248 175,240 188,237
+                L342,237
+                C358,239 374,246 386,255
+                C374,264 358,271 342,273
+                L188,273
+                C175,270 168,264 168,258
+                Z
+              " fill="url(#vGrad)" filter="url(#hGl)"/>
+
+              <!-- Body highlight (upper half) -->
+              <path d="
+                M172,252
+                C174,244 180,240 190,238
+                L344,238
+                C356,240 368,245 378,252
+                Z
+              " fill="rgba(255,255,255,0.08)"/>
+
+              <!-- Nose cone accent -->
+              <path d="M360,242 C372,247 382,253 388,258 C382,263 372,269 360,272 Z" fill="rgba(0,168,125,0.7)"/>
+
+              <!-- Fuselage stripe -->
+              <line x1="190" y1="255" x2="360" y2="255" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+
+              <!-- Porthole window -->
+              <circle cx="320" cy="255" r="9" fill="rgba(11,28,45,0.65)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <circle cx="320" cy="255" r="5" fill="rgba(0,200,150,0.06)"/>
+
+              <!-- IA Badge -->
+              <circle cx="262" cy="255" r="17" fill="rgba(11,28,45,0.92)" stroke="rgba(0,200,150,0.4)" stroke-width="1.5"/>
+              <text x="262" y="261" text-anchor="middle" fill="#00C896" font-size="14" font-family="Manrope,sans-serif" font-weight="800" letter-spacing="0.06em">IA</text>
+              <circle cx="262" cy="255" r="21" fill="none" stroke="rgba(0,200,150,0.12)" stroke-width="1">
+                <animate attributeName="r" dur="2.5s" repeatCount="indefinite" values="21;25;21"/>
+                <animate attributeName="opacity" dur="2.5s" repeatCount="indefinite" values="1;0.3;1"/>
+              </circle>
+
+              <!-- Upper fin -->
+              <path d="M186,237 L162,214 L200,237 Z" fill="rgba(0,168,125,0.55)"/>
+              <!-- Lower fin -->
+              <path d="M186,273 L162,296 L200,273 Z" fill="rgba(0,168,125,0.55)"/>
+              <!-- Center nozzle -->
+              <path d="M168,252 L158,258 L168,264 Z" fill="rgba(0,200,150,0.45)"/>
+
+              <!-- Thrust flame (outer, flickering) -->
+              <path fill="rgba(0,200,150,0.25)">
+                <animate attributeName="d" dur="0.5s" repeatCount="indefinite" values="
+                  M158,250 C138,253 108,256 88,258 C108,260 138,263 158,266;
+                  M158,252 C140,254 115,257 98,258 C115,259 140,262 158,264;
+                  M158,250 C138,253 108,256 88,258 C108,260 138,263 158,266
+                "/>
+              </path>
+              <!-- Inner flame (brighter) -->
+              <path fill="rgba(0,200,150,0.5)">
+                <animate attributeName="d" dur="0.35s" repeatCount="indefinite" values="
+                  M158,253 C145,255 130,257 120,258 C130,259 145,261 158,263;
+                  M158,254 C148,256 136,257 128,258 C136,259 148,260 158,262;
+                  M158,253 C145,255 130,257 120,258 C130,259 145,261 158,263
+                "/>
+              </path>
+              <!-- Core flame -->
+              <path fill="rgba(0,200,150,0.7)">
+                <animate attributeName="d" dur="0.25s" repeatCount="indefinite" values="
+                  M158,255 C152,256 145,257 140,258 C145,259 152,260 158,261;
+                  M158,256 C153,257 148,258 145,258 C148,258 153,259 158,260;
+                  M158,255 C152,256 145,257 140,258 C145,259 152,260 158,261
+                "/>
+              </path>
+
+              <!-- Exhaust sparks -->
+              <circle r="2" fill="#00C896" opacity="0.6">
+                <animate attributeName="cx" dur="0.7s" repeatCount="indefinite" values="148;78"/>
+                <animate attributeName="cy" dur="0.7s" repeatCount="indefinite" values="256;254"/>
+                <animate attributeName="opacity" dur="0.7s" repeatCount="indefinite" values="0.6;0"/>
+              </circle>
+              <circle r="1.5" fill="#00C896" opacity="0.4">
+                <animate attributeName="cx" dur="0.9s" repeatCount="indefinite" values="145;68" begin="0.3s"/>
+                <animate attributeName="cy" dur="0.9s" repeatCount="indefinite" values="260;264" begin="0.3s"/>
+                <animate attributeName="opacity" dur="0.9s" repeatCount="indefinite" values="0.5;0" begin="0.3s"/>
+              </circle>
+              <circle r="1" fill="#00C896" opacity="0.3">
+                <animate attributeName="cx" dur="1.1s" repeatCount="indefinite" values="150;72" begin="0.6s"/>
+                <animate attributeName="cy" dur="1.1s" repeatCount="indefinite" values="258;252" begin="0.6s"/>
+                <animate attributeName="opacity" dur="1.1s" repeatCount="indefinite" values="0.4;0" begin="0.6s"/>
+              </circle>
+
+              <!-- Speed lines (horizontal behind rocket) -->
+              <line x1="130" y1="242" x2="75" y2="242" stroke="#00C896" stroke-width="0.8">
+                <animate attributeName="opacity" dur="1.4s" repeatCount="indefinite" values="0;0.45;0"/>
+              </line>
+              <line x1="138" y1="268" x2="82" y2="268" stroke="#00C896" stroke-width="0.8">
+                <animate attributeName="opacity" dur="1.4s" repeatCount="indefinite" values="0;0.45;0" begin="0.3s"/>
+              </line>
+              <line x1="120" y1="235" x2="55" y2="235" stroke="#00C896" stroke-width="0.5">
+                <animate attributeName="opacity" dur="1.8s" repeatCount="indefinite" values="0;0.3;0" begin="0.6s"/>
+              </line>
+              <line x1="125" y1="275" x2="60" y2="275" stroke="#00C896" stroke-width="0.5">
+                <animate attributeName="opacity" dur="1.8s" repeatCount="indefinite" values="0;0.3;0" begin="0.9s"/>
+              </line>
+            </g>
+          </g>
+
+          <!-- Labels -->
+          <text x="8" y="185" fill="rgba(0,200,150,0.18)" font-size="8" font-family="Manrope,sans-serif" font-weight="600" letter-spacing="0.08em">SISTEMAS</text>
+          <text x="240" y="155" fill="rgba(0,200,150,0.18)" font-size="8" font-family="Manrope,sans-serif" font-weight="600" letter-spacing="0.08em">ACELERACI&#xD3;N</text>
+
+          <!-- Ambient dots -->
+          <circle cx="420" cy="140" r="2" fill="#00C896" opacity="0.1">
+            <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0.05;0.18;0.05"/>
+          </circle>
+          <circle cx="440" cy="115" r="1.5" fill="#00C896" opacity="0.08">
+            <animate attributeName="opacity" dur="3.5s" repeatCount="indefinite" values="0.04;0.15;0.04" begin="0.8s"/>
+          </circle>
+          <circle cx="400" cy="120" r="1.5" fill="#00C896" opacity="0.06">
+            <animate attributeName="opacity" dur="2.5s" repeatCount="indefinite" values="0.03;0.12;0.03" begin="1.3s"/>
+          </circle>
+        </svg>
+      </div>
+
+
+    </div>
+  </section>
