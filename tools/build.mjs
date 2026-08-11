@@ -207,8 +207,12 @@ function buildPage(site, page, sections, partials) {
   // se promueve el primer <h2> de la sección principal: es reubicación
   // jerárquica, no reescritura de texto.
   if (page.promoverH1) {
+    // Se le deja la clase .h2: el elemento cambia de nivel semántico pero tiene
+    // que seguir viéndose igual que antes. Sin esto habría que replicar los
+    // estilos de h2 con selectores por contenedor, que es justo lo que rompió
+    // el color de /clientes y /contacto la primera vez.
     const before = body
-    body = body.replace(/<h2>/, '<h1>').replace(/<\/h2>/, '</h1>')
+    body = body.replace(/<h2>/, '<h1 class="h2">').replace(/<\/h2>/, '</h1>')
     if (body === before) throw new Error(`/${page.slug}: no se encontró el <h2> a promover`)
   }
 

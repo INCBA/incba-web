@@ -1482,6 +1482,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   align-items: center;
 }
 
+.partners-text h1,
 .partners-text h2 {
   margin-bottom: 20px;
 }
@@ -1730,6 +1731,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   margin-bottom: 48px;
 }
 
+.clients-header h1,
 .clients-header h2 {
   font-size: clamp(1.5rem, 3vw, 2rem);
   color: var(--text-on-dark);
@@ -1855,6 +1857,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   z-index: 1;
 }
 
+.cta-content h1,
 .cta-content h2 {
   color: var(--white);
   margin-bottom: 16px;
@@ -2058,12 +2061,10 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 .page-top + .decoder-section { padding-top: 72px; }
 
 /* Las internas promueven a <h1> el <h2> con el que abrían en el sitio de una
-   sola página. Se le fija el tamaño de h2 para que el encabezado se vea igual
-   que antes: el cambio es jerárquico, no visual. */
-.page-top ~ .section h1,
-.page-top ~ .clients-section h1,
-.page-top ~ .cta-section h1,
-.page-top ~ .decoder-section h1 { font-size: clamp(2rem, 4vw, 3rem); }
+   sola página. El cambio es jerárquico, no visual: la clase mantiene el tamaño
+   de h2 y deja que las reglas por contenedor (.clients-header, .cta-content)
+   la pisen, que es como se ven igual que antes. */
+.h2 { font-size: clamp(2rem, 4vw, 3rem); }
 
 /* Ítem activo del menú. Antes no hacía falta: con anclas no había página
    actual que marcar. */
