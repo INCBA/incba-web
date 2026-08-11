@@ -2019,3 +2019,104 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   .container { padding: 0 16px; }
   .hero .container { padding-top: 80px; }
 }
+
+/* ============================================
+   Páginas internas
+   Agregado al dividir el sitio de una sola
+   página en rutas. No introduce colores ni
+   tipografías nuevas: todo sale de las
+   variables ya definidas arriba.
+   ============================================ */
+
+/* Franja superior de las internas. Cumple dos funciones: aloja los breadcrumbs
+   y le da fondo oscuro al nav, que es transparente hasta que se scrollea y
+   quedaría ilegible sobre las secciones de fondo claro. */
+.page-top {
+  background: var(--navy);
+  padding: 104px 0 24px;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--gray-400);
+}
+
+.breadcrumbs a { color: var(--gray-400); }
+.breadcrumbs a:hover { color: var(--accent); }
+.breadcrumbs .sep { color: var(--gray-600); }
+.breadcrumbs [aria-current="page"] { color: var(--text-on-dark); }
+
+/* La franja ya aporta aire arriba: sin esto la primera sección arranca
+   demasiado abajo. */
+.page-top + .section,
+.page-top + .clients-section,
+.page-top + .cta-section,
+.page-top + .decoder-section { padding-top: 72px; }
+
+/* Las internas promueven a <h1> el <h2> con el que abrían en el sitio de una
+   sola página. Se le fija el tamaño de h2 para que el encabezado se vea igual
+   que antes: el cambio es jerárquico, no visual. */
+.page-top ~ .section h1,
+.page-top ~ .clients-section h1,
+.page-top ~ .cta-section h1,
+.page-top ~ .decoder-section h1 { font-size: clamp(2rem, 4vw, 3rem); }
+
+/* Ítem activo del menú. Antes no hacía falta: con anclas no había página
+   actual que marcar. */
+.nav-links a[aria-current="page"] { color: var(--white); }
+.nav-links a[aria-current="page"]::after { width: 100%; }
+.nav-links a.nav-cta[aria-current="page"]::after { width: 0; }
+
+/* El menú pasó de 6 ítems a 7 al sumarse "Casos de éxito" y "Equipo". Entre
+   769 y 1120 px el gap de 32 px ya no entra junto al logo y al CTA. */
+@media (min-width: 769px) and (max-width: 1120px) {
+  .nav-links { gap: 18px; }
+  .nav-links a { font-size: 0.85rem; }
+  .nav-cta { padding: 10px 16px !important; }
+}
+
+/* Enlazado interno entre páginas. No es decorativo: las páginas nuevas
+   arrancan sin autoridad y estos enlaces son los que se la reparten. */
+.enlaces-relacionados { padding: 72px 0; text-align: center; }
+
+.enlaces-relacionados p {
+  font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+  color: var(--text-secondary);
+  max-width: 640px;
+  margin: 0 auto 28px;
+}
+
+.enlaces-botones {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Tarjetas de resumen de la home: mismo componente que los servicios, pero
+   enlazables enteras. */
+a.resumen-card { display: block; color: inherit; }
+
+.resumen-card .resumen-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+.resumen-card .resumen-link::after {
+  content: ' →';
+  transition: all var(--transition);
+}
+
+.resumen-card:hover .resumen-link::after { margin-left: 4px; }
+
+@media (max-width: 768px) {
+  .page-top { padding: 88px 0 20px; }
+  .enlaces-relacionados { padding: 56px 0; }
+}
