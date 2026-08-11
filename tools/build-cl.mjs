@@ -1,140 +1,27 @@
 /**
- * Genera el sitio de incba.cl a partir del de incba.com.ar.
+ * Genera el sitio de incba.cl.
+ *
+ *   node tools/build-cl.mjs   ->  dist-cl/
  *
  * incba.com.ar e incba.cl son el mismo sitio con distinta orientación de país.
- * En vez de mantener dos copias del HTML, la versión chilena se deriva de
- * index.html en cada deploy, así el contenido nunca se desincroniza.
+ * En vez de mantener dos copias del HTML, la versión chilena sale del mismo
+ * generador que la argentina, así el contenido nunca se desincroniza.
  *
- * Uso:  node tools/build-cl.mjs   ->  genera dist-cl/
+ * Antes este script hacía cirugía de strings sobre index.html, con una lista de
+ * reemplazos que exigía la cantidad exacta de coincidencias de cada uno. Esa
+ * verificación existía porque el error que había que evitar es grave: si
+ * incba.cl se publica con la canónica apuntando a incba.com.ar, Google deja de
+ * indexar el dominio chileno.
+ *
+ * Con nueve páginas ese modelo ya no se sostiene, así que la protección cambió
+ * de lugar: lo que varía por país ahora es configuración (src/site.config.mjs) y
+ * no texto a reemplazar, y el chequeo pasó a ser una invariante sobre la salida
+ * —ninguna página puede tener más de las tres referencias de hreflang a
+ * incba.com.ar—, que es la condición que de verdad importa. Vive en
+ * tools/build.mjs y aborta el build sin escribir nada.
  */
 
-import { readFileSync, writeFileSync, rmSync, mkdirSync, cpSync } from 'node:fs'
-import { join, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { build } from './build.mjs'
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
-const OUT = join(ROOT, 'dist-cl')
-
-const AR = 'https://incba.com.ar'
-const CL = 'https://incba.cl'
-const BUILD_DATE = new Date().toISOString().slice(0, 10)
-
-/**
- * Reemplazos para la variante chilena, con la cantidad exacta de coincidencias
- * que debe encontrar cada uno. Si index.html cambia y una regla deja de
- * coincidir, el build falla en vez de publicar incba.cl con las etiquetas SEO
- * apuntando a Argentina, que es el error que desindexaría el dominio.
- *
- * Ojo: las etiquetas hreflang NO se tocan. Son idénticas en ambos dominios
- * porque Google exige que las referencias sean recíprocas.
- */
-const RULES = [
-  // --- Idioma y orientación de país ---
-  ['<html lang="es-AR">', '<html lang="es-CL">', 1],
-  [
-    '<title>INCBA — Consultora Tecnológica en Argentina | Conectamos sistemas. Aceleramos negocios.</title>',
-    '<title>INCBA — Consultora Tecnológica en Chile | Conectamos sistemas. Aceleramos negocios.</title>',
-    1,
-  ],
-  // Cubre description, og:description, twitter:description, la tarjeta
-  // "Experiencia regional" y el tagline del footer.
-  ['Argentina y Chile', 'Chile y Argentina', 5],
-  // Badge del hero y bloque de contacto.
-  ['Argentina &amp; Chile', 'Chile &amp; Argentina', 2],
-  ['eCommerce, Argentina, Chile"', 'eCommerce, Chile, Argentina"', 1],
-
-  // --- URLs canónicas y sociales ---
-  [`<link rel="canonical" href="${AR}/">`, `<link rel="canonical" href="${CL}/">`, 1],
-  [`<meta property="og:url" content="${AR}/">`, `<meta property="og:url" content="${CL}/">`, 1],
-  [`${AR}/img/og-image.jpg`, `${CL}/img/og-image.jpg`, 2],
-  ['<meta property="og:locale" content="es_AR">', '<meta property="og:locale" content="es_CL">', 1],
-  [
-    '<meta property="og:locale:alternate" content="es_CL">',
-    '<meta property="og:locale:alternate" content="es_AR">',
-    1,
-  ],
-
-  // --- Datos estructurados ---
-  [`"url": "${AR}",`, `"url": "${CL}",`, 1],
-  [`"logo": "${AR}/img/logo-light.png",`, `"logo": "${CL}/img/logo-light.png",`, 1],
-  ['"addressCountry": "AR"', '"addressCountry": "CL"', 1],
-  ['"areaServed": ["AR", "CL"],', '"areaServed": ["CL", "AR"],', 1],
-]
-
-const ROBOTS = `User-agent: *
-Allow: /
-Sitemap: ${CL}/sitemap.xml
-`
-
-const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url>
-    <loc>${CL}/</loc>
-    <xhtml:link rel="alternate" hreflang="es-AR" href="${AR}/"/>
-    <xhtml:link rel="alternate" hreflang="es-CL" href="${CL}/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="${AR}/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="${AR}/"/>
-    <lastmod>${BUILD_DATE}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-</urlset>
-`
-
-function countOf(haystack, needle) {
-  return haystack.split(needle).length - 1
-}
-
-function build() {
-  let html = readFileSync(join(ROOT, 'index.html'), 'utf8')
-
-  const problems = []
-  for (const [from, to, expected] of RULES) {
-    const found = countOf(html, from)
-    if (found !== expected) {
-      problems.push(`  ${found} de ${expected} coincidencias: ${JSON.stringify(from.slice(0, 78))}`)
-      continue
-    }
-    html = html.split(from).join(to)
-  }
-
-  if (problems.length) {
-    console.error('\nEl build de incba.cl no coincide con index.html:\n')
-    console.error(problems.join('\n'))
-    console.error(
-      '\nAlguien editó index.html sin actualizar tools/build-cl.mjs.' +
-        '\nAjustá las reglas antes de publicar, o incba.cl queda con SEO de incba.com.ar.\n'
-    )
-    process.exit(1)
-  }
-
-  // Sólo deben sobrevivir las tres referencias a incba.com.ar de hreflang
-  // (es-AR, es genérico y x-default). Cualquier otra significa una URL
-  // sin traducir, que es lo que desindexaría incba.cl.
-  const leftovers = countOf(html, `${AR}/`) + countOf(html, `"${AR}"`)
-  if (leftovers !== 3) {
-    console.error(
-      `\nQuedaron ${leftovers} URLs de incba.com.ar en el HTML chileno (deberían ser 3: hreflang es-AR, es y x-default).\n`
-    )
-    process.exit(1)
-  }
-
-  rmSync(OUT, { recursive: true, force: true })
-  mkdirSync(OUT, { recursive: true })
-
-  for (const asset of ['css', 'js', 'img']) {
-    cpSync(join(ROOT, asset), join(OUT, asset), { recursive: true })
-  }
-  cpSync(join(ROOT, 'site.webmanifest'), join(OUT, 'site.webmanifest'))
-
-  writeFileSync(join(OUT, 'index.html'), html)
-  writeFileSync(join(OUT, 'robots.txt'), ROBOTS)
-  writeFileSync(join(OUT, 'sitemap.xml'), SITEMAP)
-  writeFileSync(join(OUT, 'CNAME'), 'incba.cl\n')
-  writeFileSync(join(OUT, '.nojekyll'), '')
-
-  console.log(`incba.cl generado en dist-cl/ (${RULES.length} reglas aplicadas, ${BUILD_DATE})`)
-}
-
-build()
+const r = build({ siteId: 'cl', out: 'dist-cl' })
+console.log(`incba.cl generado en dist-cl/ (${r.count} páginas)`)

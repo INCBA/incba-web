@@ -1,0 +1,47 @@
+name: Verificar el sitio
+
+# El sitio argentino se sirve desde la raíz del repo, así que los .html de la
+# raíz están commiteados y son salida del generador. Este workflow existe para
+# que nadie los edite a mano sin enterarse: regenera el sitio y compara.
+#
+# De paso corre las tres variantes y la verificación funcional, que es el único
+# control automático que tiene el repo.
+
+on:
+  push:
+    branches: [dev, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # El runner ya trae Node y el generador no usa dependencias.
+      - name: Regenerar el sitio argentino sobre la raíz
+        run: node tools/build.mjs --site=ar --out=.
+
+      - name: Confirmar que lo commiteado coincide con lo generado
+        run: |
+          if ! git diff --exit-code; then
+            echo ''
+            echo 'Los .html de la raíz no coinciden con lo que genera tools/build.mjs.'
+            echo 'Editá src/ y corré: node tools/build.mjs --site=ar --out=.'
+            exit 1
+          fi
+
+      - name: Generar las variantes de Chile y de staging
+        run: |
+          node tools/build-cl.mjs
+          node tools/build-dev.mjs
+
+      - name: Verificar rutas, meta tags y enlaces
+        run: |
+          node tools/serve.mjs dist-ar --port=8099 &
+          for i in $(seq 1 20); do
+            curl -sf -o /dev/null http://localhost:8099/ && break
+            sleep 0.25
+          done
+          node tools/verify.mjs --port=8099
