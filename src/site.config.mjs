@@ -139,6 +139,58 @@ export const PAGES = [
       },
     ],
   },
+  // --- Páginas por servicio -------------------------------------------------
+  // Piloto de dos, para validar la plantilla y medir cuánto contenido pide cada
+  // una antes de escribir las otras cuatro. El slug con barra hace que el
+  // generador cree la carpeta y que los breadcrumbs aniden solos.
+  {
+    slug: 'servicios/integracion-de-plataformas',
+    title: 'Integrar eCommerce con ERP y CRM | INCBA',
+    description:
+      'Conectamos tu tienda online, tu sistema de gestión y tu CRM para que compartan datos en tiempo real, sin carga manual ni stock desactualizado.',
+    nav: null,
+    breadcrumb: 'Integración de plataformas',
+    promoverH1: true,
+    sections: ['svc-integracion', ':faq', 'servicios-enlaces'],
+    faq: [
+      {
+        q: '¿Cuánto tarda una integración de este tipo?',
+        a: '<p>Depende de cuántos sistemas hay, de qué tan accesibles son sus datos y de cuántas reglas de negocio particulares tenga la operación. El Discovery termina justamente con esa estimación en horas por fase, en lugar de un rango dicho de antemano que después no se sostiene.</p>',
+      },
+      {
+        q: '¿Qué pasa si uno de los sistemas se cae?',
+        a: '<p>Se contempla desde el diseño. Una integración seria define qué se reintenta, qué se encola y qué se avisa cuando un sistema no responde, para que una caída temporal no se convierta en datos perdidos.</p>',
+      },
+      {
+        q: '¿Hay que migrar los datos que ya tenemos?',
+        a: '<p>En general no. Integrar es que los sistemas se comuniquen, no mover la información de lugar. Cada sistema sigue siendo dueño de sus datos; lo que se define es cuál manda cuando dos dicen cosas distintas.</p>',
+      },
+    ],
+  },
+  {
+    slug: 'servicios/arquitectura-api',
+    title: 'Arquitectura API para empresas | INCBA',
+    description:
+      'Diseñamos la estructura de integración para que sumar un sistema nuevo no obligue a rehacer los anteriores, con la lógica de negocio en un solo lugar.',
+    nav: null,
+    breadcrumb: 'Arquitectura API',
+    promoverH1: true,
+    sections: ['svc-api', ':faq', 'servicios-enlaces'],
+    faq: [
+      {
+        q: '¿Necesito una arquitectura o me alcanza con integrar de a dos?',
+        a: '<p>Con dos sistemas y sin planes de sumar más, la integración directa es la decisión correcta y diseñar una arquitectura sería sobreingeniería. Conviene a partir de tres sistemas, o cuando las integraciones existentes ya se volvieron difíciles de mantener.</p>',
+      },
+      {
+        q: '¿Sirve si tengo sistemas viejos que no tienen API?',
+        a: '<p>Sí. Parte del trabajo es construir la API que ese sistema no expone, para que pueda participar del ecosistema sin ser reemplazado. Es lo habitual con sistemas de gestión que llevan años funcionando.</p>',
+      },
+      {
+        q: '¿Queda documentado?',
+        a: '<p>Sí, y es parte del entregable. Una arquitectura que solo entiende quien la construyó es otra forma de dependencia del proveedor, que es justamente lo que este diseño busca evitar.</p>',
+      },
+    ],
+  },
   {
     slug: 'proceso',
     title: 'Cómo trabajamos: del diagnóstico a la integración | INCBA',

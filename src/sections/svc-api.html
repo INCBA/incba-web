@@ -1,0 +1,64 @@
+  <!-- ==============================
+       SERVICIO — Arquitectura API
+       ============================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-label">Arquitectura API</span>
+        <h2>Conectar de a pares<br>deja de escalar</h2>
+        <p class="section-subtitle">
+          Con tres sistemas parece manejable. Con seis, cada plataforma nueva
+          obliga a construir cinco conexiones más.
+        </p>
+      </div>
+
+      <div class="prosa fade-up">
+        <h3>Por qué se complica</h3>
+        <p>
+          La primera integración de una empresa suele ser directa: la tienda con el sistema
+          de gestión, punto a punto. Funciona. La segunda también. El problema aparece
+          cuando el ecosistema crece, porque conectar todo con todo no crece de forma
+          proporcional: crece bastante peor. Con tres sistemas hacen falta tres conexiones,
+          con seis hacen falta quince.
+        </p>
+        <p>
+          El costo real no está en construirlas sino en mantenerlas. Cada una tiene su
+          propia lógica, su propio manejo de errores y su propia idea de qué formato tienen
+          los datos. Cuando una plataforma cambia su forma de responder, hay que revisar
+          todas las conexiones que la tocan. Y como cada una se construyó en un momento
+          distinto, casi ninguna se parece a las demás.
+        </p>
+
+        <h3>Qué es una arquitectura de integración</h3>
+        <p>
+          Es definir una estructura donde cada sistema se conecta una sola vez, a una capa
+          común, en lugar de conectarse con cada uno de los otros. Sumar una plataforma
+          nueva pasa a ser una conexión, no cinco. Y la lógica de negocio —cuál es la fuente
+          de verdad de cada dato, qué se hace cuando algo falla— vive en un solo lugar en
+          vez de estar repetida y ligeramente distinta en cada conexión.
+        </p>
+        <p>
+          Es la diferencia entre una instalación eléctrica y un montón de zapatillas
+          encadenadas. Las dos dan corriente. Una de las dos se puede ampliar sin rehacerla.
+        </p>
+
+        <h3>Qué incluye el trabajo</h3>
+        <ul class="lista-check">
+          <li><strong>El diseño de la estructura</strong>: qué se conecta con qué, dónde vive cada regla de negocio y cómo se suma lo próximo.</li>
+          <li><strong>Las APIs necesarias</strong> para exponer los datos de sistemas que hoy no los exponen, incluidos los más viejos.</li>
+          <li><strong>Manejo de errores y reintentos</strong>, porque en producción los sistemas se caen y la integración tiene que sobrevivirlo sin perder datos.</li>
+          <li><strong>Documentación</strong>. Una arquitectura que solo entiende quien la construyó es otra forma de dependencia.</li>
+        </ul>
+
+        <h3>Cuándo conviene y cuándo no</h3>
+        <p>
+          Si tenés dos sistemas y no está previsto sumar más, una integración directa es la
+          decisión correcta y diseñar una arquitectura sería sobreingeniería. Conviene
+          cuando ya hay tres o más sistemas en juego, cuando se sabe que van a sumarse
+          otros, o cuando las integraciones existentes se volvieron difíciles de mantener.
+          Esa evaluación es parte del Discovery, y a veces la conclusión es que no hace
+          falta.
+        </p>
+      </div>
+    </div>
+  </section>
