@@ -22,6 +22,15 @@ const args = process.argv.slice(2)
 const port = Number((args.find((a) => a.startsWith('--port=')) || '--port=8080').split('=')[1])
 const base = join(ROOT, args.find((a) => !a.startsWith('--')) || 'dist-ar')
 
+// Servir una carpeta que no existe devolvía 404 en todo, en silencio. Es un
+// modo de fallo caro: en CI parece que el sitio está roto cuando lo que falta
+// es el build.
+if (!existsSync(base) || !statSync(base).isDirectory()) {
+  console.error(`\nNo existe la carpeta ${base}.`)
+  console.error('Generala antes:  node tools/build.mjs --site=ar\n')
+  process.exit(1)
+}
+
 const TIPOS = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',

@@ -37,11 +37,21 @@ jobs:
           node tools/build-cl.mjs
           node tools/build-dev.mjs
 
+      # Se verifica la raíz y no dist-ar: es lo que GitHub Pages publica de
+      # verdad en incba.com.ar. dist-ar es sólo una salida de conveniencia para
+      # mirar el sitio local sin pisar el repo, y acá ni siquiera se genera.
       - name: Verificar rutas, meta tags y enlaces
         run: |
-          node tools/serve.mjs dist-ar --port=8099 &
-          for i in $(seq 1 20); do
+          node tools/serve.mjs . --port=8099 > /tmp/serve.log 2>&1 &
+          echo $! > /tmp/serve.pid
+          for i in $(seq 1 40); do
             curl -sf -o /dev/null http://localhost:8099/ && break
             sleep 0.25
           done
           node tools/verify.mjs --port=8099
+
+      # Sin esto el proceso queda vivo heredando la salida del step y el job
+      # puede colgarse esperando que se cierre.
+      - name: Bajar el servidor
+        if: always()
+        run: kill "$(cat /tmp/serve.pid)" 2>/dev/null || true
