@@ -115,7 +115,29 @@ export const PAGES = [
     nav: 'Servicios',
     breadcrumb: 'Servicios',
     promoverH1: true,
-    sections: ['servicios', 'servicios-enlaces'],
+    sections: ['servicios', 'servicios-prosa', 'servicios-hijas', ':faq', 'servicios-enlaces'],
+    faq: [
+      {
+        q: '¿Hay que reemplazar los sistemas que ya tenemos?',
+        a: '<p>Casi nunca. Trabajamos con arquitectura API, que integra lo que ya está funcionando en lugar de sustituirlo. Reemplazar un sistema central es el proyecto de mayor riesgo que puede encarar una empresa, y en la mayoría de los casos no hace falta.</p>',
+      },
+      {
+        q: '¿Cómo sé cuál de los seis servicios necesito?',
+        a: '<p>No hace falta que lo sepas de antemano. El Discovery arranca justamente por ahí: relevamos el ecosistema y de ese diagnóstico sale qué conviene resolver y en qué orden. Llegar con el problema alcanza.</p>',
+      },
+      {
+        q: '¿Trabajan con cualquier plataforma?',
+        a: '<p>Trabajamos con cualquier sistema que exponga una API o permita integración por algún medio, que hoy es la enorme mayoría. Cuando un sistema es realmente cerrado, lo detectamos en el Discovery y lo decimos antes de proponer nada, no después.</p>',
+      },
+      {
+        q: '¿Qué tamaño de empresa atienden?',
+        a: '<p>El límite no es el tamaño de la empresa sino el volumen de horas de desarrollo contra nuestra disponibilidad. Somos un equipo chico y senior: si un proyecto necesita una estructura mayor, lo planteamos en la primera conversación.</p>',
+      },
+      {
+        q: '¿Se puede empezar por una parte y seguir después?',
+        a: '<p>Es la forma en que trabajamos por defecto. El plan que sale del Discovery viene ordenado por fases y por criticidad, así se mantiene la operación andando y la inversión se reparte en el tiempo en lugar de concentrarse de una sola vez.</p>',
+      },
+    ],
   },
   {
     slug: 'proceso',
@@ -125,7 +147,37 @@ export const PAGES = [
     nav: 'Proceso',
     breadcrumb: 'Proceso',
     promoverH1: true,
-    sections: ['proceso', 'proceso-enlaces'],
+    sections: ['proceso', ':faq', 'proceso-enlaces'],
+    // Las preguntas salen de los miedos documentados en los arquetipos del plan
+    // de marketing, no de suposiciones. Ninguna respuesta lleva cifras: los
+    // valores concretos (precio del Discovery, plazos típicos) todavía no están
+    // confirmados y no se inventan.
+    faq: [
+      {
+        q: '¿El Discovery se cobra?',
+        a: '<p>Sí. La primera conversación no tiene costo y sirve para entender si hay encaje. El Discovery es trabajo de relevamiento —documentar tu ecosistema, calcular horas, armar el plan por fases— y se cotiza aparte. El informe que sale de ahí queda en tu poder.</p>',
+      },
+      {
+        q: '¿Qué pasa si después del Discovery decido no seguir?',
+        a: '<p>Te quedás con el informe igual. Pagaste por el relevamiento, así que el documento es tuyo: el mapa de tu ecosistema y el plan de trabajo los podés usar internamente o con otro equipo. No hay cláusula que lo impida.</p>',
+      },
+      {
+        q: '¿Tengo que parar la operación mientras trabajan?',
+        a: '<p>No. Es justamente el motivo de trabajar por fases: nunca se interviene todo el sistema a la vez. Cada fase deja algo funcionando en producción antes de pasar a la siguiente, y los cambios se validan con vos antes de que salgan.</p>',
+      },
+      {
+        q: '¿Quedo dependiendo de INCBA para siempre?',
+        a: '<p>La arquitectura se documenta y queda documentada para tu equipo. Trabajamos integrando los sistemas que ya tenés en lugar de reemplazarlos por algo propietario, así que no hay una pieza nuestra de la que no puedas salir. El soporte posterior es una decisión tuya, no una condición.</p>',
+      },
+      {
+        q: '¿Trabajan con empresas de cualquier tamaño?',
+        a: '<p>El límite no lo pone el tamaño de la empresa sino el volumen de horas de desarrollo contra el tiempo que tenemos disponible. Somos un equipo chico y senior: hay proyectos que requieren una estructura más grande y, cuando es el caso, lo decimos en la primera conversación en lugar de tomarlo igual.</p>',
+      },
+      {
+        q: '¿Por qué presentan más de una propuesta?',
+        a: '<p>Porque casi nunca hay un solo camino razonable. Presentamos las opciones con sus valores y con el alcance explícito de cada una —qué incluye y qué no— para que la decisión sea tuya y con la información a la vista, en vez de un número único sin contexto.</p>',
+      },
+    ],
   },
   {
     slug: 'casos-de-exito',
@@ -135,7 +187,21 @@ export const PAGES = [
     nav: 'Casos de éxito',
     breadcrumb: 'Casos de éxito',
     promoverH1: true,
-    sections: ['resultados', 'casos-enlaces'],
+    sections: ['resultados', 'casos-prosa', ':faq', 'casos-enlaces'],
+    faq: [
+      {
+        q: '¿Por qué no publican porcentajes de mejora?',
+        a: '<p>Porque toda cifra que aparezca en el sitio tiene que estar respaldada por un proyecto real y verificada con el cliente. Preferimos no tener números antes que tener números decorativos. Estamos documentando los primeros casos bajo esa condición.</p>',
+      },
+      {
+        q: '¿Cómo se mide si una integración funcionó?',
+        a: '<p>Por tareas que dejan de hacerse, errores de carga que dejan de ocurrir y preguntas de negocio que pasan a poder responderse sin un trabajo previo de consolidación. Son cambios que el equipo nota en la semana siguiente a que algo entra en producción.</p>',
+      },
+      {
+        q: '¿Puedo hablar con algún cliente actual?',
+        a: '<p>Podemos coordinarlo según el caso y con la conformidad del cliente. Es la forma más honesta de referencia que existe, bastante más que un testimonio escrito en un sitio.</p>',
+      },
+    ],
   },
   {
     slug: 'por-que-incba',
@@ -145,7 +211,25 @@ export const PAGES = [
     nav: 'Por qué INCBA',
     breadcrumb: 'Por qué INCBA',
     promoverH1: true,
-    sections: ['diferencial', 'manifesto', 'diferencial-enlaces'],
+    sections: ['diferencial', 'diferencial-prosa', 'manifesto', ':faq', 'diferencial-enlaces'],
+    faq: [
+      {
+        q: '¿Cuál es la diferencia real con una software factory?',
+        a: '<p>Una software factory ejecuta una especificación que le llega hecha. Nosotros empezamos por armar esa especificación: relevamos la operación antes de proponer tecnología. Cuando el pliego está mal desde el principio, ejecutarlo con precisión no salva el proyecto.</p>',
+      },
+      {
+        q: '¿Son una agencia digital?',
+        a: '<p>No. Una agencia trabaja sobre la capa visible: sitio, tienda, campañas. Nosotros trabajamos sobre la infraestructura que hay debajo. Si el stock de la tienda no coincide con el del depósito, ninguna mejora de la vidriera lo resuelve.</p>',
+      },
+      {
+        q: '¿Un equipo de tres personas no es poco?',
+        a: '<p>Para el tipo de proyecto que tomamos, es lo que permite que quien releva sea quien desarrolla, sin capas que degraden la información. Para proyectos que exceden esa capacidad lo decimos en la primera conversación en lugar de tomarlos igual.</p>',
+      },
+      {
+        q: '¿Qué pasa si más adelante quiero cambiar de proveedor?',
+        a: '<p>La arquitectura queda documentada y se apoya en los sistemas que ya tenías, no en piezas propietarias nuestras. Es una decisión de diseño deliberada: la dependencia del proveedor es uno de los miedos más razonables que tiene un cliente de este rubro.</p>',
+      },
+    ],
   },
   {
     // Ruta que no está en el brief. Se agregó porque #quienes-somos y #equipo
@@ -158,7 +242,21 @@ export const PAGES = [
     nav: 'Equipo',
     breadcrumb: 'Equipo',
     promoverH1: true,
-    sections: ['quienes-somos', 'equipo', 'equipo-enlaces'],
+    sections: ['quienes-somos', 'equipo', 'equipo-prosa', ':faq', 'equipo-enlaces'],
+    faq: [
+      {
+        q: '¿Con quién voy a trabajar durante el proyecto?',
+        a: '<p>Con las mismas personas de la primera conversación. No hay un comercial que promete, un jefe de proyecto que traduce y un desarrollador que nunca te vio: quien releva tu ecosistema es quien después escribe el código.</p>',
+      },
+      {
+        q: '¿Trabajan de forma remota?',
+        a: '<p>Sí, con el equipo distribuido entre Córdoba y Temuco, y con instancias presenciales cuando el proyecto las justifica. En integraciones la distancia no es el factor crítico; el involucramiento sí.</p>',
+      },
+      {
+        q: '¿Qué pasa si el proyecto excede la capacidad del equipo?',
+        a: '<p>Lo decimos antes de empezar. El límite no lo pone el tamaño de tu empresa sino el volumen de horas contra nuestra disponibilidad, y preferimos no tomar un trabajo que después haya que estirar.</p>',
+      },
+    ],
   },
   {
     slug: 'partners',
@@ -168,7 +266,21 @@ export const PAGES = [
     nav: 'Partners',
     breadcrumb: 'Partners',
     promoverH1: true,
-    sections: ['partners', 'partners-enlaces'],
+    sections: ['partners', 'partners-prosa', ':faq', 'partners-enlaces'],
+    faq: [
+      {
+        q: '¿El cliente final se entera de que existen?',
+        a: '<p>Solo si vos querés. El trabajo se entrega a tu nombre, no firmamos el entregable y no vamos a contactar a tu cliente por nuestra cuenta ni durante el proyecto ni después. Sin eso no hay acuerdo de partners que funcione.</p>',
+      },
+      {
+        q: '¿Qué tipo de trabajo funciona mejor bajo este modelo?',
+        a: '<p>Integraciones entre plataformas, arquitectura de APIs, automatización de procesos y desarrollos a medida acotados. Funciona peor cuando el proyecto exige presencia sostenida frente al cliente final, porque ahí la intermediación cuesta más de lo que aporta.</p>',
+      },
+      {
+        q: '¿Participan de las reuniones con mi cliente?',
+        a: '<p>Solo si nos lo pedís, y en ese caso vamos como parte de tu equipo. La relación comercial es tuya y la coordinación con el cliente también.</p>',
+      },
+    ],
   },
   {
     slug: 'clientes',
@@ -178,17 +290,46 @@ export const PAGES = [
     nav: 'Clientes',
     breadcrumb: 'Clientes',
     promoverH1: true,
-    sections: ['clientes', 'clientes-enlaces'],
+    sections: ['clientes', 'clientes-prosa', ':faq', 'clientes-enlaces'],
+    faq: [
+      {
+        q: '¿Trabajan solo con estos rubros?',
+        a: '<p>Comercio, industria y agroindustria son donde más experiencia acumulamos, pero el problema de fondo —sistemas que no se hablan entre sí— es transversal. Lo que define si podemos ayudarte es el ecosistema que tenés, no la etiqueta del rubro.</p>',
+      },
+      {
+        q: '¿Puedo ver un caso desarrollado de alguno de estos clientes?',
+        a: '<p>Estamos documentando los primeros casos con métricas verificadas junto a los clientes. Mientras tanto, podemos coordinar una referencia directa según el caso.</p>',
+      },
+    ],
   },
   {
     slug: 'contacto',
-    title: 'Contacto y diagnóstico sin costo | INCBA',
+    // El brief de SEO fijó estos dos literales como "diagnóstico sin costo",
+    // pero se escribieron sin conocer el modelo comercial: el diagnóstico ES el
+    // Discovery, y el Discovery se cobra. Lo gratuito es la primera conversación.
+    // Prometer gratis algo que se factura obliga a desdecirse en la primera
+    // llamada, justo con una audiencia cuyo miedo declarado es que le vendan humo.
+    title: 'Contacto y primera consulta sin costo | INCBA',
     description:
-      'Contanos qué sistemas necesitás integrar o qué procesos querés automatizar. Agendá un diagnóstico sin costo con el equipo de INCBA en {{countryPair}}.',
+      'Contanos qué sistemas necesitás integrar o qué procesos querés automatizar. La primera consulta con el equipo de INCBA en {{countryPair}} no tiene costo.',
     nav: null, // va como CTA del menú, no como enlace común
     breadcrumb: 'Contacto',
     promoverH1: true,
-    sections: ['contacto'],
+    sections: ['contacto', 'contacto-prosa', ':faq'],
+    faq: [
+      {
+        q: '¿La primera consulta tiene costo?',
+        a: '<p>No. Es una conversación para entender tu situación y ver si hay encaje. El Discovery, que es el relevamiento formal con informe y propuesta, sí se cotiza aparte.</p>',
+      },
+      {
+        q: '¿Necesito tener claro qué quiero antes de escribir?',
+        a: '<p>No hace falta. Alcanza con que sepas dónde se traba tu operación. Traducir eso a una solución técnica es parte de nuestro trabajo, no un requisito para contactarnos.</p>',
+      },
+      {
+        q: '¿Atienden empresas fuera de Argentina y Chile?',
+        a: '<p>Nuestra operación está enfocada en {{countryPair}}, que es donde tenemos equipo y conocemos el contexto. Consultas de otros países las evaluamos caso por caso, sin comprometer plazos que no podamos sostener.</p>',
+      },
+    ],
   },
 ]
 

@@ -2148,3 +2148,163 @@ main {
 main > *:last-child { flex: 1 0 auto; }
 
 .footer { flex-shrink: 0; }
+
+/* ============================================
+   Contenido largo
+   Agregado al desarrollar el contenido de cada
+   página. Sigue sin introducir colores ni
+   tipografías nuevas.
+   ============================================ */
+
+/* Bloques de prosa. El sitio venía armado casi todo con tarjetas; el contenido
+   desarrollado necesita una columna de lectura con ancho acotado, porque una
+   línea de 1200 px es incómoda de leer. */
+.prosa {
+  max-width: 780px;
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+}
+
+.prosa > * + * { margin-top: 20px; }
+.prosa h3 {
+  color: var(--text-primary);
+  margin-top: 44px;
+}
+.section-dark .prosa,
+.section-dark .prosa h3 { color: var(--text-on-dark); }
+.section-dark .prosa h3 { color: var(--white); }
+.prosa strong { color: var(--text-primary); font-weight: 600; }
+.section-dark .prosa strong { color: var(--white); }
+
+.lista-check li {
+  position: relative;
+  padding-left: 30px;
+  margin-top: 12px;
+}
+
+.lista-check li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 16px;
+  height: 8px;
+  border-left: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: rotate(-45deg);
+}
+
+/* Preguntas frecuentes. Usa <details>: abre y cierra sin una línea de
+   JavaScript, es accesible por teclado de fábrica, y el contenido está en el
+   HTML servido aunque el bloque arranque cerrado — que es lo que el crawler
+   necesita leer. */
+.faq-lista {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.faq-item summary {
+  cursor: pointer;
+  padding: 22px 40px 22px 0;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  position: relative;
+  list-style: none;
+  transition: color var(--transition);
+}
+
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { color: var(--accent); }
+
+.faq-item summary::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform var(--transition);
+}
+
+.faq-item[open] summary::after { transform: translateY(-30%) rotate(-135deg); }
+
+.faq-respuesta {
+  padding: 0 40px 24px 0;
+  color: var(--text-secondary);
+}
+
+.faq-respuesta > * + * { margin-top: 14px; }
+
+/* Listado del blog */
+.listado-blog .post-list { max-width: 820px; margin: 0 auto; }
+
+.post-item + .post-item { margin-top: 8px; }
+
+.post-item a {
+  display: block;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.post-item time {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.post-item h2 {
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  color: var(--text-primary);
+  margin: 10px 0 12px;
+  transition: color var(--transition);
+}
+
+.post-item a:hover h2 { color: var(--accent); }
+.post-item p { color: var(--text-secondary); }
+
+.post-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+.post-link::after { content: ' →'; }
+
+/* Cuerpo de artículo: misma columna de lectura que .prosa, con más aire entre
+   párrafos porque son textos bastante más largos. */
+.articulo { max-width: 780px; margin: 0 auto; }
+.articulo p,
+.articulo ul,
+.articulo ol { margin-top: 20px; color: var(--text-secondary); font-size: 1.05rem; }
+.articulo h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-top: 52px; color: var(--text-primary); }
+.articulo h3 { margin-top: 36px; color: var(--text-primary); }
+.articulo strong { color: var(--text-primary); font-weight: 600; }
+.articulo li { margin-top: 10px; }
+.articulo ul li { position: relative; padding-left: 22px; }
+.articulo ul li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 12px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .prosa h3 { margin-top: 32px; }
+  .articulo h2 { margin-top: 40px; }
+}
