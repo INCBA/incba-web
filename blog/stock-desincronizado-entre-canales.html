@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local y tienda online con stock desincronizado | INCBA</title>
+  <meta name="description" content="Cuando el comercio físico y el canal online funcionan como dos negocios separados: por qué pasa, por qué no se arregla con disciplina y cómo se resuelve.">
+  <meta name="keywords" content="consultora tecnológica, integración empresarial, arquitectura API, automatización, inteligencia artificial, ERP, CRM, eCommerce, Argentina, Chile">
+  <meta name="author" content="INCBA Technology Consulting">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://incba.com.ar/blog/stock-desincronizado-entre-canales">
+  <meta name="theme-color" content="#0B1C2D">
+
+  <!-- Versiones por país. El bloque es idéntico en incba.com.ar e incba.cl:
+       Google exige que las referencias sean recíprocas y que cada página
+       se incluya a sí misma, o descarta todo el grupo. -->
+  <link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/blog/stock-desincronizado-entre-canales">
+  <link rel="alternate" hreflang="es-CL" href="https://incba.cl/blog/stock-desincronizado-entre-canales">
+  <!-- Hispanohablante de otro país (MX, PE, ES...): cae en el sitio argentino. -->
+  <link rel="alternate" hreflang="es" href="https://incba.com.ar/blog/stock-desincronizado-entre-canales">
+  <link rel="alternate" hreflang="x-default" href="https://incba.com.ar/blog/stock-desincronizado-entre-canales">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Open Graph. Los enlaces se comparten sobre todo en LinkedIn, que es el
+       canal principal del plan de marketing: sin esto la tarjeta sale mal. -->
+  <meta property="og:title" content="Local y tienda online con stock desincronizado | INCBA">
+  <meta property="og:description" content="Cuando el comercio físico y el canal online funcionan como dos negocios separados: por qué pasa, por qué no se arregla con disciplina y cómo se resuelve.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://incba.com.ar/blog/stock-desincronizado-entre-canales">
+  <meta property="og:image" content="https://incba.com.ar/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:locale:alternate" content="es_CL">
+  <meta property="og:site_name" content="INCBA">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Local y tienda online con stock desincronizado | INCBA">
+  <meta name="twitter:description" content="Cuando el comercio físico y el canal online funcionan como dos negocios separados: por qué pasa, por qué no se arregla con disciplina y cómo se resuelve.">
+  <meta name="twitter:image" content="https://incba.com.ar/img/og-image.jpg">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://incba.com.ar/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://incba.com.ar/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Stock desincronizado entre canales",
+        "item": "https://incba.com.ar/blog/stock-desincronizado-entre-canales"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Stock desincronizado entre canales",
+    "description": "Si para saber cuántas unidades tenés disponibles hay que mirar dos lugares y hacer una resta mental, ya tenés dos negocios en vez de uno.",
+    "datePublished": "2026-08-12",
+    "dateModified": "2026-08-12",
+    "inLanguage": "es-AR",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://incba.com.ar/blog/stock-desincronizado-entre-canales"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "INCBA Technology Consulting",
+      "url": "https://incba.com.ar"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "INCBA Technology Consulting",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://incba.com.ar/img/logo-light.png"
+      }
+    },
+    "image": "https://incba.com.ar/img/og-image.jpg"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- ==============================
+       NAVIGATION
+       ============================== -->
+  <nav class="nav" id="nav">
+    <div class="container">
+      <a href="/" class="nav-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
+        <span class="logo-sub">Technology Consulting</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="/servicios">Servicios</a>
+        <a href="/proceso">Proceso</a>
+        <a href="/casos-de-exito">Casos de éxito</a>
+        <a href="/por-que-incba">Por qué INCBA</a>
+        <a href="/equipo">Equipo</a>
+        <a href="/partners">Partners</a>
+        <a href="/blog">Blog</a>
+        <a href="/contacto" class="btn btn-primary nav-cta">Conversemos</a>
+      </div>
+      <button class="nav-mobile-toggle" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <main>
+  <div class="page-top">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Ruta de navegación">
+        <a href="/">Inicio</a>
+        <span class="sep" aria-hidden="true">›</span>
+        <a href="/blog">Blog</a>
+        <span class="sep" aria-hidden="true">›</span>
+        <span aria-current="page">Stock desincronizado entre canales</span>
+      </nav>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <article class="articulo fade-up">
+        <h1 class="h2">Cuando el local y la tienda online son dos negocios distintos</h1>
+
+        <p>
+          Muchos comercios abrieron su canal online sin planearlo demasiado. Funcionó mejor
+          de lo esperado y se quedó. El problema es que quedó al lado del negocio de
+          siempre, no adentro: dos operaciones corriendo en paralelo, cada una con su propia
+          idea de cuánto stock hay.
+        </p>
+        <p>
+          La señal más clara de que esto está pasando es una pregunta que nadie puede
+          responder rápido: <em>¿cuántas unidades de este producto tengo realmente
+          disponibles?</em> Si para contestarla hay que mirar dos lugares y hacer una
+          resta mental, ya hay dos negocios.
+        </p>
+
+        <h2>Cómo se manifiesta el desorden</h2>
+        <p>
+          Casi siempre igual, en este orden:
+        </p>
+        <ul>
+          <li>
+            <strong>Vendés online algo que ya se vendió en el local.</strong> El sistema
+            online no se enteró de la venta física, entonces siguió ofreciendo la unidad.
+            Ahora hay que llamar al cliente para avisarle.
+          </li>
+          <li>
+            <strong>Guardás stock «por las dudas».</strong> Para que no vuelva a pasar,
+            alguien decide no publicar todas las unidades disponibles. Es una solución
+            razonable que tiene un costo silencioso: estás dejando de vender producto que
+            tenés.
+          </li>
+          <li>
+            <strong>Los precios se desactualizan por separado.</strong> Cambia un precio en
+            el local y en la tienda queda el viejo, o al revés. El cliente que ve las dos
+            cosas saca sus conclusiones.
+          </li>
+          <li>
+            <strong>Nadie sabe qué canal rinde más.</strong> Con la información partida en
+            dos, comparar rentabilidad por canal exige un trabajo de consolidación que casi
+            nunca se hace. Entonces las decisiones sobre dónde invertir se toman por
+            intuición.
+          </li>
+        </ul>
+
+        <h2>La solución no es más disciplina</h2>
+        <p>
+          La reacción intuitiva es organizarse mejor: definir que alguien actualice el stock
+          dos veces por día, armar una planilla de control, poner más cuidado. Funciona unas
+          semanas. Después llega una temporada alta, la persona que lo hacía se toma
+          vacaciones, y el sistema vuelve a desincronizarse justo cuando más caro sale.
+        </p>
+        <p>
+          Cualquier solución que dependa de que una persona se acuerde de hacer algo todos
+          los días va a fallar. No por la persona: porque es un proceso frágil por diseño.
+        </p>
+
+        <h2>Un solo stock, dos vidrieras</h2>
+        <p>
+          El enfoque correcto es dejar de tener dos inventarios. Hay un único stock real, y
+          el local y la tienda son dos formas de mostrarlo y de venderlo. Cuando se vende
+          por cualquiera de los dos canales, el número baja una sola vez y en un solo lugar.
+        </p>
+        <p>
+          Técnicamente eso significa conectar el sistema de gestión con la plataforma de
+          venta online para que compartan la misma información. Y significa decidir algunas
+          cosas antes:
+        </p>
+        <ul>
+          <li>
+            <strong>Quién manda.</strong> Normalmente el sistema de gestión es la fuente de
+            verdad del stock, porque es donde se registran las compras a proveedores y los
+            ajustes de inventario.
+          </li>
+          <li>
+            <strong>Qué pasa con las reservas.</strong> Un pedido online sin pagar,
+            ¿descuenta stock o no? No hay una respuesta universal; depende de cómo vendés y
+            de cuánto te duele cada opción.
+          </li>
+          <li>
+            <strong>Cómo se manejan las devoluciones.</strong> Es el caso que más se olvida
+            al diseñar, y el que más discrepancias genera después.
+          </li>
+        </ul>
+
+        <h2>Los casos borde son el trabajo real</h2>
+        <p>
+          Sincronizar un número de un lado a otro es la parte fácil. Lo que define si una
+          integración de stock funciona en la práctica son las situaciones que no son la
+          venta normal:
+        </p>
+        <ul>
+          <li>
+            <strong>La venta simultánea.</strong> Dos clientes compran la última unidad al
+            mismo tiempo, uno en el local y otro online. Alguno de los dos se va a quedar
+            sin producto, y hay que decidir de antemano cómo se resuelve y quién avisa.
+          </li>
+          <li>
+            <strong>El producto que se rompe o se pierde.</strong> El ajuste de inventario
+            tiene que reflejarse en el canal online sin que nadie se acuerde de hacerlo.
+          </li>
+          <li>
+            <strong>Los combos y los productos compuestos.</strong> Si vendés un pack de
+            tres unidades, el stock que se descuenta no es uno. Es una de las fuentes más
+            comunes de descuadre.
+          </li>
+          <li>
+            <strong>La mercadería en tránsito.</strong> Compraste, todavía no llegó, pero ya
+            está comprometida. ¿Se publica o no? Las dos respuestas son defendibles y hay
+            que elegir una.
+          </li>
+        </ul>
+        <p>
+          Ninguna de estas preguntas es técnica. Son decisiones de negocio que alguien tiene
+          que tomar, y por eso el relevamiento previo importa más que la herramienta que se
+          use después. Una integración que no las contempló va a funcionar bien tres
+          semanas y después va a empezar a acumular discrepancias que nadie sabe explicar.
+        </p>
+
+        <h2>Qué cambia cuando está resuelto</h2>
+        <p>
+          Lo primero que se nota es que desaparece una tarea diaria. Lo segundo es que se
+          puede publicar todo el stock disponible sin miedo, lo que en general significa
+          vender más sin comprar más.
+        </p>
+        <p>
+          Y lo tercero, que tarda un poco más en aparecer, es que el negocio empieza a
+          poder mirarse como uno solo. Preguntas que antes requerían un rato de planilla
+          —qué producto rota mejor, qué canal deja más margen, qué conviene reponer— pasan a
+          responderse mirando un solo lugar. Cuando responderlas deja de costar tiempo,
+          empiezan a hacerse seguido.
+        </p>
+
+        <div class="post-cta">
+          <p>
+            Si el local y la tienda te funcionan como dos negocios separados, el
+            problema tiene arreglo y no pasa por reemplazar lo que ya usás.
+          </p>
+          <div class="enlaces-botones">
+            <a href="/servicios/integracion-de-plataformas" class="btn btn-primary">Ver cómo se integra</a>
+            <a href="/contacto" class="btn btn-outline">Contanos tu caso</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a href="/" class="footer-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
+        <span class="logo-sub">Technology Consulting</span>
+      </a>
+      <span class="footer-copy">&copy; 2026 INCBA. Todos los derechos reservados.</span>
+      <span class="footer-tagline">Integración de sistemas, automatización e IA aplicada para empresas de Argentina y Chile</span>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

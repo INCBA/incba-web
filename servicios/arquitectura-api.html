@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arquitectura API para empresas | INCBA</title>
+  <meta name="description" content="Diseñamos la estructura de integración para que sumar un sistema nuevo no obligue a rehacer los anteriores, con la lógica de negocio en un solo lugar.">
+  <meta name="keywords" content="consultora tecnológica, integración empresarial, arquitectura API, automatización, inteligencia artificial, ERP, CRM, eCommerce, Argentina, Chile">
+  <meta name="author" content="INCBA Technology Consulting">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://incba.com.ar/servicios/arquitectura-api">
+  <meta name="theme-color" content="#0B1C2D">
+
+  <!-- Versiones por país. El bloque es idéntico en incba.com.ar e incba.cl:
+       Google exige que las referencias sean recíprocas y que cada página
+       se incluya a sí misma, o descarta todo el grupo. -->
+  <link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/servicios/arquitectura-api">
+  <link rel="alternate" hreflang="es-CL" href="https://incba.cl/servicios/arquitectura-api">
+  <!-- Hispanohablante de otro país (MX, PE, ES...): cae en el sitio argentino. -->
+  <link rel="alternate" hreflang="es" href="https://incba.com.ar/servicios/arquitectura-api">
+  <link rel="alternate" hreflang="x-default" href="https://incba.com.ar/servicios/arquitectura-api">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Open Graph. Los enlaces se comparten sobre todo en LinkedIn, que es el
+       canal principal del plan de marketing: sin esto la tarjeta sale mal. -->
+  <meta property="og:title" content="Arquitectura API para empresas | INCBA">
+  <meta property="og:description" content="Diseñamos la estructura de integración para que sumar un sistema nuevo no obligue a rehacer los anteriores, con la lógica de negocio en un solo lugar.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://incba.com.ar/servicios/arquitectura-api">
+  <meta property="og:image" content="https://incba.com.ar/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:locale:alternate" content="es_CL">
+  <meta property="og:site_name" content="INCBA">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Arquitectura API para empresas | INCBA">
+  <meta name="twitter:description" content="Diseñamos la estructura de integración para que sumar un sistema nuevo no obligue a rehacer los anteriores, con la lógica de negocio en un solo lugar.">
+  <meta name="twitter:image" content="https://incba.com.ar/img/og-image.jpg">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://incba.com.ar/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Servicios",
+        "item": "https://incba.com.ar/servicios"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Arquitectura API",
+        "item": "https://incba.com.ar/servicios/arquitectura-api"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Necesito una arquitectura o me alcanza con integrar de a dos?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Con dos sistemas y sin planes de sumar más, la integración directa es la decisión correcta y diseñar una arquitectura sería sobreingeniería. Conviene a partir de tres sistemas, o cuando las integraciones existentes ya se volvieron difíciles de mantener."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Sirve si tengo sistemas viejos que no tienen API?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. Parte del trabajo es construir la API que ese sistema no expone, para que pueda participar del ecosistema sin ser reemplazado. Es lo habitual con sistemas de gestión que llevan años funcionando."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Queda documentado?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, y es parte del entregable. Una arquitectura que solo entiende quien la construyó es otra forma de dependencia del proveedor, que es justamente lo que este diseño busca evitar."
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- ==============================
+       NAVIGATION
+       ============================== -->
+  <nav class="nav" id="nav">
+    <div class="container">
+      <a href="/" class="nav-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
+        <span class="logo-sub">Technology Consulting</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="/servicios">Servicios</a>
+        <a href="/proceso">Proceso</a>
+        <a href="/casos-de-exito">Casos de éxito</a>
+        <a href="/por-que-incba">Por qué INCBA</a>
+        <a href="/equipo">Equipo</a>
+        <a href="/partners">Partners</a>
+        <a href="/blog">Blog</a>
+        <a href="/contacto" class="btn btn-primary nav-cta">Conversemos</a>
+      </div>
+      <button class="nav-mobile-toggle" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <main>
+  <div class="page-top">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Ruta de navegación">
+        <a href="/">Inicio</a>
+        <span class="sep" aria-hidden="true">›</span>
+        <a href="/servicios">Servicios</a>
+        <span class="sep" aria-hidden="true">›</span>
+        <span aria-current="page">Arquitectura API</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ==============================
+       SERVICIO — Arquitectura API
+       ============================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-label">Arquitectura API</span>
+        <h1 class="h2">Conectar de a pares<br>deja de escalar</h1>
+        <p class="section-subtitle">
+          Con tres sistemas parece manejable. Con seis, cada plataforma nueva
+          obliga a construir cinco conexiones más.
+        </p>
+      </div>
+
+      <div class="prosa fade-up">
+        <h3>Por qué se complica</h3>
+        <p>
+          La primera integración de una empresa suele ser directa: la tienda con el sistema
+          de gestión, punto a punto. Funciona. La segunda también. El problema aparece
+          cuando el ecosistema crece, porque conectar todo con todo no crece de forma
+          proporcional: crece bastante peor. Con tres sistemas hacen falta tres conexiones,
+          con seis hacen falta quince.
+        </p>
+        <p>
+          El costo real no está en construirlas sino en mantenerlas. Cada una tiene su
+          propia lógica, su propio manejo de errores y su propia idea de qué formato tienen
+          los datos. Cuando una plataforma cambia su forma de responder, hay que revisar
+          todas las conexiones que la tocan. Y como cada una se construyó en un momento
+          distinto, casi ninguna se parece a las demás.
+        </p>
+
+        <h3>Qué es una arquitectura de integración</h3>
+        <p>
+          Es definir una estructura donde cada sistema se conecta una sola vez, a una capa
+          común, en lugar de conectarse con cada uno de los otros. Sumar una plataforma
+          nueva pasa a ser una conexión, no cinco. Y la lógica de negocio —cuál es la fuente
+          de verdad de cada dato, qué se hace cuando algo falla— vive en un solo lugar en
+          vez de estar repetida y ligeramente distinta en cada conexión.
+        </p>
+        <p>
+          Es la diferencia entre una instalación eléctrica y un montón de zapatillas
+          encadenadas. Las dos dan corriente. Una de las dos se puede ampliar sin rehacerla.
+        </p>
+
+        <h3>Qué incluye el trabajo</h3>
+        <ul class="lista-check">
+          <li><strong>El diseño de la estructura</strong>: qué se conecta con qué, dónde vive cada regla de negocio y cómo se suma lo próximo.</li>
+          <li><strong>Las APIs necesarias</strong> para exponer los datos de sistemas que hoy no los exponen, incluidos los más viejos.</li>
+          <li><strong>Manejo de errores y reintentos</strong>, porque en producción los sistemas se caen y la integración tiene que sobrevivirlo sin perder datos.</li>
+          <li><strong>Documentación</strong>. Una arquitectura que solo entiende quien la construyó es otra forma de dependencia.</li>
+        </ul>
+
+        <h3>Cuándo conviene y cuándo no</h3>
+        <p>
+          Si tenés dos sistemas y no está previsto sumar más, una integración directa es la
+          decisión correcta y diseñar una arquitectura sería sobreingeniería. Conviene
+          cuando ya hay tres o más sistemas en juego, cuando se sabe que van a sumarse
+          otros, o cuando las integraciones existentes se volvieron difíciles de mantener.
+          Esa evaluación es parte del Discovery, y a veces la conclusión es que no hace
+          falta.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt faq">
+    <div class="container">
+      <div class="section-header center">
+        <span class="section-label">Preguntas frecuentes</span>
+        <h2>Lo que más nos preguntan</h2>
+      </div>
+      <div class="faq-lista">
+        <details class="faq-item">
+          <summary>¿Necesito una arquitectura o me alcanza con integrar de a dos?</summary>
+          <div class="faq-respuesta"><p>Con dos sistemas y sin planes de sumar más, la integración directa es la decisión correcta y diseñar una arquitectura sería sobreingeniería. Conviene a partir de tres sistemas, o cuando las integraciones existentes ya se volvieron difíciles de mantener.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Sirve si tengo sistemas viejos que no tienen API?</summary>
+          <div class="faq-respuesta"><p>Sí. Parte del trabajo es construir la API que ese sistema no expone, para que pueda participar del ecosistema sin ser reemplazado. Es lo habitual con sistemas de gestión que llevan años funcionando.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Queda documentado?</summary>
+          <div class="faq-respuesta"><p>Sí, y es parte del entregable. Una arquitectura que solo entiende quien la construyó es otra forma de dependencia del proveedor, que es justamente lo que este diseño busca evitar.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       ENLACES RELACIONADOS
+       ============================== -->
+  <section class="section section-alt enlaces-relacionados">
+    <div class="container">
+      <p class="fade-up">¿Querés ver cómo se traduce esto en una operación concreta? Mirá lo que cambia después de integrar, o contanos qué sistemas tenés hoy.</p>
+      <div class="enlaces-botones fade-up">
+        <a href="/casos-de-exito" class="btn btn-primary">Ver casos de éxito</a>
+        <a href="/contacto" class="btn btn-outline">Agendá un diagnóstico</a>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a href="/" class="footer-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
+        <span class="logo-sub">Technology Consulting</span>
+      </a>
+      <span class="footer-copy">&copy; 2026 INCBA. Todos los derechos reservados.</span>
+      <span class="footer-tagline">Integración de sistemas, automatización e IA aplicada para empresas de Argentina y Chile</span>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

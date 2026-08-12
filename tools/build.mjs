@@ -449,8 +449,9 @@ function validate(site, built) {
     // El motivo de toda esta tanda de contenido: una página por debajo del
     // umbral no compite por nada. Se mide, no se estima.
     const palabras = contarPalabras(page.html)
-    if (palabras < MINIMO_PALABRAS) {
-      problems.push(`${ruta}: ${palabras} palabras de contenido (mínimo ${MINIMO_PALABRAS})`)
+    const minimo = page.page.minPalabras ?? MINIMO_PALABRAS
+    if (palabras < minimo) {
+      problems.push(`${ruta}: ${palabras} palabras de contenido (mínimo ${minimo})`)
     }
 
     // El marcado de FAQ tiene que coincidir con lo que se ve en la página.

@@ -2308,3 +2308,27 @@ main > *:last-child { flex: 1 0 auto; }
   .prosa h3 { margin-top: 32px; }
   .articulo h2 { margin-top: 40px; }
 }
+
+/* Cierre de artículo: el puente entre la nota y el servicio. El blog capta
+   tráfico informativo; sin este bloque, ese visitante lee y se va. */
+.post-cta {
+  margin-top: 56px;
+  padding: 32px;
+  background: var(--off-white);
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-200);
+}
+
+.post-cta p {
+  margin: 0 0 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1.05rem;
+}
+
+.post-cta .enlaces-botones { justify-content: flex-start; }
+
+@media (max-width: 768px) {
+  .post-cta { padding: 24px; }
+  .post-cta .enlaces-botones { justify-content: center; }
+}

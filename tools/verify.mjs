@@ -119,6 +119,40 @@ if (!paginas.get('')?.includes('window.location.hash')) {
   falla('/: falta el script de redirección de anclas viejas')
 }
 
+// --- Blog: el índice tiene que enlazar todos los artículos. ---
+const articulos = PAGES.filter((p) => p.slug.startsWith('blog/'))
+const indice = paginas.get('blog') || ''
+for (const a of articulos) {
+  if (!indice.includes(`href="/${a.slug}"`)) falla(`/blog: no enlaza a ${rutaDe(a.slug)}`)
+  const html = paginas.get(a.slug) || ''
+  if (!html.includes('"BlogPosting"')) falla(`${rutaDe(a.slug)}: falta el JSON-LD de BlogPosting`)
+  if (!html.includes(`"datePublished": "${a.date}"`)) {
+    falla(`${rutaDe(a.slug)}: datePublished no coincide con la fecha declarada`)
+  }
+}
+
+// --- FAQ: el marcado tiene que coincidir con lo que se ve en la página. ---
+for (const p of PAGES.filter((x) => x.faq?.length)) {
+  const html = paginas.get(p.slug) || ''
+  if (!html.includes('"FAQPage"')) falla(`${rutaDe(p.slug)}: tiene FAQ pero falta el JSON-LD de FAQPage`)
+  for (const f of p.faq) {
+    // Declarar en el marcado preguntas que no están visibles es marcado
+    // engañoso, y Google penaliza el sitio entero y no la página.
+    if (!html.includes('<summary>')) {
+      falla(`${rutaDe(p.slug)}: el bloque de FAQ no se renderizó`)
+      break
+    }
+  }
+}
+
+// --- Breadcrumbs: las páginas anidadas tienen que mostrar los tres niveles. ---
+for (const p of PAGES.filter((x) => x.slug.includes('/'))) {
+  const html = paginas.get(p.slug) || ''
+  const nav = html.match(/<nav class="breadcrumbs"[\s\S]*?<\/nav>/)?.[0] || ''
+  const niveles = (nav.match(/<a |<span aria-current/g) || []).length
+  if (niveles !== 3) falla(`${rutaDe(p.slug)}: breadcrumbs con ${niveles} niveles, esperaba 3`)
+}
+
 console.log(`${paginas.size} páginas · ${revisados.size} destinos internos verificados`)
 if (fallas.length) {
   console.error(`\n${fallas.length} problemas:\n`)

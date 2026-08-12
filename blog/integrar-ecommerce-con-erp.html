@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integrar el eCommerce con el ERP: qué implica | INCBA</title>
+  <meta name="description" content="Qué significa conectar tu tienda online con el sistema de gestión, qué decisiones hay que tomar antes y por qué casi nunca hace falta cambiar de sistema.">
+  <meta name="keywords" content="consultora tecnológica, integración empresarial, arquitectura API, automatización, inteligencia artificial, ERP, CRM, eCommerce, Argentina, Chile">
+  <meta name="author" content="INCBA Technology Consulting">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://incba.com.ar/blog/integrar-ecommerce-con-erp">
+  <meta name="theme-color" content="#0B1C2D">
+
+  <!-- Versiones por país. El bloque es idéntico en incba.com.ar e incba.cl:
+       Google exige que las referencias sean recíprocas y que cada página
+       se incluya a sí misma, o descarta todo el grupo. -->
+  <link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/blog/integrar-ecommerce-con-erp">
+  <link rel="alternate" hreflang="es-CL" href="https://incba.cl/blog/integrar-ecommerce-con-erp">
+  <!-- Hispanohablante de otro país (MX, PE, ES...): cae en el sitio argentino. -->
+  <link rel="alternate" hreflang="es" href="https://incba.com.ar/blog/integrar-ecommerce-con-erp">
+  <link rel="alternate" hreflang="x-default" href="https://incba.com.ar/blog/integrar-ecommerce-con-erp">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Open Graph. Los enlaces se comparten sobre todo en LinkedIn, que es el
+       canal principal del plan de marketing: sin esto la tarjeta sale mal. -->
+  <meta property="og:title" content="Integrar el eCommerce con el ERP: qué implica | INCBA">
+  <meta property="og:description" content="Qué significa conectar tu tienda online con el sistema de gestión, qué decisiones hay que tomar antes y por qué casi nunca hace falta cambiar de sistema.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://incba.com.ar/blog/integrar-ecommerce-con-erp">
+  <meta property="og:image" content="https://incba.com.ar/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:locale:alternate" content="es_CL">
+  <meta property="og:site_name" content="INCBA">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Integrar el eCommerce con el ERP: qué implica | INCBA">
+  <meta name="twitter:description" content="Qué significa conectar tu tienda online con el sistema de gestión, qué decisiones hay que tomar antes y por qué casi nunca hace falta cambiar de sistema.">
+  <meta name="twitter:image" content="https://incba.com.ar/img/og-image.jpg">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://incba.com.ar/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://incba.com.ar/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Integrar el eCommerce con el ERP",
+        "item": "https://incba.com.ar/blog/integrar-ecommerce-con-erp"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Integrar el eCommerce con el ERP",
+    "description": "Las horas de carga manual son el costo más visible y el que menos importa. Los otros dos son los errores y el desfasaje entre lo que pasó y lo que el sistema sabe.",
+    "datePublished": "2026-08-12",
+    "dateModified": "2026-08-12",
+    "inLanguage": "es-AR",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://incba.com.ar/blog/integrar-ecommerce-con-erp"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "INCBA Technology Consulting",
+      "url": "https://incba.com.ar"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "INCBA Technology Consulting",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://incba.com.ar/img/logo-light.png"
+      }
+    },
+    "image": "https://incba.com.ar/img/og-image.jpg"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- ==============================
+       NAVIGATION
+       ============================== -->
+  <nav class="nav" id="nav">
+    <div class="container">
+      <a href="/" class="nav-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
+        <span class="logo-sub">Technology Consulting</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="/servicios">Servicios</a>
+        <a href="/proceso">Proceso</a>
+        <a href="/casos-de-exito">Casos de éxito</a>
+        <a href="/por-que-incba">Por qué INCBA</a>
+        <a href="/equipo">Equipo</a>
+        <a href="/partners">Partners</a>
+        <a href="/blog">Blog</a>
+        <a href="/contacto" class="btn btn-primary nav-cta">Conversemos</a>
+      </div>
+      <button class="nav-mobile-toggle" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <main>
+  <div class="page-top">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Ruta de navegación">
+        <a href="/">Inicio</a>
+        <span class="sep" aria-hidden="true">›</span>
+        <a href="/blog">Blog</a>
+        <span class="sep" aria-hidden="true">›</span>
+        <span aria-current="page">Integrar el eCommerce con el ERP</span>
+      </nav>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <article class="articulo fade-up">
+        <h1 class="h2">Integrar el eCommerce con el ERP: qué implica de verdad</h1>
+
+        <p>
+          Casi todas las empresas que venden online llegan al mismo punto. Al principio los
+          pedidos entran de a poco y pasarlos al sistema de gestión a mano es una tarea
+          menor: diez minutos por la mañana. Después el canal digital crece, los pedidos
+          pasan a ser decenas por día, y esos diez minutos se convierten en dos horas
+          repartidas a lo largo de la jornada. Nadie decidió que fuera así; simplemente
+          escaló.
+        </p>
+        <p>
+          El problema no es el tiempo, aunque el tiempo duele. El problema es que entre que
+          una venta ocurre y el sistema se entera pasa un rato, y en ese rato el negocio
+          está operando con información incorrecta.
+        </p>
+
+        <h2>El costo real de la carga manual</h2>
+        <p>
+          Cuando alguien copia datos de un sistema a otro, aparecen tres costos que rara vez
+          se miden juntos.
+        </p>
+        <p>
+          <strong>El primero son las horas.</strong> Es el más visible y el que menos
+          importa, porque es el único que se resuelve contratando a alguien más.
+        </p>
+        <p>
+          <strong>El segundo son los errores.</strong> La carga manual repetitiva produce
+          errores a una tasa bastante estable, y no tiene que ver con la dedicación de quien
+          la hace: es lo que pasa cuando una persona repite la misma operación doscientas
+          veces. Un precio mal tipeado, una cantidad con un cero de más. Lo caro no es el
+          error sino el momento en que se descubre, que suele ser cuando ya generó una
+          consecuencia.
+        </p>
+        <p>
+          <strong>El tercero es el desfasaje.</strong> Entre que se vende y que el sistema
+          lo registra, el stock que muestra la tienda es mayor al real. En un día normal no
+          pasa nada. En un pico de ventas —una promoción, una fecha comercial— ese desfasaje
+          se convierte en sobreventa: vendiste algo que no tenés. Y eso no se arregla con un
+          descuento, porque el cliente ya se llevó la impresión de que tu operación no es
+          confiable.
+        </p>
+
+        <h2>Qué significa integrar</h2>
+        <p>
+          Integrar es que los sistemas se comuniquen entre sí sin que una persona haga de
+          puente. Cuando entra un pedido en la tienda, el sistema de gestión se entera solo;
+          cuando cambia el stock en el depósito, la tienda lo refleja sin que nadie lo
+          actualice.
+        </p>
+        <p>
+          Dicho así suena a un botón que se activa. En la práctica hay decisiones que tomar
+          antes, y ninguna es técnica:
+        </p>
+        <ul>
+          <li>
+            <strong>Cuál es la fuente de verdad de cada dato.</strong> Si la tienda dice que
+            hay 12 unidades y la gestión dice que hay 9, alguno de los dos tiene razón. Hay
+            que decidirlo de antemano, por tipo de dato, y no caso por caso cuando aparece
+            la discrepancia.
+          </li>
+          <li>
+            <strong>Con qué frecuencia viaja cada cosa.</strong> El stock necesita ser
+            inmediato. El catálogo de productos probablemente no: si una descripción tarda
+            una hora en actualizarse, no pasa nada. Sincronizar todo en tiempo real es más
+            caro y no siempre mejor.
+          </li>
+          <li>
+            <strong>Qué pasa cuando algo falla.</strong> Los sistemas se caen. Una
+            integración seria define si el dato se reintenta, se encola o dispara un aviso,
+            para que una caída de veinte minutos no se traduzca en pedidos perdidos.
+          </li>
+          <li>
+            <strong>Qué se registra para poder auditar.</strong> Cuando un dato aparece mal,
+            hay que poder reconstruir de dónde salió. Sin registro, cada discrepancia se
+            investiga desde cero.
+          </li>
+        </ul>
+
+        <h2>No hace falta cambiar de sistema</h2>
+        <p>
+          Es la confusión más común y la que más proyectos innecesarios genera. Si tu
+          sistema de gestión tiene años, conoce el negocio y funciona, integrarlo es
+          bastante más barato y muchísimo menos riesgoso que reemplazarlo.
+        </p>
+        <p>
+          Reemplazar un sistema central significa migrar años de datos históricos, volver a
+          configurar reglas de negocio que nadie documentó y capacitar a todo el equipo, con
+          la operación andando mientras tanto. Es el proyecto de mayor riesgo que puede
+          encarar una empresa mediana. Integrar, en cambio, deja el sistema donde está y le
+          agrega la capacidad de hablar con los demás.
+        </p>
+        <p>
+          Hay casos donde el reemplazo se justifica: cuando el sistema no permite ninguna
+          forma de integración, o cuando ya no tiene soporte. Pero conviene que sea una
+          conclusión a la que se llega después de mirar, no el punto de partida.
+        </p>
+
+        <h2>Por dónde empezar</h2>
+        <p>
+          Antes de cotizar nada, conviene tener claro qué sistemas hay, cuáles se hablan
+          hoy, dónde se carga información dos veces y qué tarea le está comiendo más horas
+          al equipo. Ese relevamiento es la mitad del trabajo, y es lo que permite decidir
+          qué integrar primero en lugar de intentar todo junto.
+        </p>
+        <p>
+          Casi nunca conviene resolver todo de una vez. Empezar por el flujo más crítico
+          —normalmente pedidos y stock— deja algo funcionando rápido, y el resto puede
+          seguir por fases sin frenar la operación.
+        </p>
+
+        <div class="post-cta">
+          <p>
+            Si tu tienda y tu sistema de gestión no se hablan, el primer paso es
+            entender bien qué hay funcionando hoy.
+          </p>
+          <div class="enlaces-botones">
+            <a href="/servicios/integracion-de-plataformas" class="btn btn-primary">Ver cómo integramos</a>
+            <a href="/contacto" class="btn btn-outline">Conversemos</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a href="/" class="footer-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
+        <span class="logo-sub">Technology Consulting</span>
+      </a>
+      <span class="footer-copy">&copy; 2026 INCBA. Todos los derechos reservados.</span>
+      <span class="footer-tagline">Integración de sistemas, automatización e IA aplicada para empresas de Argentina y Chile</span>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

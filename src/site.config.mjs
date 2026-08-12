@@ -339,7 +339,11 @@ export const PAGES = [
     title: 'Clientes y empresas que confían en INCBA',
     description:
       'Más de 15 empresas de comercio, industria y agroindustria en {{countryPair}} trabajan con INCBA para integrar y modernizar sus sistemas.',
-    nav: 'Clientes',
+    // Fuera del menú: con Blog sumado serían ocho ítems más el CTA, y no entran
+    // sin achicar la tipografía a un tamaño incómodo. Clientes es la que menos
+    // se pierde, porque queda enlazada desde los resúmenes de la home y desde
+    // /casos-de-exito, que es de donde llega el visitante que la busca.
+    nav: null,
     breadcrumb: 'Clientes',
     promoverH1: true,
     sections: ['clientes', 'clientes-prosa', ':faq', 'clientes-enlaces'],
@@ -353,6 +357,84 @@ export const PAGES = [
         a: '<p>Estamos documentando los primeros casos con métricas verificadas junto a los clientes. Mientras tanto, podemos coordinar una referencia directa según el caso.</p>',
       },
     ],
+  },
+  // --- Blog -----------------------------------------------------------------
+  // La auditoría del plan de marketing lo marca como prioridad ALTA y como una
+  // de las mayores debilidades SEO: sin contenido periódico el sitio no puede
+  // posicionar para búsquedas informativas ni construir autoridad temática.
+  //
+  // El índice se arma solo desde las entradas con slug 'blog/': para sumar una
+  // nota alcanza con crear la sección y agregar la entrada acá.
+  //
+  // Los artículos le hablan a los arquetipos de eCommerce y emprendedores, que
+  // son los que entran por búsqueda informativa. Las páginas de servicio le
+  // hablan al núcleo B2B, que es el que decide la compra.
+  {
+    slug: 'blog',
+    title: 'Blog de integración de sistemas y automatización | INCBA',
+    description:
+      'Notas sobre integración de eCommerce, ERP y CRM, automatización de procesos e infraestructura para IA, escritas para quien decide y no para quien programa.',
+    nav: 'Blog',
+    breadcrumb: 'Blog',
+    promoverH1: true,
+    sections: ['blog-intro', ':listado-blog'],
+    // Un índice es una página de listado: su contenido son los artículos y crece
+    // con cada uno que se suma. Inflar la introducción para llegar al umbral
+    // general sería texto de relleno, que es exactamente lo contrario de lo que
+    // el umbral busca. La excepción va declarada y no silenciosa.
+    minPalabras: 350,
+  },
+  {
+    slug: 'blog/integrar-ecommerce-con-erp',
+    title: 'Integrar el eCommerce con el ERP: qué implica | INCBA',
+    description:
+      'Qué significa conectar tu tienda online con el sistema de gestión, qué decisiones hay que tomar antes y por qué casi nunca hace falta cambiar de sistema.',
+    date: '2026-08-12',
+    excerpt:
+      'Las horas de carga manual son el costo más visible y el que menos importa. Los otros dos son los errores y el desfasaje entre lo que pasó y lo que el sistema sabe.',
+    nav: null,
+    breadcrumb: 'Integrar el eCommerce con el ERP',
+    promoverH1: true,
+    sections: ['post-ecommerce-erp'],
+  },
+  {
+    slug: 'blog/stock-desincronizado-entre-canales',
+    title: 'Local y tienda online con stock desincronizado | INCBA',
+    description:
+      'Cuando el comercio físico y el canal online funcionan como dos negocios separados: por qué pasa, por qué no se arregla con disciplina y cómo se resuelve.',
+    date: '2026-08-12',
+    excerpt:
+      'Si para saber cuántas unidades tenés disponibles hay que mirar dos lugares y hacer una resta mental, ya tenés dos negocios en vez de uno.',
+    nav: null,
+    breadcrumb: 'Stock desincronizado entre canales',
+    promoverH1: true,
+    sections: ['post-stock'],
+  },
+  {
+    slug: 'blog/automatizar-procesos-en-una-pyme',
+    title: 'Qué conviene automatizar en una pyme, y qué no | INCBA',
+    description:
+      'La regla de tres condiciones para decidir qué tarea automatizar, los tres casos en los que automatizar sale mal, y cómo estimar el costo de no hacer nada.',
+    date: '2026-08-12',
+    excerpt:
+      'El error más común no es automatizar poco: es automatizar lo que no correspondía. Un proceso que nadie entiende del todo, automatizado, cristaliza el desorden.',
+    nav: null,
+    breadcrumb: 'Qué automatizar en una pyme',
+    promoverH1: true,
+    sections: ['post-automatizacion'],
+  },
+  {
+    slug: 'blog/preparar-tu-empresa-para-ia',
+    title: 'Preparar tu empresa para IA: el trabajo previo | INCBA',
+    description:
+      'La inteligencia artificial no se implementa sobre desorden. Qué significa consolidar, ordenar y hacer accesibles los datos, y por qué sirve con IA y sin IA.',
+    date: '2026-08-12',
+    excerpt:
+      'Consolidar los datos de tu empresa es una inversión que rinde con IA y sin IA. No estás apostando a que la tecnología cumpla: estás ordenando algo que hacía falta igual.',
+    nav: null,
+    breadcrumb: 'Preparar tu empresa para IA',
+    promoverH1: true,
+    sections: ['post-ia'],
   },
   {
     slug: 'contacto',

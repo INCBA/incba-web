@@ -66,6 +66,46 @@
     ]
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Cuál es la diferencia real con una software factory?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Una software factory ejecuta una especificación que le llega hecha. Nosotros empezamos por armar esa especificación: relevamos la operación antes de proponer tecnología. Cuando el pliego está mal desde el principio, ejecutarlo con precisión no salva el proyecto."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Son una agencia digital?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Una agencia trabaja sobre la capa visible: sitio, tienda, campañas. Nosotros trabajamos sobre la infraestructura que hay debajo. Si el stock de la tienda no coincide con el del depósito, ninguna mejora de la vidriera lo resuelve."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Un equipo de tres personas no es poco?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Para el tipo de proyecto que tomamos, es lo que permite que quien releva sea quien desarrolla, sin capas que degraden la información. Para proyectos que exceden esa capacidad lo decimos en la primera conversación en lugar de tomarlos igual."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué pasa si más adelante quiero cambiar de proveedor?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "La arquitectura queda documentada y se apoya en los sistemas que ya tenías, no en piezas propietarias nuestras. Es una decisión de diseño deliberada: la dependencia del proveedor es uno de los miedos más razonables que tiene un cliente de este rubro."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -89,7 +129,7 @@
         <a href="/por-que-incba" aria-current="page">Por qué INCBA</a>
         <a href="/equipo">Equipo</a>
         <a href="/partners">Partners</a>
-        <a href="/clientes">Clientes</a>
+        <a href="/blog">Blog</a>
         <a href="/contacto" class="btn btn-primary nav-cta">Conversemos</a>
       </div>
       <button class="nav-mobile-toggle" aria-label="Menú">
@@ -178,6 +218,76 @@
   </section>
 
   <!-- ==============================
+       POR QUÉ INCBA — desarrollo
+       ============================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-label">El posicionamiento</span>
+        <h2>Ni software factory,<br>ni agencia digital</h2>
+        <p class="section-subtitle">
+          La distinción no es de marketing. Cambia quién te atiende, qué se decide
+          y quién se hace cargo cuando algo no sale.
+        </p>
+      </div>
+
+      <div class="prosa fade-up">
+        <h3>Qué hace una software factory</h3>
+        <p>
+          Una software factory recibe una especificación y la construye. El modelo funciona
+          cuando el cliente ya sabe exactamente qué necesita: hay un pliego, se cotiza por
+          hora o por entregable, y el proveedor ejecuta. El problema aparece cuando la
+          especificación está mal desde el principio, que es lo habitual en empresas donde
+          nadie tiene una visión completa del ecosistema. Se construye con precisión algo
+          que no era lo que hacía falta, y nadie hizo nada mal según el contrato.
+        </p>
+
+        <h3>Qué hace una agencia digital</h3>
+        <p>
+          Una agencia trabaja sobre la capa visible: el sitio, la tienda, la campaña, la
+          presencia. Es un trabajo legítimo y necesario, pero opera arriba de la
+          infraestructura, no sobre ella. Cuando el problema es que el stock de la tienda
+          no coincide con el del depósito, ninguna mejora de la vidriera lo resuelve.
+        </p>
+
+        <h3>Qué hacemos nosotros</h3>
+        <p>
+          Empezamos por entender la operación antes de proponer tecnología. El Discovery
+          existe para eso: relevar cómo funciona realmente la empresa —no cómo debería—,
+          encontrar dónde se pierde tiempo y dónde se rompen los datos, y recién entonces
+          diseñar. Muchas veces la conclusión es que hace falta menos desarrollo del que el
+          cliente creía, y eso también lo decimos.
+        </p>
+
+        <h3>Equipo chico, involucramiento directo</h3>
+        <p>
+          Somos tres. No hay un vendedor que promete, un jefe de proyecto que traduce y un
+          desarrollador que nunca habló con vos. La persona que releva tu ecosistema es la
+          misma que después escribe el código, lo cual elimina de un saque la fuente de
+          error más común en este tipo de proyectos: la información que se degrada al pasar
+          por tres capas de intermediación.
+        </p>
+        <p>
+          Eso tiene una contracara que preferimos decir de frente: hay proyectos que
+          necesitan una estructura más grande que la nuestra. Cuando el volumen de horas
+          excede lo que podemos sostener con la dedicación que nos parece correcta, lo
+          planteamos en la primera conversación en lugar de tomar el trabajo igual y
+          estirarlo.
+        </p>
+
+        <h3>Estructura, no parches</h3>
+        <p>
+          «Diseñamos estructura donde otros conectan parches» no es una frase de campaña.
+          Un parche resuelve el síntoma de hoy y agrega una pieza más que mantener; a los
+          dos años, la suma de parches es más difícil de sostener que el problema original.
+          Diseñar estructura cuesta más al principio y bastante menos a los tres años, que
+          es el horizonte en el que conviene mirar una decisión de infraestructura.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
        MANIFESTO
        ============================== -->
   <section class="manifesto">
@@ -200,6 +310,33 @@
         operen como un solo sistema, con datos consistentes de punta a punta.
       </p>
       <div class="manifesto-cursor">_</div>
+    </div>
+  </section>
+
+  <section class="section section-alt faq">
+    <div class="container">
+      <div class="section-header center">
+        <span class="section-label">Preguntas frecuentes</span>
+        <h2>Lo que más nos preguntan</h2>
+      </div>
+      <div class="faq-lista">
+        <details class="faq-item">
+          <summary>¿Cuál es la diferencia real con una software factory?</summary>
+          <div class="faq-respuesta"><p>Una software factory ejecuta una especificación que le llega hecha. Nosotros empezamos por armar esa especificación: relevamos la operación antes de proponer tecnología. Cuando el pliego está mal desde el principio, ejecutarlo con precisión no salva el proyecto.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Son una agencia digital?</summary>
+          <div class="faq-respuesta"><p>No. Una agencia trabaja sobre la capa visible: sitio, tienda, campañas. Nosotros trabajamos sobre la infraestructura que hay debajo. Si el stock de la tienda no coincide con el del depósito, ninguna mejora de la vidriera lo resuelve.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Un equipo de tres personas no es poco?</summary>
+          <div class="faq-respuesta"><p>Para el tipo de proyecto que tomamos, es lo que permite que quien releva sea quien desarrolla, sin capas que degraden la información. Para proyectos que exceden esa capacidad lo decimos en la primera conversación en lugar de tomarlos igual.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Qué pasa si más adelante quiero cambiar de proveedor?</summary>
+          <div class="faq-respuesta"><p>La arquitectura queda documentada y se apoya en los sistemas que ya tenías, no en piezas propietarias nuestras. Es una decisión de diseño deliberada: la dependencia del proveedor es uno de los miedos más razonables que tiene un cliente de este rubro.</p></div>
+        </details>
+      </div>
     </div>
   </section>
 

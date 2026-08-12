@@ -66,6 +66,54 @@
     ]
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Hay que reemplazar los sistemas que ya tenemos?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Casi nunca. Trabajamos con arquitectura API, que integra lo que ya está funcionando en lugar de sustituirlo. Reemplazar un sistema central es el proyecto de mayor riesgo que puede encarar una empresa, y en la mayoría de los casos no hace falta."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cómo sé cuál de los seis servicios necesito?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No hace falta que lo sepas de antemano. El Discovery arranca justamente por ahí: relevamos el ecosistema y de ese diagnóstico sale qué conviene resolver y en qué orden. Llegar con el problema alcanza."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Trabajan con cualquier plataforma?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Trabajamos con cualquier sistema que exponga una API o permita integración por algún medio, que hoy es la enorme mayoría. Cuando un sistema es realmente cerrado, lo detectamos en el Discovery y lo decimos antes de proponer nada, no después."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué tamaño de empresa atienden?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "El límite no es el tamaño de la empresa sino el volumen de horas de desarrollo contra nuestra disponibilidad. Somos un equipo chico y senior: si un proyecto necesita una estructura mayor, lo planteamos en la primera conversación."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Se puede empezar por una parte y seguir después?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Es la forma en que trabajamos por defecto. El plan que sale del Discovery viene ordenado por fases y por criticidad, así se mantiene la operación andando y la inversión se reparte en el tiempo en lugar de concentrarse de una sola vez."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -89,7 +137,7 @@
         <a href="/por-que-incba">Por qué INCBA</a>
         <a href="/equipo">Equipo</a>
         <a href="/partners">Partners</a>
-        <a href="/clientes">Clientes</a>
+        <a href="/blog">Blog</a>
         <a href="/contacto" class="btn btn-primary nav-cta">Conversemos</a>
       </div>
       <button class="nav-mobile-toggle" aria-label="Menú">
@@ -177,6 +225,144 @@
           <p>Construimos soluciones a medida con tecnología moderna, alineadas a la estrategia del negocio. Cada desarrollo queda documentado y preparado para mantenerse en el tiempo.</p>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       SERVICIOS — desarrollo
+       ============================== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-label">En detalle</span>
+        <h2>Qué significa cada uno<br>en la práctica</h2>
+        <p class="section-subtitle">
+          Los seis se apoyan en la misma idea: integrar lo que ya tenés funcionando
+          en lugar de reemplazarlo de raíz.
+        </p>
+      </div>
+
+      <div class="prosa fade-up">
+        <h3>Integración de plataformas</h3>
+        <p>
+          Es el punto de partida de la mayoría de los proyectos. Tu tienda online, tu
+          sistema de gestión y tu herramienta de clientes suelen funcionar bien por
+          separado y pésimo en conjunto: el stock se carga dos veces, una venta online no
+          aparece en facturación hasta que alguien la copia a mano, y nadie sabe con
+          certeza cuántas unidades hay realmente disponibles. Conectamos esos sistemas para
+          que compartan datos en tiempo real, con reglas explícitas sobre cuál manda cuando
+          dos dicen cosas distintas.
+        </p>
+
+        <h3>Arquitectura API</h3>
+        <p>
+          Cuando hay más de dos sistemas en juego, conectarlos de a pares se vuelve
+          inmanejable: cada plataforma nueva obliga a construir tantas conexiones como
+          sistemas existentes. Diseñar una arquitectura de integración significa definir
+          una estructura donde cada sistema se conecta una sola vez, y sumar el próximo no
+          implica rehacer lo anterior. Es la diferencia entre una instalación eléctrica y
+          un montón de zapatillas encadenadas.
+        </p>
+
+        <h3>Modernización de sistemas</h3>
+        <p>
+          Muchas empresas tienen un sistema central que funciona, que conoce el negocio a
+          fondo y que nadie quiere tocar porque hace años que sostiene la operación.
+          Modernizar no es tirarlo y empezar de nuevo: es dejarlo funcionando y darle la
+          capacidad de comunicarse con el resto del ecosistema. Reemplazar un sistema
+          central es el proyecto de mayor riesgo que puede encarar una pyme, y casi nunca
+          es necesario.
+        </p>
+
+        <h3>Automatización de procesos</h3>
+        <p>
+          Toda empresa tiene tareas que consumen horas y no requieren criterio: pasar datos
+          de una planilla a un sistema, generar el mismo reporte cada lunes, conciliar dos
+          listados que deberían coincidir. Son tareas donde el error humano es cuestión de
+          tiempo, no de descuido. Automatizarlas libera horas del equipo y elimina una
+          fuente de errores que después cuesta caro rastrear.
+        </p>
+
+        <h3>Infraestructura para IA</h3>
+        <p>
+          La inteligencia artificial no se implementa sobre desorden: se construye sobre
+          datos integrados y accesibles. Antes de que un modelo pueda predecir demanda o
+          responder consultas, los datos tienen que estar consolidados, limpios y
+          disponibles por API. Ese trabajo previo es el que hacemos, y tiene valor con o
+          sin IA: una empresa con los datos ordenados toma mejores decisiones aunque nunca
+          entrene un modelo.
+        </p>
+
+        <h3>Desarrollo estratégico</h3>
+        <p>
+          A veces no hay software en el mercado que resuelva un proceso que es propio de tu
+          negocio y que además es tu ventaja competitiva. Ahí construimos a medida, pero
+          solo ahí: si existe una herramienta que lo resuelve, conviene integrarla antes
+          que desarrollarla. Desarrollar de más es la forma más cara de resolver un
+          problema que ya estaba resuelto.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       SERVICIOS — páginas propias
+       ============================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header center fade-up">
+        <span class="section-label">Más en detalle</span>
+        <h2>Servicios con página propia</h2>
+        <p class="section-subtitle">
+          Los dos por los que más nos consultan, explicados a fondo.
+        </p>
+      </div>
+      <div class="services-grid">
+
+        <a href="/servicios/integracion-de-plataformas" class="service-card resumen-card fade-up stagger-1">
+          <h3>Integración de plataformas</h3>
+          <p>Qué implica conectar tu tienda online, tu sistema de gestión y tu herramienta de clientes para que compartan datos en tiempo real.</p>
+          <span class="resumen-link">Ver el servicio</span>
+        </a>
+
+        <a href="/servicios/arquitectura-api" class="service-card resumen-card fade-up stagger-2">
+          <h3>Arquitectura API</h3>
+          <p>Por qué conectar sistemas de a pares deja de escalar, y cómo se diseña una estructura donde sumar el próximo no obliga a rehacer lo anterior.</p>
+          <span class="resumen-link">Ver el servicio</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt faq">
+    <div class="container">
+      <div class="section-header center">
+        <span class="section-label">Preguntas frecuentes</span>
+        <h2>Lo que más nos preguntan</h2>
+      </div>
+      <div class="faq-lista">
+        <details class="faq-item">
+          <summary>¿Hay que reemplazar los sistemas que ya tenemos?</summary>
+          <div class="faq-respuesta"><p>Casi nunca. Trabajamos con arquitectura API, que integra lo que ya está funcionando en lugar de sustituirlo. Reemplazar un sistema central es el proyecto de mayor riesgo que puede encarar una empresa, y en la mayoría de los casos no hace falta.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cómo sé cuál de los seis servicios necesito?</summary>
+          <div class="faq-respuesta"><p>No hace falta que lo sepas de antemano. El Discovery arranca justamente por ahí: relevamos el ecosistema y de ese diagnóstico sale qué conviene resolver y en qué orden. Llegar con el problema alcanza.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Trabajan con cualquier plataforma?</summary>
+          <div class="faq-respuesta"><p>Trabajamos con cualquier sistema que exponga una API o permita integración por algún medio, que hoy es la enorme mayoría. Cuando un sistema es realmente cerrado, lo detectamos en el Discovery y lo decimos antes de proponer nada, no después.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Qué tamaño de empresa atienden?</summary>
+          <div class="faq-respuesta"><p>El límite no es el tamaño de la empresa sino el volumen de horas de desarrollo contra nuestra disponibilidad. Somos un equipo chico y senior: si un proyecto necesita una estructura mayor, lo planteamos en la primera conversación.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Se puede empezar por una parte y seguir después?</summary>
+          <div class="faq-respuesta"><p>Es la forma en que trabajamos por defecto. El plan que sale del Discovery viene ordenado por fases y por criticidad, así se mantiene la operación andando y la inversión se reparte en el tiempo en lugar de concentrarse de una sola vez.</p></div>
+        </details>
       </div>
     </div>
   </section>

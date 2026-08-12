@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog de integración de sistemas y automatización | INCBA</title>
+  <meta name="description" content="Notas sobre integración de eCommerce, ERP y CRM, automatización de procesos e infraestructura para IA, escritas para quien decide y no para quien programa.">
+  <meta name="keywords" content="consultora tecnológica, integración empresarial, arquitectura API, automatización, inteligencia artificial, ERP, CRM, eCommerce, Argentina, Chile">
+  <meta name="author" content="INCBA Technology Consulting">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://incba.com.ar/blog">
+  <meta name="theme-color" content="#0B1C2D">
+
+  <!-- Versiones por país. El bloque es idéntico en incba.com.ar e incba.cl:
+       Google exige que las referencias sean recíprocas y que cada página
+       se incluya a sí misma, o descarta todo el grupo. -->
+  <link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/blog">
+  <link rel="alternate" hreflang="es-CL" href="https://incba.cl/blog">
+  <!-- Hispanohablante de otro país (MX, PE, ES...): cae en el sitio argentino. -->
+  <link rel="alternate" hreflang="es" href="https://incba.com.ar/blog">
+  <link rel="alternate" hreflang="x-default" href="https://incba.com.ar/blog">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Open Graph. Los enlaces se comparten sobre todo en LinkedIn, que es el
+       canal principal del plan de marketing: sin esto la tarjeta sale mal. -->
+  <meta property="og:title" content="Blog de integración de sistemas y automatización | INCBA">
+  <meta property="og:description" content="Notas sobre integración de eCommerce, ERP y CRM, automatización de procesos e infraestructura para IA, escritas para quien decide y no para quien programa.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://incba.com.ar/blog">
+  <meta property="og:image" content="https://incba.com.ar/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:locale:alternate" content="es_CL">
+  <meta property="og:site_name" content="INCBA">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog de integración de sistemas y automatización | INCBA">
+  <meta name="twitter:description" content="Notas sobre integración de eCommerce, ERP y CRM, automatización de procesos e infraestructura para IA, escritas para quien decide y no para quien programa.">
+  <meta name="twitter:image" content="https://incba.com.ar/img/og-image.jpg">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://incba.com.ar/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://incba.com.ar/blog"
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- ==============================
+       NAVIGATION
+       ============================== -->
+  <nav class="nav" id="nav">
+    <div class="container">
+      <a href="/" class="nav-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
+        <span class="logo-sub">Technology Consulting</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="/servicios">Servicios</a>
+        <a href="/proceso">Proceso</a>
+        <a href="/casos-de-exito">Casos de éxito</a>
+        <a href="/por-que-incba">Por qué INCBA</a>
+        <a href="/equipo">Equipo</a>
+        <a href="/partners">Partners</a>
+        <a href="/blog" aria-current="page">Blog</a>
+        <a href="/contacto" class="btn btn-primary nav-cta">Conversemos</a>
+      </div>
+      <button class="nav-mobile-toggle" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <main>
+  <div class="page-top">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Ruta de navegación">
+        <a href="/">Inicio</a>
+        <span class="sep" aria-hidden="true">›</span>
+        <span aria-current="page">Blog</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ==============================
+       BLOG — encabezado del índice
+       ============================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header center fade-up">
+        <span class="section-label">Blog</span>
+        <h1 class="h2">Integración de sistemas,<br>explicada sin vueltas</h1>
+        <p class="section-subtitle" style="margin: 0 auto;">
+          Notas sobre los problemas que aparecen cuando una empresa crece más rápido
+          que sus sistemas. Escritas para quien tiene que tomar la decisión, no para
+          quien va a escribir el código.
+        </p>
+      </div>
+
+      <div class="prosa fade-up" style="margin: 0 auto;">
+        <p>
+          Casi todo lo que escribimos acá sale de conversaciones reales con empresas que
+          llegaron al mismo punto por caminos distintos: crecieron, fueron sumando
+          herramientas a medida que las necesitaban, y en algún momento la suma dejó de
+          funcionar como conjunto. Nadie eligió tener los sistemas desconectados. Es el
+          resultado natural de resolver bien un problema por vez.
+        </p>
+        <p>
+          Los temas que tratamos son bastante concretos: qué implica conectar una tienda
+          online con un sistema de gestión, por qué el stock de dos canales termina siendo
+          dos números distintos, qué tareas conviene automatizar y cuáles no, y qué trabajo
+          hay que hacer antes de que la inteligencia artificial sirva para algo en una pyme.
+        </p>
+        <p>
+          Tratamos de evitar dos cosas. Una es el tecnicismo gratuito: si un concepto se
+          puede explicar en términos de negocio, se explica así. La otra son las promesas
+          sin respaldo. Cuando publiquemos cifras de resultado van a venir de proyectos
+          reales y verificadas con el cliente; mientras tanto preferimos escribir sobre
+          cómo funcionan las cosas antes que sobre lo bien que nos sale hacerlas.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section listado-blog">
+    <div class="container">
+      <ul class="post-list">
+        <li class="post-item">
+          <a href="/blog/integrar-ecommerce-con-erp">
+            <time datetime="2026-08-12">12 de agosto de 2026</time>
+            <h2>Integrar el eCommerce con el ERP</h2>
+            <p>Las horas de carga manual son el costo más visible y el que menos importa. Los otros dos son los errores y el desfasaje entre lo que pasó y lo que el sistema sabe.</p>
+            <span class="post-link">Leer la nota</span>
+          </a>
+        </li>
+        <li class="post-item">
+          <a href="/blog/stock-desincronizado-entre-canales">
+            <time datetime="2026-08-12">12 de agosto de 2026</time>
+            <h2>Stock desincronizado entre canales</h2>
+            <p>Si para saber cuántas unidades tenés disponibles hay que mirar dos lugares y hacer una resta mental, ya tenés dos negocios en vez de uno.</p>
+            <span class="post-link">Leer la nota</span>
+          </a>
+        </li>
+        <li class="post-item">
+          <a href="/blog/automatizar-procesos-en-una-pyme">
+            <time datetime="2026-08-12">12 de agosto de 2026</time>
+            <h2>Qué automatizar en una pyme</h2>
+            <p>El error más común no es automatizar poco: es automatizar lo que no correspondía. Un proceso que nadie entiende del todo, automatizado, cristaliza el desorden.</p>
+            <span class="post-link">Leer la nota</span>
+          </a>
+        </li>
+        <li class="post-item">
+          <a href="/blog/preparar-tu-empresa-para-ia">
+            <time datetime="2026-08-12">12 de agosto de 2026</time>
+            <h2>Preparar tu empresa para IA</h2>
+            <p>Consolidar los datos de tu empresa es una inversión que rinde con IA y sin IA. No estás apostando a que la tecnología cumpla: estás ordenando algo que hacía falta igual.</p>
+            <span class="post-link">Leer la nota</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a href="/" class="footer-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
+        <span class="logo-sub">Technology Consulting</span>
+      </a>
+      <span class="footer-copy">&copy; 2026 INCBA. Todos los derechos reservados.</span>
+      <span class="footer-tagline">Integración de sistemas, automatización e IA aplicada para empresas de Argentina y Chile</span>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

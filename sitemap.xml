@@ -22,6 +22,26 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://incba.com.ar/servicios/integracion-de-plataformas</loc>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/servicios/integracion-de-plataformas"/>
+    <xhtml:link rel="alternate" hreflang="es-CL" href="https://incba.cl/servicios/integracion-de-plataformas"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://incba.com.ar/servicios/integracion-de-plataformas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://incba.com.ar/servicios/integracion-de-plataformas"/>
+    <lastmod>2026-08-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://incba.com.ar/servicios/arquitectura-api</loc>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/servicios/arquitectura-api"/>
+    <xhtml:link rel="alternate" hreflang="es-CL" href="https://incba.cl/servicios/arquitectura-api"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://incba.com.ar/servicios/arquitectura-api"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://incba.com.ar/servicios/arquitectura-api"/>
+    <lastmod>2026-08-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://incba.com.ar/proceso</loc>
     <xhtml:link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/proceso"/>
     <xhtml:link rel="alternate" hreflang="es-CL" href="https://incba.cl/proceso"/>
@@ -78,6 +98,56 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://incba.com.ar/clientes"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://incba.com.ar/clientes"/>
     <lastmod>2026-08-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://incba.com.ar/blog</loc>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/blog"/>
+    <xhtml:link rel="alternate" hreflang="es-CL" href="https://incba.cl/blog"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://incba.com.ar/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://incba.com.ar/blog"/>
+    <lastmod>2026-08-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://incba.com.ar/blog/integrar-ecommerce-con-erp</loc>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/blog/integrar-ecommerce-con-erp"/>
+    <xhtml:link rel="alternate" hreflang="es-CL" href="https://incba.cl/blog/integrar-ecommerce-con-erp"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://incba.com.ar/blog/integrar-ecommerce-con-erp"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://incba.com.ar/blog/integrar-ecommerce-con-erp"/>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://incba.com.ar/blog/stock-desincronizado-entre-canales</loc>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/blog/stock-desincronizado-entre-canales"/>
+    <xhtml:link rel="alternate" hreflang="es-CL" href="https://incba.cl/blog/stock-desincronizado-entre-canales"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://incba.com.ar/blog/stock-desincronizado-entre-canales"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://incba.com.ar/blog/stock-desincronizado-entre-canales"/>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://incba.com.ar/blog/automatizar-procesos-en-una-pyme</loc>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/blog/automatizar-procesos-en-una-pyme"/>
+    <xhtml:link rel="alternate" hreflang="es-CL" href="https://incba.cl/blog/automatizar-procesos-en-una-pyme"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://incba.com.ar/blog/automatizar-procesos-en-una-pyme"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://incba.com.ar/blog/automatizar-procesos-en-una-pyme"/>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://incba.com.ar/blog/preparar-tu-empresa-para-ia</loc>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/blog/preparar-tu-empresa-para-ia"/>
+    <xhtml:link rel="alternate" hreflang="es-CL" href="https://incba.cl/blog/preparar-tu-empresa-para-ia"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://incba.com.ar/blog/preparar-tu-empresa-para-ia"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://incba.com.ar/blog/preparar-tu-empresa-para-ia"/>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

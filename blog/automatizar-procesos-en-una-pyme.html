@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qué conviene automatizar en una pyme, y qué no | INCBA</title>
+  <meta name="description" content="La regla de tres condiciones para decidir qué tarea automatizar, los tres casos en los que automatizar sale mal, y cómo estimar el costo de no hacer nada.">
+  <meta name="keywords" content="consultora tecnológica, integración empresarial, arquitectura API, automatización, inteligencia artificial, ERP, CRM, eCommerce, Argentina, Chile">
+  <meta name="author" content="INCBA Technology Consulting">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://incba.com.ar/blog/automatizar-procesos-en-una-pyme">
+  <meta name="theme-color" content="#0B1C2D">
+
+  <!-- Versiones por país. El bloque es idéntico en incba.com.ar e incba.cl:
+       Google exige que las referencias sean recíprocas y que cada página
+       se incluya a sí misma, o descarta todo el grupo. -->
+  <link rel="alternate" hreflang="es-AR" href="https://incba.com.ar/blog/automatizar-procesos-en-una-pyme">
+  <link rel="alternate" hreflang="es-CL" href="https://incba.cl/blog/automatizar-procesos-en-una-pyme">
+  <!-- Hispanohablante de otro país (MX, PE, ES...): cae en el sitio argentino. -->
+  <link rel="alternate" hreflang="es" href="https://incba.com.ar/blog/automatizar-procesos-en-una-pyme">
+  <link rel="alternate" hreflang="x-default" href="https://incba.com.ar/blog/automatizar-procesos-en-una-pyme">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Open Graph. Los enlaces se comparten sobre todo en LinkedIn, que es el
+       canal principal del plan de marketing: sin esto la tarjeta sale mal. -->
+  <meta property="og:title" content="Qué conviene automatizar en una pyme, y qué no | INCBA">
+  <meta property="og:description" content="La regla de tres condiciones para decidir qué tarea automatizar, los tres casos en los que automatizar sale mal, y cómo estimar el costo de no hacer nada.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://incba.com.ar/blog/automatizar-procesos-en-una-pyme">
+  <meta property="og:image" content="https://incba.com.ar/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:locale:alternate" content="es_CL">
+  <meta property="og:site_name" content="INCBA">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Qué conviene automatizar en una pyme, y qué no | INCBA">
+  <meta name="twitter:description" content="La regla de tres condiciones para decidir qué tarea automatizar, los tres casos en los que automatizar sale mal, y cómo estimar el costo de no hacer nada.">
+  <meta name="twitter:image" content="https://incba.com.ar/img/og-image.jpg">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://incba.com.ar/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://incba.com.ar/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Qué automatizar en una pyme",
+        "item": "https://incba.com.ar/blog/automatizar-procesos-en-una-pyme"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Qué automatizar en una pyme",
+    "description": "El error más común no es automatizar poco: es automatizar lo que no correspondía. Un proceso que nadie entiende del todo, automatizado, cristaliza el desorden.",
+    "datePublished": "2026-08-12",
+    "dateModified": "2026-08-12",
+    "inLanguage": "es-AR",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://incba.com.ar/blog/automatizar-procesos-en-una-pyme"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "INCBA Technology Consulting",
+      "url": "https://incba.com.ar"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "INCBA Technology Consulting",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://incba.com.ar/img/logo-light.png"
+      }
+    },
+    "image": "https://incba.com.ar/img/og-image.jpg"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- ==============================
+       NAVIGATION
+       ============================== -->
+  <nav class="nav" id="nav">
+    <div class="container">
+      <a href="/" class="nav-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
+        <span class="logo-sub">Technology Consulting</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="/servicios">Servicios</a>
+        <a href="/proceso">Proceso</a>
+        <a href="/casos-de-exito">Casos de éxito</a>
+        <a href="/por-que-incba">Por qué INCBA</a>
+        <a href="/equipo">Equipo</a>
+        <a href="/partners">Partners</a>
+        <a href="/blog">Blog</a>
+        <a href="/contacto" class="btn btn-primary nav-cta">Conversemos</a>
+      </div>
+      <button class="nav-mobile-toggle" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <main>
+  <div class="page-top">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Ruta de navegación">
+        <a href="/">Inicio</a>
+        <span class="sep" aria-hidden="true">›</span>
+        <a href="/blog">Blog</a>
+        <span class="sep" aria-hidden="true">›</span>
+        <span aria-current="page">Qué automatizar en una pyme</span>
+      </nav>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <article class="articulo fade-up">
+        <h1 class="h2">Qué conviene automatizar en una pyme (y qué no)</h1>
+
+        <p>
+          «Automatizar procesos» suena a proyecto grande, caro y para empresas con
+          departamento de sistemas. En la práctica, en una pyme, casi siempre empieza por
+          algo mucho más chico: una tarea puntual que alguien hace todas las semanas, que no
+          requiere criterio y que nadie quiere hacer.
+        </p>
+        <p>
+          El error más común no es automatizar poco. Es automatizar lo que no correspondía.
+        </p>
+
+        <h2>La regla para decidir qué automatizar</h2>
+        <p>
+          Una tarea es buena candidata cuando cumple tres condiciones al mismo tiempo:
+        </p>
+        <ul>
+          <li>
+            <strong>Es repetitiva y sigue reglas claras.</strong> Si podés explicar cómo se
+            hace en cinco pasos y siempre son los mismos cinco, se puede automatizar. Si la
+            explicación empieza con «depende», todavía no.
+          </li>
+          <li>
+            <strong>Ocurre seguido.</strong> Algo que se hace una vez por trimestre rara vez
+            justifica el trabajo de automatizarlo, aunque sea tedioso.
+          </li>
+          <li>
+            <strong>El error tiene consecuencias.</strong> Si equivocarse cuesta caro o se
+            descubre tarde, automatizar vale más que las horas que ahorra.
+          </li>
+        </ul>
+        <p>
+          Los candidatos habituales son bastante aburridos, y eso es buena señal: pasar
+          datos de un sistema a otro, generar el mismo reporte cada lunes, conciliar dos
+          listados que deberían coincidir, mandar el mismo aviso cada vez que pasa lo mismo.
+        </p>
+
+        <h2>Qué conviene no automatizar</h2>
+        <p>
+          Hay tres casos donde automatizar sale mal con bastante consistencia.
+        </p>
+        <p>
+          <strong>Procesos que nadie entiende del todo.</strong> Si el proceso actual es un
+          desorden que funciona porque tres personas lo compensan sobre la marcha,
+          automatizarlo cristaliza el desorden y lo vuelve más difícil de arreglar. Primero
+          hay que entenderlo y ordenarlo; después, si sigue teniendo sentido, automatizarlo.
+        </p>
+        <p>
+          <strong>Decisiones que requieren criterio.</strong> Aprobar una excepción a un
+          cliente histórico, decidir si conviene aceptar un pedido fuera de término. Se
+          puede automatizar el trámite alrededor de la decisión, pero no la decisión.
+        </p>
+        <p>
+          <strong>Procesos que están por cambiar.</strong> Si el área va a reorganizarse en
+          tres meses, automatizar hoy es trabajo que se tira.
+        </p>
+
+        <h2>Empezar chico, y que se note</h2>
+        <p>
+          La forma que mejor funciona es empezar por una automatización acotada y visible,
+          en un proceso que le duela a alguien concreto. Tiene dos ventajas sobre el
+          proyecto grande: el resultado se ve en semanas y no en meses, y el equipo empieza
+          a confiar en que esto sirve.
+        </p>
+        <p>
+          Eso último importa más de lo que parece. La resistencia al cambio en una pyme rara
+          vez es ideológica: es gente que ya vio una implementación que prometía mucho y
+          terminó generando más trabajo del que sacó. Una primera automatización chica que
+          funciona bien es el mejor argumento para la segunda.
+        </p>
+
+        <h2>Cómo se ve una automatización por dentro</h2>
+        <p>
+          Conviene desarmar un poco la palabra, porque «automatizar» abarca cosas muy
+          distintas en esfuerzo y en riesgo.
+        </p>
+        <p>
+          <strong>El caso más simple es mover datos.</strong> Un sistema genera información
+          y otro la necesita: pedidos que tienen que entrar a la gestión, pagos que hay que
+          conciliar, altas de clientes que se cargan en dos lados. Acá no hay lógica
+          complicada, hay plomería. Es donde más horas se recuperan por unidad de esfuerzo y
+          por eso suele ser el mejor lugar para empezar.
+        </p>
+        <p>
+          <strong>Después están las reglas.</strong> «Si un pedido supera tal monto,
+          avisar»; «si un producto baja de tal stock, generar la orden de reposición». Acá
+          ya hay criterio de negocio incorporado, y el trabajo difícil no es programarlo:
+          es ponerse de acuerdo internamente sobre cuál es la regla. Es habitual descubrir
+          en esta etapa que dos áreas venían aplicando criterios distintos sin saberlo.
+        </p>
+        <p>
+          <strong>Y por último están los procesos completos</strong>, que encadenan varios
+          pasos y varios sistemas. Son los que más impacto tienen y los que conviene dejar
+          para cuando los dos anteriores ya funcionan, porque dependen de que los datos
+          estén ordenados.
+        </p>
+
+        <h2>Lo que hay que decidir antes de automatizar</h2>
+        <p>
+          Tres preguntas que parecen menores y definen si la automatización va a sobrevivir
+          al primer imprevisto:
+        </p>
+        <ul>
+          <li>
+            <strong>¿Qué pasa cuando falla?</strong> Un proceso automático que se cae en
+            silencio es peor que no tenerlo, porque nadie se entera hasta que el daño está
+            hecho. Tiene que avisar, y tiene que avisarle a alguien que pueda actuar.
+          </li>
+          <li>
+            <strong>¿Quién lo controla?</strong> Automatizar no es olvidarse. Alguien tiene
+            que mirar de vez en cuando que siga haciendo lo que se espera, sobre todo
+            después de que cambie algo en los sistemas que toca.
+          </li>
+          <li>
+            <strong>¿Se puede desactivar?</strong> Tiene que haber una forma de volver al
+            proceso manual si hace falta, aunque sea temporalmente. Un proceso automático
+            sin freno de mano es un riesgo operativo.
+          </li>
+        </ul>
+
+        <h2>El costo de no hacer nada</h2>
+        <p>
+          Es el más difícil de ver porque no aparece en ninguna factura. Está repartido en
+          horas de gente calificada haciendo tareas mecánicas, en errores que se descubren
+          tarde, y en decisiones que se postergan porque conseguir la información cuesta
+          demasiado.
+        </p>
+        <p>
+          Una forma práctica de estimarlo: pensá en la tarea repetitiva que más horas se
+          lleva en tu empresa, multiplicá por las semanas del año, y preguntate qué otra
+          cosa podría estar haciendo esa persona con ese tiempo. El número casi siempre
+          sorprende, y es la comparación honesta contra el costo de automatizarla.
+        </p>
+
+        <div class="post-cta">
+          <p>
+            Si hay una tarea que tu equipo repite todas las semanas y nadie quiere
+            hacer, probablemente sea el mejor lugar para empezar.
+          </p>
+          <div class="enlaces-botones">
+            <a href="/servicios" class="btn btn-primary">Ver los servicios</a>
+            <a href="/proceso" class="btn btn-outline">Cómo trabajamos</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a href="/" class="footer-logo">
+        <div class="logo-img-wrap"><img src="/img/logo-light.png" alt="INCBA"></div>
+        <span class="logo-sub">Technology Consulting</span>
+      </a>
+      <span class="footer-copy">&copy; 2026 INCBA. Todos los derechos reservados.</span>
+      <span class="footer-tagline">Integración de sistemas, automatización e IA aplicada para empresas de Argentina y Chile</span>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
