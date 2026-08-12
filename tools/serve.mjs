@@ -13,14 +13,16 @@
 
 import { createServer } from 'node:http'
 import { readFileSync, existsSync, statSync } from 'node:fs'
-import { join, extname, dirname, normalize } from 'node:path'
+import { join, resolve, extname, dirname, normalize } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 const args = process.argv.slice(2)
 const port = Number((args.find((a) => a.startsWith('--port=')) || '--port=8080').split('=')[1])
-const base = join(ROOT, args.find((a) => !a.startsWith('--')) || 'dist-ar')
+// resolve y no join: join('/repo', '/tmp/x') da '/repo/tmp/x' y rompe con
+// cualquier ruta absoluta.
+const base = resolve(ROOT, args.find((a) => !a.startsWith('--')) || 'dist-ar')
 
 // Servir una carpeta que no existe devolvía 404 en todo, en silencio. Es un
 // modo de fallo caro: en CI parece que el sitio está roto cuando lo que falta
