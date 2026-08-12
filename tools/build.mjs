@@ -31,6 +31,14 @@ const SRC = join(ROOT, 'src')
  */
 const LASTMOD = '2026-08-11'
 
+/**
+ * Piso de palabras de contenido por página. No es un número mágico de Google:
+ * es el umbral por debajo del cual una página no tiene material suficiente para
+ * competir por ningún término. Las nueve páginas nacieron entre 31 y 460
+ * palabras, y esa es la razón de existir de esta tanda de contenido.
+ */
+const MINIMO_PALABRAS = 450
+
 const KEYWORDS_BASE =
   'consultora tecnológica, integración empresarial, arquitectura API, automatización, ' +
   'inteligencia artificial, ERP, CRM, eCommerce'
@@ -117,15 +125,53 @@ function jsonLd(site, page) {
     blocks.push({
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${site.host}/` },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: page.breadcrumb,
-          item: urlOf(site, page.slug),
+      itemListElement: trailOf(page).map((n, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: n.name,
+        item: n.path ? `${site.host}${n.path === '/' ? '/' : n.path}` : urlOf(site, page.slug),
+      })),
+    })
+  }
+
+  // Artículos del blog. `datePublished` es la señal que Google usa para mostrar
+  // la fecha en el resultado; sin ella un artículo nuevo no se distingue de uno
+  // de hace tres años.
+  if (page.slug.startsWith('blog/')) {
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: page.h1 || page.breadcrumb,
+      description: fill(page.excerpt, { countryPair: site.countryPair }),
+      datePublished: page.date,
+      dateModified: page.updated || page.date,
+      inLanguage: site.lang,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': urlOf(site, page.slug) },
+      author: { '@type': 'Organization', name: 'INCBA Technology Consulting', url: site.host },
+      publisher: {
+        '@type': 'Organization',
+        name: 'INCBA Technology Consulting',
+        logo: { '@type': 'ImageObject', url: `${site.host}/img/logo-light.png` },
+      },
+      image: `${site.host}/img/og-image.jpg`,
+    })
+  }
+
+  // FAQPage es el que puede dar rich snippets: gana superficie en el resultado
+  // sin necesidad de ganar posición. Las preguntas tienen que ser las mismas que
+  // están visibles en la página, o Google lo toma como marcado engañoso.
+  if (page.faq?.length) {
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: page.faq.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: f.a.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(),
         },
-      ],
+      })),
     })
   }
 
@@ -143,18 +189,115 @@ function navLinks(currentSlug) {
     .join('\n')
 }
 
+/**
+ * Cadena de breadcrumbs de una página, derivada del slug. `/servicios/arquitectura-api`
+ * da Inicio › Servicios › Arquitectura API, buscando el ancestro en PAGES para
+ * usar su nombre y no una versión adivinada del slug.
+ *
+ * Devuelve [{ name, path }], con la página actual al final y sin `path`.
+ */
+function trailOf(page) {
+  if (!page.breadcrumb) return []
+  const trail = [{ name: 'Inicio', path: '/' }]
+  const partes = page.slug.split('/')
+  for (let i = 0; i < partes.length - 1; i++) {
+    const slugPadre = partes.slice(0, i + 1).join('/')
+    const padre = PAGES.find((p) => p.slug === slugPadre)
+    if (!padre) throw new Error(`/${page.slug}: falta la página madre /${slugPadre}`)
+    trail.push({ name: padre.breadcrumb || padre.nav, path: pathOf(slugPadre) })
+  }
+  trail.push({ name: page.breadcrumb })
+  return trail
+}
+
 function breadcrumbs(page) {
-  if (!page.breadcrumb) return ''
+  const trail = trailOf(page)
+  if (!trail.length) return ''
+  const items = trail
+    .map((n, i) => {
+      const sep = i ? '\n        <span class="sep" aria-hidden="true">›</span>' : ''
+      const nodo = n.path
+        ? `<a href="${n.path}">${esc(n.name)}</a>`
+        : `<span aria-current="page">${esc(n.name)}</span>`
+      return `${sep}\n        ${nodo}`
+    })
+    .join('')
   return `  <div class="page-top">
     <div class="container">
-      <nav class="breadcrumbs" aria-label="Ruta de navegación">
-        <a href="/">Inicio</a>
-        <span class="sep" aria-hidden="true">›</span>
-        <span aria-current="page">${esc(page.breadcrumb)}</span>
+      <nav class="breadcrumbs" aria-label="Ruta de navegación">${items}
       </nav>
     </div>
   </div>
 
+`
+}
+
+/**
+ * Índice del blog: se genera desde PAGES en vez de mantenerse a mano, así sumar
+ * un artículo es agregar una entrada y nada más.
+ */
+function listadoBlog() {
+  const posts = PAGES.filter((p) => p.slug.startsWith('blog/')).sort((a, b) =>
+    b.date.localeCompare(a.date)
+  )
+  const items = posts
+    .map(
+      (p) => `
+        <li class="post-item">
+          <a href="${pathOf(p.slug)}">
+            <time datetime="${p.date}">${fechaLarga(p.date)}</time>
+            <h2>${esc(p.h1 || p.breadcrumb)}</h2>
+            <p>${esc(p.excerpt)}</p>
+            <span class="post-link">Leer la nota</span>
+          </a>
+        </li>`
+    )
+    .join('')
+  return `  <section class="section listado-blog">
+    <div class="container">
+      <ul class="post-list">${items}
+      </ul>
+    </div>
+  </section>
+`
+}
+
+const MESES = [
+  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
+]
+
+function fechaLarga(iso) {
+  const [a, m, d] = iso.split('-')
+  return `${Number(d)} de ${MESES[Number(m) - 1]} de ${a}`
+}
+
+/**
+ * Bloque de preguntas frecuentes. El markup usa <details>, que abre y cierra sin
+ * una línea de JavaScript y queda accesible por defecto; el contenido está en el
+ * HTML servido, que es lo que el crawler necesita ver.
+ */
+function faqBlock(faq) {
+  if (!faq) return ''
+  const items = faq
+    .map(
+      (f) => `
+        <details class="faq-item">
+          <summary>${esc(f.q)}</summary>
+          <div class="faq-respuesta">${f.a}</div>
+        </details>`
+    )
+    .join('')
+  return `  <section class="section section-alt faq">
+    <div class="container">
+      <div class="section-header center">
+        <span class="section-label">Preguntas frecuentes</span>
+        <h2>Lo que más nos preguntan</h2>
+      </div>
+      <div class="faq-lista">${items}
+      </div>
+    </div>
+  </section>
 `
 }
 
@@ -197,6 +340,11 @@ function buildPage(site, page, sections, partials) {
 
   let body = page.sections
     .map((name) => {
+      // Secciones generadas, no archivos. Van como marcador dentro de `sections`
+      // para que cada página decida dónde se ubican: la FAQ suele ir antes de
+      // los enlaces relacionados, no al final de todo.
+      if (name === ':listado-blog') return listadoBlog()
+      if (name === ':faq') return faqBlock(page.faq)
       if (!(name in sections)) throw new Error(`falta src/sections/${name}.html (página /${page.slug})`)
       return sections[name]
     })
@@ -241,7 +389,19 @@ function buildPage(site, page, sections, partials) {
     vars
   )
 
-  return { title, description, canonical: urlOf(site, page.slug), html }
+  return { title, description, canonical: urlOf(site, page.slug), html, faq: page.faq, page }
+}
+
+/** Palabras de texto visible, sin nav, pie, scripts ni SVG: lo que Google lee. */
+function contarPalabras(html) {
+  const t = html
+    .replace(/<(script|style|svg)\b[\s\S]*?<\/\1>/g, ' ')
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<head\b[\s\S]*?<\/head>/g, ' ')
+    .replace(/<nav\b[\s\S]*?<\/nav>/g, ' ')
+    .replace(/<footer\b[\s\S]*?<\/footer>/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
+  return t.split(/\s+/).filter(Boolean).length
 }
 
 // ----------------------------------------------------------------- validación
@@ -284,6 +444,31 @@ function validate(site, built) {
       if (!page.html.includes(`id="${id.slice(1)}"`)) {
         problems.push(`${ruta}: enlace a ${id} pero esa sección no está en esta página`)
       }
+    }
+
+    // El motivo de toda esta tanda de contenido: una página por debajo del
+    // umbral no compite por nada. Se mide, no se estima.
+    const palabras = contarPalabras(page.html)
+    if (palabras < MINIMO_PALABRAS) {
+      problems.push(`${ruta}: ${palabras} palabras de contenido (mínimo ${MINIMO_PALABRAS})`)
+    }
+
+    // El marcado de FAQ tiene que coincidir con lo que se ve en la página.
+    // Declarar preguntas que no están visibles es marcado engañoso y Google
+    // penaliza el sitio entero, no la página.
+    for (const f of page.faq || []) {
+      if (!page.html.includes(`<summary>${esc(f.q)}</summary>`)) {
+        problems.push(`${ruta}: la pregunta "${f.q.slice(0, 40)}…" está en el JSON-LD pero no en el HTML`)
+      }
+    }
+
+    // Sin fecha, un artículo nuevo no se distingue de uno viejo en el resultado
+    // de búsqueda; sin excerpt, el índice del blog queda mudo.
+    if (slug.startsWith('blog/')) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(page.page.date || '')) {
+        problems.push(`${ruta}: falta la fecha o no tiene formato AAAA-MM-DD`)
+      }
+      if (!page.page.excerpt) problems.push(`${ruta}: falta el excerpt para el índice del blog`)
     }
   }
 
@@ -332,7 +517,7 @@ function sitemapXml(site) {
     <xhtml:link rel="alternate" hreflang="es-CL" href="${cl}"/>
     <xhtml:link rel="alternate" hreflang="es" href="${ar}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${ar}"/>
-    <lastmod>${LASTMOD}</lastmod>
+    <lastmod>${p.date || LASTMOD}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>${p.slug === '' ? '1.0' : '0.8'}</priority>
   </url>`
@@ -388,7 +573,11 @@ export function build({ siteId, out }) {
   }
 
   for (const [slug, page] of built) {
-    writeFileSync(join(dir, slug ? `${slug}.html` : 'index.html'), page.html)
+    const archivo = join(dir, slug ? `${slug}.html` : 'index.html')
+    // Slugs anidados como servicios/arquitectura-api o blog/<nota>: hay que
+    // crear la carpeta antes de escribir.
+    mkdirSync(dirname(archivo), { recursive: true })
+    writeFileSync(archivo, page.html)
   }
   writeFileSync(join(dir, 'robots.txt'), robotsTxt(site))
   if (site.sitemap) writeFileSync(join(dir, 'sitemap.xml'), sitemapXml(site))
