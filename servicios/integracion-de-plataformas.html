@@ -82,7 +82,7 @@
         "name": "¿Cuánto tarda una integración de este tipo?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Depende de cuántos sistemas hay, de qué tan accesibles son sus datos y de cuántas reglas de negocio particulares tenga la operación. El Discovery termina justamente con esa estimación en horas por fase, en lugar de un rango dicho de antemano que después no se sostiene."
+          "text": "Depende de cuántos sistemas hay, de qué tan accesibles son sus datos y de cuántas reglas de negocio particulares tenga la operación. El diagnóstico termina justamente con esa estimación, en horas por etapa, en lugar de un rango dicho de antemano que después no se sostiene."
         }
       },
       {
@@ -90,7 +90,7 @@
         "name": "¿Qué pasa si uno de los sistemas se cae?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Se contempla desde el diseño. Una integración seria define qué se reintenta, qué se encola y qué se avisa cuando un sistema no responde, para que una caída temporal no se convierta en datos perdidos."
+          "text": "Se contempla desde el diseño. Una integración seria define qué se vuelve a intentar, qué queda en espera y qué dispara un aviso cuando un sistema no responde, para que una caída temporal no se convierta en datos perdidos."
         }
       },
       {
@@ -185,12 +185,12 @@
         <p>
           Conectamos los sistemas para que compartan datos sin intervención humana. Eso
           implica varias definiciones que no son técnicas sino de negocio, y por eso salen
-          del Discovery:
+          del diagnóstico:
         </p>
         <ul class="lista-check">
-          <li><strong>Cuál es la fuente de verdad</strong> de cada dato. Si la tienda y la gestión dicen cosas distintas sobre el stock de un producto, hay que haber decidido de antemano cuál manda.</li>
+          <li><strong>Cuál de los dos tiene razón</strong> con cada dato. Si la tienda y la gestión dicen cosas distintas sobre el stock de un producto, hay que haber decidido de antemano cuál manda.</li>
           <li><strong>Con qué frecuencia</strong> viaja cada dato. No todo necesita tiempo real: el stock sí, el catálogo de productos probablemente no.</li>
-          <li><strong>Qué pasa cuando algo falla.</strong> Una integración seria contempla que un sistema no responda, y define si se reintenta, se encola o se avisa.</li>
+          <li><strong>Qué pasa cuando algo falla.</strong> Una integración seria contempla que un sistema no responda, y define si se vuelve a intentar, queda en espera o se avisa.</li>
           <li><strong>Qué se registra</strong> para poder auditar después. Cuando un dato aparece mal, hay que poder reconstruir de dónde vino.</li>
         </ul>
 
@@ -225,11 +225,11 @@
       <div class="faq-lista">
         <details class="faq-item">
           <summary>¿Cuánto tarda una integración de este tipo?</summary>
-          <div class="faq-respuesta"><p>Depende de cuántos sistemas hay, de qué tan accesibles son sus datos y de cuántas reglas de negocio particulares tenga la operación. El Discovery termina justamente con esa estimación en horas por fase, en lugar de un rango dicho de antemano que después no se sostiene.</p></div>
+          <div class="faq-respuesta"><p>Depende de cuántos sistemas hay, de qué tan accesibles son sus datos y de cuántas reglas de negocio particulares tenga la operación. El diagnóstico termina justamente con esa estimación, en horas por etapa, en lugar de un rango dicho de antemano que después no se sostiene.</p></div>
         </details>
         <details class="faq-item">
           <summary>¿Qué pasa si uno de los sistemas se cae?</summary>
-          <div class="faq-respuesta"><p>Se contempla desde el diseño. Una integración seria define qué se reintenta, qué se encola y qué se avisa cuando un sistema no responde, para que una caída temporal no se convierta en datos perdidos.</p></div>
+          <div class="faq-respuesta"><p>Se contempla desde el diseño. Una integración seria define qué se vuelve a intentar, qué queda en espera y qué dispara un aviso cuando un sistema no responde, para que una caída temporal no se convierta en datos perdidos.</p></div>
         </details>
         <details class="faq-item">
           <summary>¿Hay que migrar los datos que ya tenemos?</summary>

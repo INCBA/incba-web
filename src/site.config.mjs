@@ -123,11 +123,11 @@ export const PAGES = [
       },
       {
         q: '¿Cómo sé cuál de los seis servicios necesito?',
-        a: '<p>No hace falta que lo sepas de antemano. El Discovery arranca justamente por ahí: relevamos el ecosistema y de ese diagnóstico sale qué conviene resolver y en qué orden. Llegar con el problema alcanza.</p>',
+        a: '<p>No hace falta que lo sepas de antemano. El diagnóstico arranca justamente por ahí: miramos qué sistemas tenés y de ahí sale qué conviene resolver y en qué orden. Llegar con el problema alcanza.</p>',
       },
       {
         q: '¿Trabajan con cualquier plataforma?',
-        a: '<p>Trabajamos con cualquier sistema que exponga una API o permita integración por algún medio, que hoy es la enorme mayoría. Cuando un sistema es realmente cerrado, lo detectamos en el Discovery y lo decimos antes de proponer nada, no después.</p>',
+        a: '<p>Trabajamos con cualquier sistema que exponga una API o permita integración por algún medio, que hoy es la enorme mayoría. Cuando un sistema es realmente cerrado, lo detectamos en el diagnóstico y lo decimos antes de proponer nada, no después.</p>',
       },
       {
         q: '¿Qué tamaño de empresa atienden?',
@@ -135,7 +135,7 @@ export const PAGES = [
       },
       {
         q: '¿Se puede empezar por una parte y seguir después?',
-        a: '<p>Es la forma en que trabajamos por defecto. El plan que sale del Discovery viene ordenado por fases y por criticidad, así se mantiene la operación andando y la inversión se reparte en el tiempo en lugar de concentrarse de una sola vez.</p>',
+        a: '<p>Es la forma en que trabajamos por defecto. El plan que sale del diagnóstico viene ordenado por etapas, empezando por lo que más urge, así se mantiene la operación andando y la inversión se reparte en el tiempo en lugar de concentrarse de una sola vez.</p>',
       },
     ],
   },
@@ -155,11 +155,11 @@ export const PAGES = [
     faq: [
       {
         q: '¿Cuánto tarda una integración de este tipo?',
-        a: '<p>Depende de cuántos sistemas hay, de qué tan accesibles son sus datos y de cuántas reglas de negocio particulares tenga la operación. El Discovery termina justamente con esa estimación en horas por fase, en lugar de un rango dicho de antemano que después no se sostiene.</p>',
+        a: '<p>Depende de cuántos sistemas hay, de qué tan accesibles son sus datos y de cuántas reglas de negocio particulares tenga la operación. El diagnóstico termina justamente con esa estimación, en horas por etapa, en lugar de un rango dicho de antemano que después no se sostiene.</p>',
       },
       {
         q: '¿Qué pasa si uno de los sistemas se cae?',
-        a: '<p>Se contempla desde el diseño. Una integración seria define qué se reintenta, qué se encola y qué se avisa cuando un sistema no responde, para que una caída temporal no se convierta en datos perdidos.</p>',
+        a: '<p>Se contempla desde el diseño. Una integración seria define qué se vuelve a intentar, qué queda en espera y qué dispara un aviso cuando un sistema no responde, para que una caída temporal no se convierta en datos perdidos.</p>',
       },
       {
         q: '¿Hay que migrar los datos que ya tenemos?',
@@ -179,7 +179,7 @@ export const PAGES = [
     faq: [
       {
         q: '¿Necesito una arquitectura o me alcanza con integrar de a dos?',
-        a: '<p>Con dos sistemas y sin planes de sumar más, la integración directa es la decisión correcta y diseñar una arquitectura sería sobreingeniería. Conviene a partir de tres sistemas, o cuando las integraciones existentes ya se volvieron difíciles de mantener.</p>',
+        a: '<p>Con dos sistemas y sin planes de sumar más, la integración directa es la decisión correcta y diseñar una arquitectura completa sería gastar de más. Conviene a partir de tres sistemas, o cuando las integraciones existentes ya se volvieron difíciles de mantener.</p>',
       },
       {
         q: '¿Sirve si tengo sistemas viejos que no tienen API?',
@@ -202,15 +202,15 @@ export const PAGES = [
     sections: ['proceso', ':faq', 'proceso-enlaces'],
     // Las preguntas salen de los miedos documentados en los arquetipos del plan
     // de marketing, no de suposiciones. Ninguna respuesta lleva cifras: los
-    // valores concretos (precio del Discovery, plazos típicos) todavía no están
+    // valores concretos (precio del diagnóstico, plazos típicos) todavía no están
     // confirmados y no se inventan.
     faq: [
       {
-        q: '¿El Discovery se cobra?',
-        a: '<p>Sí. La primera conversación no tiene costo y sirve para entender si hay encaje. El Discovery es trabajo de relevamiento —documentar tu ecosistema, calcular horas, armar el plan por fases— y se cotiza aparte. El informe que sale de ahí queda en tu poder.</p>',
+        q: '¿El diagnóstico se cobra?',
+        a: '<p>Sí. La primera charla no tiene costo y sirve para ver si hay encaje. El diagnóstico es trabajo de relevamiento —documentar cómo trabajás hoy, calcular horas, armar el plan por etapas— y se cotiza aparte. El informe que sale de ahí queda en tu poder.</p>',
       },
       {
-        q: '¿Qué pasa si después del Discovery decido no seguir?',
+        q: '¿Qué pasa si después del diagnóstico decido no seguir?',
         a: '<p>Te quedás con el informe igual. Pagaste por el relevamiento, así que el documento es tuyo: el mapa de tu ecosistema y el plan de trabajo los podés usar internamente o con otro equipo. No hay cláusula que lo impida.</p>',
       },
       {
@@ -267,7 +267,7 @@ export const PAGES = [
     faq: [
       {
         q: '¿Cuál es la diferencia real con una software factory?',
-        a: '<p>Una software factory ejecuta una especificación que le llega hecha. Nosotros empezamos por armar esa especificación: relevamos la operación antes de proponer tecnología. Cuando el pliego está mal desde el principio, ejecutarlo con precisión no salva el proyecto.</p>',
+        a: '<p>Una software factory ejecuta una especificación que le llega hecha. Nosotros empezamos por armar esa especificación: relevamos la operación antes de proponer tecnología. Cuando el pedido está mal planteado desde el principio, ejecutarlo con precisión no salva el proyecto.</p>',
       },
       {
         q: '¿Son una agencia digital?',
@@ -440,7 +440,7 @@ export const PAGES = [
     slug: 'contacto',
     // El brief de SEO fijó estos dos literales como "diagnóstico sin costo",
     // pero se escribieron sin conocer el modelo comercial: el diagnóstico ES el
-    // Discovery, y el Discovery se cobra. Lo gratuito es la primera conversación.
+    // diagnóstico completo, y ese se cobra. Lo gratuito es la primera charla.
     // Prometer gratis algo que se factura obliga a desdecirse en la primera
     // llamada, justo con una audiencia cuyo miedo declarado es que le vendan humo.
     title: 'Contacto y primera consulta sin costo | INCBA',
@@ -453,7 +453,7 @@ export const PAGES = [
     faq: [
       {
         q: '¿La primera consulta tiene costo?',
-        a: '<p>No. Es una conversación para entender tu situación y ver si hay encaje. El Discovery, que es el relevamiento formal con informe y propuesta, sí se cotiza aparte.</p>',
+        a: '<p>No. Es una conversación para entender tu situación y ver si hay encaje. El diagnóstico, que es el relevamiento completo con informe y presupuesto, sí se cotiza aparte.</p>',
       },
       {
         q: '¿Necesito tener claro qué quiero antes de escribir?',
