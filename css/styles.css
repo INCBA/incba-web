@@ -674,7 +674,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
    ============================================ */
 .decoder-section {
   position: relative;
-  padding: 140px 0 120px;
+  padding: 100px 0 80px;
   background: var(--navy);
   overflow: hidden;
 }
@@ -778,9 +778,10 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 /* Connector line */
 .letter-connector {
   width: 40px;
-  /* 58 px es la altura exacta del contenido del viewBox: la flecha llena la
-     caja entera y el texto arranca pegado, sin aire en el medio. */
-  height: 58px;
+  /* El viewBox mide 58 y el svg llena la caja, así que esta altura es la
+     distancia real entre la letra y el texto: es el único lugar donde se
+     regula. */
+  height: 40px;
   opacity: 0.75;
 }
 
@@ -834,9 +835,6 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* El interlineado de 1.7 deja aire muerto arriba del glifo: la flecha termina
-     pegada al borde de su caja pero el texto arranca 5 px más abajo. */
-  margin-top: -12px;
 }
 
 .decoder-letter:nth-child(1) .letter-meaning { animation-delay: 1.4s; }
@@ -851,7 +849,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 
 .meaning-word {
   display: block;
-  line-height: 1.35;
+  line-height: 1.2;
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--accent);
@@ -931,14 +929,20 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 /* Decoder animations start paused until in view */
 .decoder-letters .connector-line,
 .decoder-letters .connector-dot,
-.decoder-letters .letter-meaning,
-.decoder-letters .decoder-letters.decoder-active .connector-line,
+.decoder-letters .letter-meaning {
+  animation-play-state: paused;
+}
+
+.decoder-letters.decoder-active .connector-line,
 .decoder-letters.decoder-active .connector-dot,
-.decoder-letters.decoder-active .letter-meaning,
-.decoder-letters.decoder-active /* ============================================
+.decoder-letters.decoder-active .letter-meaning {
+  animation-play-state: running;
+}
+
+/* ============================================
    SECTION: PROBLEM
    ============================================ */
-.section { padding: 168px 0; position: relative; overflow: hidden; }
+.section { padding: 120px 0; position: relative; overflow: hidden; }
 .section-dark { background: var(--navy); color: var(--white); }
 .section-alt { background: var(--off-white); }
 
@@ -1700,7 +1704,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
    SECTION: CLIENTS CAROUSEL
    ============================================ */
 .clients-section {
-  padding: 130px 0 110px;
+  padding: 80px 0 60px;
   background: var(--navy);
   overflow: hidden;
 }
@@ -1777,7 +1781,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
    ============================================ */
 .cta-section {
   background: linear-gradient(135deg, var(--navy) 0%, #0d2137 100%);
-  padding: 168px 0;
+  padding: 120px 0;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -1943,7 +1947,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 }
 
 @media (max-width: 768px) {
-  .section { padding: 104px 0; }
+  .section { padding: 80px 0; }
 
   .nav-links { display: none; }
   .nav-mobile-toggle { display: flex; }
@@ -2552,17 +2556,17 @@ main > *:last-child { flex: 1 0 auto; }
 
 /* Los bloques que cierran una página venían con menos aire que el resto y
    quedaban apretados contra lo anterior. */
-.enlaces-relacionados { padding: 128px 0; }
+.enlaces-relacionados { padding: 72px 0; }
 
 /* Tras los breadcrumbs alcanzaba con menos aire, pero 72 px quedaba corto
    contra los 120 del resto del sitio. */
 .page-top + .section,
 .page-top + .clients-section,
 .page-top + .cta-section,
-.page-top + .decoder-section { padding-top: 120px; }
+.page-top + .decoder-section { padding-top: 72px; }
 
 @media (max-width: 768px) {
-  .enlaces-relacionados { padding: 80px 0; }
+  .enlaces-relacionados { padding: 56px 0; }
   .page-top + .section,
   .page-top + .clients-section,
   .page-top + .cta-section,
