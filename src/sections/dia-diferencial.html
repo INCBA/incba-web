@@ -1,0 +1,63 @@
+  <!-- ==============================
+       DIAGRAMA — dónde interviene cada tipo de proveedor
+
+       El posicionamiento "ni software factory ni agencia" en texto son tres
+       párrafos. Acá se ve en una capa: la agencia trabaja arriba, la software
+       factory ejecuta abajo, y la consultora es la única que empieza en el medio.
+       ============================== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header center fade-up">
+        <span class="section-label">La diferencia</span>
+        <h2>Dónde interviene cada uno</h2>
+      </div>
+
+      <figure class="diagrama fade-up">
+        <svg viewBox="0 0 460 280" role="img" aria-labelledby="dia-dif-t dia-dif-d" xmlns="http://www.w3.org/2000/svg">
+          <title id="dia-dif-t">Capas de un proyecto y en cuál interviene cada tipo de proveedor</title>
+          <desc id="dia-dif-d">Una agencia digital trabaja sobre la capa visible. Una software factory ejecuta la capa técnica a partir de una especificación dada. Una consultora empieza por entender la operación, que es la capa de abajo.</desc>
+
+          <!-- Capas -->
+          <rect class="dia-capa dia-capa-1" x="20" y="26" width="270" height="56" rx="8"/>
+          <text class="dia-capa-txt" x="155" y="50" text-anchor="middle">Lo visible</text>
+          <text class="dia-capa-sub" x="155" y="68" text-anchor="middle">sitio, tienda, campañas</text>
+
+          <rect class="dia-capa dia-capa-2" x="20" y="94" width="270" height="56" rx="8"/>
+          <text class="dia-capa-txt" x="155" y="118" text-anchor="middle">Lo técnico</text>
+          <text class="dia-capa-sub" x="155" y="136" text-anchor="middle">desarrollo, integraciones</text>
+
+          <rect class="dia-capa dia-capa-3" x="20" y="162" width="270" height="56" rx="8"/>
+          <text class="dia-capa-txt" x="155" y="186" text-anchor="middle">La operación</text>
+          <text class="dia-capa-sub" x="155" y="204" text-anchor="middle">cómo trabaja la empresa</text>
+
+          <!-- Marcadores de intervención -->
+          <g class="dia-marca">
+            <line x1="300" y1="54" x2="330" y2="54"/>
+            <text class="dia-marca-txt" x="338" y="58">Agencia digital</text>
+
+            <line x1="300" y1="122" x2="330" y2="122"/>
+            <text class="dia-marca-txt" x="338" y="126">Software factory</text>
+          </g>
+
+          <g class="dia-marca dia-marca-ok">
+            <line x1="300" y1="190" x2="330" y2="190"/>
+            <text class="dia-marca-txt" x="338" y="194">INCBA</text>
+          </g>
+
+          <!-- Flecha que sube desde la operación -->
+          <path class="dia-subida" d="M 155 236 L 155 226" marker-end="url(#pta-sube)"/>
+          <text class="dia-nota" x="155" y="256" text-anchor="middle">empezamos acá y subimos</text>
+
+          <defs>
+            <marker id="pta-sube" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#00C896"/>
+            </marker>
+          </defs>
+        </svg>
+        <figcaption>
+          Si el problema es que el stock del depósito no coincide con el de la tienda,
+          ninguna mejora de la vidriera lo resuelve.
+        </figcaption>
+      </figure>
+    </div>
+  </section>

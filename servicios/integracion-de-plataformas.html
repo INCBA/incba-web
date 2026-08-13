@@ -216,6 +216,78 @@
     </div>
   </section>
 
+  <!-- ==============================
+       DIAGRAMA — el puente humano
+
+       Muestra de un vistazo lo que el texto explica en tres párrafos: hoy hay
+       una persona en el medio copiando datos, y con eso viene el desfasaje.
+       ============================== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header center fade-up">
+        <span class="section-label">Antes y después</span>
+        <h2>Quién hace de puente</h2>
+      </div>
+
+      <figure class="diagrama fade-up">
+        <svg viewBox="0 0 460 300" role="img" aria-labelledby="dia-int-t dia-int-d" xmlns="http://www.w3.org/2000/svg">
+          <title id="dia-int-t">Comparación entre pasar datos a mano y sincronizarlos automáticamente</title>
+          <desc id="dia-int-d">Arriba, una persona copia los datos entre la tienda y el sistema de gestión, con un desfasaje de horas. Abajo, los dos sistemas se sincronizan solos y al instante.</desc>
+
+          <!-- Arriba: con puente humano -->
+          <text class="dia-fila" x="20" y="22">Hoy</text>
+
+          <rect class="dia-caja" x="20" y="38" width="120" height="52" rx="8"/>
+          <text class="dia-caja-txt" x="80" y="69" text-anchor="middle">Tienda online</text>
+
+          <rect class="dia-caja" x="320" y="38" width="120" height="52" rx="8"/>
+          <text class="dia-caja-txt" x="380" y="69" text-anchor="middle">Gestión</text>
+
+          <!-- flechas hacia la persona -->
+          <path class="dia-flecha-manual" d="M 146 64 L 196 64" marker-end="url(#pta-alerta)"/>
+          <path class="dia-flecha-manual" d="M 264 64 L 314 64" marker-end="url(#pta-alerta)"/>
+
+          <!-- persona -->
+          <circle class="dia-persona" cx="230" cy="52" r="9"/>
+          <path class="dia-persona-cuerpo" d="M 214 80 q 16 -14 32 0"/>
+
+          <text class="dia-etiqueta dia-etiqueta-alerta" x="230" y="106" text-anchor="middle">carga manual</text>
+          <text class="dia-nota" x="230" y="124" text-anchor="middle">el sistema se entera horas después</text>
+
+          <!-- Separador -->
+          <line class="dia-separador" x1="20" y1="152" x2="440" y2="152"/>
+
+          <!-- Abajo: integrado -->
+          <text class="dia-fila" x="20" y="186">Integrado</text>
+
+          <rect class="dia-caja dia-caja-ok" x="20" y="202" width="120" height="52" rx="8"/>
+          <text class="dia-caja-txt" x="80" y="233" text-anchor="middle">Tienda online</text>
+
+          <rect class="dia-caja dia-caja-ok" x="320" y="202" width="120" height="52" rx="8"/>
+          <text class="dia-caja-txt" x="380" y="233" text-anchor="middle">Gestión</text>
+
+          <path class="dia-flecha-auto" d="M 150 219 L 310 219" marker-end="url(#pta-ok)"/>
+          <path class="dia-flecha-auto" d="M 310 237 L 150 237" marker-end="url(#pta-ok)"/>
+
+          <text class="dia-etiqueta dia-etiqueta-ok" x="230" y="278" text-anchor="middle">al instante, sin intervención</text>
+
+          <defs>
+            <marker id="pta-alerta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#E8836B"/>
+            </marker>
+            <marker id="pta-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#00C896"/>
+            </marker>
+          </defs>
+        </svg>
+        <figcaption>
+          La tarea no se hace más rápido: deja de hacerse. Y con ella se termina
+          el desfasaje entre lo que pasó y lo que el sistema sabe.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section class="section section-alt faq">
     <div class="container">
       <div class="section-header center">

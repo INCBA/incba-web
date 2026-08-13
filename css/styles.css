@@ -2332,3 +2332,226 @@ main > *:last-child { flex: 1 0 auto; }
   .post-cta { padding: 24px; }
   .post-cta .enlaces-botones { justify-content: center; }
 }
+
+/* ============================================
+   Diagramas
+   Apoyo visual para los conceptos que en texto
+   tardan varios párrafos. Todo SVG inline, sin
+   dependencias ni imágenes externas: escalan
+   sin perder nitidez y pesan nada.
+   ============================================ */
+
+.diagrama {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.diagrama svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.diagrama figcaption {
+  max-width: 620px;
+  margin: 28px auto 0;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* --- Nodos y conexiones --- */
+.dia-nodo circle {
+  fill: var(--navy);
+  stroke: var(--white);
+  stroke-width: 2;
+}
+
+.dia-hub {
+  fill: var(--accent);
+  stroke: var(--white);
+  stroke-width: 3;
+}
+
+/* Las conexiones de a pares van en el color de apoyo cálido: no es "malo",
+   es el que señala el punto de fricción. */
+.dia-caos line {
+  stroke: #E8836B;
+  stroke-width: 1.5;
+  opacity: 0.55;
+}
+
+.dia-orden line {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+
+/* --- Texto dentro de los SVG --- */
+.diagrama text {
+  font-family: var(--font-primary);
+  fill: var(--text-secondary);
+}
+
+.dia-titulo {
+  font-size: 15px;
+  font-weight: 700;
+  fill: var(--text-primary);
+}
+
+.dia-dato { font-size: 19px; font-weight: 800; }
+.dia-dato-alerta { fill: #E8836B; }
+.dia-dato-ok { fill: var(--accent-dark); }
+
+.dia-nota { font-size: 12px; fill: var(--text-light); }
+
+.dia-fila {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  fill: var(--text-light);
+}
+
+/* --- Cajas de sistema --- */
+.dia-caja {
+  fill: var(--white);
+  stroke: var(--gray-300);
+  stroke-width: 1.5;
+}
+
+.dia-caja-ok { stroke: var(--accent); stroke-width: 2; }
+
+.dia-caja-txt {
+  font-size: 14px;
+  font-weight: 600;
+  fill: var(--text-primary);
+}
+
+.dia-flecha-manual { stroke: #E8836B; stroke-width: 2; fill: none; stroke-dasharray: 5 4; }
+.dia-flecha-auto { stroke: var(--accent); stroke-width: 2.5; fill: none; }
+
+.dia-persona { fill: var(--graphite); }
+.dia-persona-cuerpo { fill: none; stroke: var(--graphite); stroke-width: 7; stroke-linecap: round; }
+
+.dia-separador { stroke: var(--gray-200); stroke-width: 1; }
+
+.dia-etiqueta { font-size: 13px; font-weight: 600; }
+.dia-etiqueta-alerta { fill: #E8836B; }
+.dia-etiqueta-ok { fill: var(--accent-dark); }
+
+/* --- Línea de tiempo del proceso --- */
+.dia-banda { fill: var(--gray-100); }
+.dia-banda-libre { fill: rgba(0, 200, 150, 0.14); }
+.dia-banda-pago { fill: var(--gray-100); }
+
+.dia-banda-txt {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  fill: var(--text-secondary);
+}
+
+.dia-linea { stroke: var(--gray-300); stroke-width: 2; }
+
+.dia-hito circle {
+  fill: var(--navy);
+  stroke: var(--white);
+  stroke-width: 3;
+}
+
+.dia-hito-num text {
+  font-size: 15px;
+  font-weight: 700;
+  fill: var(--white);
+}
+
+.dia-hito-txt text {
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--text-primary);
+}
+
+.dia-corte {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 4 4;
+}
+
+/* En pantallas chicas el SVG se achica proporcionalmente y el texto de 11-15 px
+   quedaría ilegible. Se agranda la tipografía interna para compensar. */
+@media (max-width: 560px) {
+  .dia-titulo { font-size: 18px; }
+  .dia-dato { font-size: 22px; }
+  .dia-nota { font-size: 14px; }
+  .dia-caja-txt, .dia-hito-txt text { font-size: 16px; }
+  .dia-etiqueta { font-size: 15px; }
+  .dia-banda-txt, .dia-fila { font-size: 13px; }
+}
+
+/* Diagrama de stock: el número compartido */
+.dia-hub-caja { fill: var(--navy); }
+.dia-hub-txt { font-size: 24px; font-weight: 800; fill: var(--accent); }
+.dia-hub-sub { font-size: 12px; fill: var(--gray-400); }
+
+/* Diagrama de capas */
+.dia-capa { fill: var(--white); stroke: var(--gray-300); stroke-width: 1.5; }
+.dia-capa-3 { fill: rgba(0, 200, 150, 0.07); stroke: var(--accent); stroke-width: 2; }
+.dia-capa-txt { font-size: 15px; font-weight: 700; fill: var(--text-primary); }
+.dia-capa-sub { font-size: 12px; fill: var(--text-light); }
+
+.dia-marca line { stroke: var(--gray-400); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.dia-marca-txt { font-size: 12px; font-weight: 600; fill: var(--text-secondary); }
+.dia-marca-ok line { stroke: var(--accent); stroke-dasharray: none; stroke-width: 2; }
+.dia-marca-ok .dia-marca-txt { fill: var(--accent-dark); font-weight: 700; }
+
+.dia-subida { stroke: var(--accent); stroke-width: 2.5; fill: none; }
+
+@media (max-width: 560px) {
+  .dia-hub-txt { font-size: 26px; }
+  .dia-hub-sub, .dia-capa-sub { font-size: 14px; }
+  .dia-capa-txt { font-size: 17px; }
+  .dia-marca-txt { font-size: 14px; }
+}
+
+/* Escalera de servicios: cada escalón se apoya en el anterior */
+.dia-escalon rect { fill: var(--navy); opacity: 0.82; }
+.dia-escalon .dia-escalon-top { fill: var(--accent); opacity: 1; }
+.dia-escalon-num text { font-size: 17px; font-weight: 800; fill: var(--white); }
+.dia-escalon-txt text { font-size: 13px; font-weight: 600; fill: var(--text-primary); }
+
+/* Intersección de las tres condiciones */
+.dia-venn circle { fill: rgba(0, 200, 150, 0.11); stroke: var(--accent); stroke-width: 1.5; }
+.dia-venn-txt { font-size: 13px; font-weight: 600; fill: var(--text-primary); }
+.dia-venn-centro { fill: var(--navy); }
+.dia-venn-centro-txt { font-size: 11px; font-weight: 700; fill: var(--white); }
+
+/* Los tres pasos previos a la IA */
+.dia-paso rect { fill: var(--white); stroke: var(--accent); stroke-width: 2; }
+.dia-paso-txt text { font-size: 14px; font-weight: 700; fill: var(--text-primary); }
+.dia-paso-sub text { font-size: 11px; fill: var(--text-light); }
+.dia-techo { fill: var(--navy); }
+.dia-techo-txt { font-size: 15px; font-weight: 700; fill: var(--accent); }
+.dia-apoyo { stroke: var(--gray-300); stroke-width: 2; stroke-dasharray: 4 4; }
+
+@media (max-width: 560px) {
+  .dia-escalon-txt text, .dia-venn-txt { font-size: 15px; }
+  .dia-paso-txt text { font-size: 16px; }
+  .dia-paso-sub text { font-size: 13px; }
+  .dia-venn-centro-txt { font-size: 13px; }
+  .dia-techo-txt { font-size: 17px; }
+}
+
+/* Línea de tiempo del desfasaje */
+.dia-hueco { fill: rgba(232, 131, 107, 0.16); }
+.dia-hueco-txt { font-size: 12px; font-weight: 600; fill: #C25E44; }
+.dia-eje { stroke: var(--gray-300); stroke-width: 2; }
+.dia-eje-txt { font-size: 12px; fill: var(--text-secondary); }
+.dia-marca-hito { stroke: var(--white); stroke-width: 2; }
+.dia-marca-alerta { fill: #E8836B; }
+.dia-marca-ok-p { fill: var(--accent); }
+
+@media (max-width: 560px) {
+  .dia-eje-txt, .dia-hueco-txt { font-size: 14px; }
+}

@@ -215,6 +215,77 @@
     </div>
   </section>
 
+  <!-- ==============================
+       DIAGRAMA — de a pares vs. estructura central
+
+       El concepto central de la página, que en texto tarda dos párrafos y acá
+       se entiende de un vistazo: conectar todo con todo no crece de forma
+       proporcional. Cinco sistemas ya son diez conexiones.
+       ============================== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header center fade-up">
+        <span class="section-label">El problema de fondo</span>
+        <h2>Por qué no escala</h2>
+      </div>
+
+      <figure class="diagrama fade-up">
+        <svg viewBox="0 0 460 300" role="img" aria-labelledby="dia-api-t dia-api-d" xmlns="http://www.w3.org/2000/svg">
+          <title id="dia-api-t">Comparación entre conectar sistemas de a pares y conectarlos a una estructura central</title>
+          <desc id="dia-api-d">A la izquierda, cinco sistemas conectados entre sí requieren diez conexiones. A la derecha, los mismos cinco conectados a una estructura central requieren cinco.</desc>
+
+          <!-- Izquierda: todos con todos -->
+          <g class="dia-caos">
+            <line x1="110" y1="35" x2="181" y2="87"/>
+            <line x1="110" y1="35" x2="154" y2="171"/>
+            <line x1="110" y1="35" x2="66" y2="171"/>
+            <line x1="110" y1="35" x2="39" y2="87"/>
+            <line x1="181" y1="87" x2="154" y2="171"/>
+            <line x1="181" y1="87" x2="66" y2="171"/>
+            <line x1="181" y1="87" x2="39" y2="87"/>
+            <line x1="154" y1="171" x2="66" y2="171"/>
+            <line x1="154" y1="171" x2="39" y2="87"/>
+            <line x1="66" y1="171" x2="39" y2="87"/>
+          </g>
+          <g class="dia-nodo">
+            <circle cx="110" cy="35" r="15"/>
+            <circle cx="181" cy="87" r="15"/>
+            <circle cx="154" cy="171" r="15"/>
+            <circle cx="66" cy="171" r="15"/>
+            <circle cx="39" cy="87" r="15"/>
+          </g>
+          <text class="dia-titulo" x="110" y="232" text-anchor="middle">De a pares</text>
+          <text class="dia-dato dia-dato-alerta" x="110" y="258" text-anchor="middle">10 conexiones</text>
+          <text class="dia-nota" x="110" y="278" text-anchor="middle">sumar uno más: +5</text>
+
+          <!-- Derecha: estructura central -->
+          <g class="dia-orden">
+            <line x1="350" y1="110" x2="350" y2="35"/>
+            <line x1="350" y1="110" x2="421" y2="87"/>
+            <line x1="350" y1="110" x2="394" y2="171"/>
+            <line x1="350" y1="110" x2="306" y2="171"/>
+            <line x1="350" y1="110" x2="279" y2="87"/>
+          </g>
+          <g class="dia-nodo">
+            <circle cx="350" cy="35" r="15"/>
+            <circle cx="421" cy="87" r="15"/>
+            <circle cx="394" cy="171" r="15"/>
+            <circle cx="306" cy="171" r="15"/>
+            <circle cx="279" cy="87" r="15"/>
+          </g>
+          <circle class="dia-hub" cx="350" cy="110" r="22"/>
+          <text class="dia-titulo" x="350" y="232" text-anchor="middle">Estructura central</text>
+          <text class="dia-dato dia-dato-ok" x="350" y="258" text-anchor="middle">5 conexiones</text>
+          <text class="dia-nota" x="350" y="278" text-anchor="middle">sumar uno más: +1</text>
+        </svg>
+        <figcaption>
+          Con cinco sistemas la diferencia ya es del doble. Con ocho, son veintiocho
+          conexiones contra ocho.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section class="section section-alt faq">
     <div class="container">
       <div class="section-header center">

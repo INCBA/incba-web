@@ -16,6 +16,53 @@
           resta mental, ya hay dos negocios.
         </p>
 
+      <figure class="diagrama fade-up">
+        <svg viewBox="0 0 460 250" role="img" aria-labelledby="dia-stk-t dia-stk-d" xmlns="http://www.w3.org/2000/svg">
+          <title id="dia-stk-t">Dos inventarios separados frente a un único stock compartido</title>
+          <desc id="dia-stk-d">Arriba, el local y la tienda online llevan cada uno su propio número de stock y no coinciden. Abajo, los dos canales leen y descuentan del mismo stock.</desc>
+
+          <text class="dia-fila" x="20" y="20">Dos inventarios</text>
+
+          <rect class="dia-caja" x="20" y="34" width="170" height="62" rx="8"/>
+          <text class="dia-caja-txt" x="105" y="60" text-anchor="middle">Local</text>
+          <text class="dia-dato dia-dato-alerta" x="105" y="84" text-anchor="middle">12 unidades</text>
+
+          <rect class="dia-caja" x="270" y="34" width="170" height="62" rx="8"/>
+          <text class="dia-caja-txt" x="355" y="60" text-anchor="middle">Tienda online</text>
+          <text class="dia-dato dia-dato-alerta" x="355" y="84" text-anchor="middle">9 unidades</text>
+
+          <text class="dia-etiqueta dia-etiqueta-alerta" x="230" y="70" text-anchor="middle">≠</text>
+          <text class="dia-nota" x="230" y="118" text-anchor="middle">alguien concilia a mano, y no siempre a tiempo</text>
+
+          <line class="dia-separador" x1="20" y1="142" x2="440" y2="142"/>
+
+          <text class="dia-fila" x="20" y="172">Un solo stock</text>
+
+          <rect class="dia-caja dia-caja-ok" x="20" y="186" width="130" height="48" rx="8"/>
+          <text class="dia-caja-txt" x="85" y="215" text-anchor="middle">Local</text>
+
+          <rect class="dia-caja dia-caja-ok" x="310" y="186" width="130" height="48" rx="8"/>
+          <text class="dia-caja-txt" x="375" y="215" text-anchor="middle">Tienda online</text>
+
+          <rect class="dia-hub-caja" x="176" y="180" width="108" height="60" rx="10"/>
+          <text class="dia-hub-txt" x="230" y="206" text-anchor="middle">12</text>
+          <text class="dia-hub-sub" x="230" y="226" text-anchor="middle">unidades</text>
+
+          <path class="dia-flecha-auto" d="M 156 210 L 170 210" marker-end="url(#pta-ok2)"/>
+          <path class="dia-flecha-auto" d="M 304 210 L 290 210" marker-end="url(#pta-ok2)"/>
+
+          <defs>
+            <marker id="pta-ok2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#00C896"/>
+            </marker>
+          </defs>
+        </svg>
+        <figcaption>
+          Un único número real. Los dos canales lo leen y lo descuentan, y ninguno
+          lleva su propia cuenta.
+        </figcaption>
+      </figure>
+
         <h2>Cómo se manifiesta el desorden</h2>
         <p>
           Casi siempre igual, en este orden:
@@ -70,9 +117,9 @@
         </p>
         <ul>
           <li>
-            <strong>Quién manda.</strong> Normalmente el sistema de gestión es la fuente de
-            verdad del stock, porque es donde se registran las compras a proveedores y los
-            ajustes de inventario.
+            <strong>Quién manda.</strong> Normalmente el número bueno es el del sistema de
+            gestión, porque es donde se registran las compras a proveedores y los ajustes
+            de inventario.
           </li>
           <li>
             <strong>Qué pasa con las reservas.</strong> Un pedido online sin pagar,

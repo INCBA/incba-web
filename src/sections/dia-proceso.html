@@ -1,0 +1,63 @@
+  <!-- ==============================
+       DIAGRAMA — el recorrido y dónde empieza a costar
+
+       Las cuatro tarjetas de arriba cuentan qué pasa en cada etapa, pero no
+       dónde está la línea entre lo gratuito y lo facturable, que es la primera
+       pregunta que se hace cualquiera.
+       ============================== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header center fade-up">
+        <span class="section-label">El recorrido</span>
+        <h2>Dónde empieza a costar</h2>
+      </div>
+
+      <figure class="diagrama fade-up">
+        <svg viewBox="0 0 460 210" role="img" aria-labelledby="dia-proc-t dia-proc-d" xmlns="http://www.w3.org/2000/svg">
+          <title id="dia-proc-t">Recorrido de las cuatro etapas y punto en el que el trabajo se cotiza</title>
+          <desc id="dia-proc-d">La primera charla no tiene costo. A partir del relevamiento, dentro de la etapa de diagnóstico, el trabajo se cotiza.</desc>
+
+          <!-- Bandas: qué parte no tiene costo -->
+          <rect class="dia-banda dia-banda-libre" x="20" y="18" width="86" height="26" rx="13"/>
+          <text class="dia-banda-txt" x="63" y="35" text-anchor="middle">sin costo</text>
+
+          <rect class="dia-banda dia-banda-pago" x="114" y="18" width="326" height="26" rx="13"/>
+          <text class="dia-banda-txt" x="277" y="35" text-anchor="middle">trabajo cotizado</text>
+
+          <!-- Línea del recorrido -->
+          <line class="dia-linea" x1="50" y1="90" x2="410" y2="90"/>
+
+          <!-- Hitos -->
+          <g class="dia-hito">
+            <circle cx="50" cy="90" r="19"/>
+            <circle cx="170" cy="90" r="19"/>
+            <circle cx="290" cy="90" r="19"/>
+            <circle cx="410" cy="90" r="19"/>
+          </g>
+          <g class="dia-hito-num">
+            <text x="50" y="96" text-anchor="middle">1</text>
+            <text x="170" y="96" text-anchor="middle">2</text>
+            <text x="290" y="96" text-anchor="middle">3</text>
+            <text x="410" y="96" text-anchor="middle">4</text>
+          </g>
+
+          <!-- Marca de dónde cae la línea del pago, dentro de la etapa 1 -->
+          <line class="dia-corte" x1="110" y1="60" x2="110" y2="120"/>
+          <text class="dia-nota" x="110" y="138" text-anchor="middle">acá se cotiza</text>
+
+          <!-- Etiquetas -->
+          <g class="dia-hito-txt">
+            <text x="50" y="168" text-anchor="middle">Diagnóstico</text>
+            <text x="170" y="168" text-anchor="middle"><tspan x="170">Diseño de la</tspan><tspan x="170" dy="15">solución</tspan></text>
+            <text x="290" y="168" text-anchor="middle">Implementación</text>
+            <text x="410" y="168" text-anchor="middle">Evolución</text>
+          </g>
+        </svg>
+        <figcaption>
+          La primera charla no tiene costo y sirve para ver si hay encaje. El
+          relevamiento a fondo, que termina en el informe, se cotiza aparte — y ese
+          informe queda en tu poder.
+        </figcaption>
+      </figure>
+    </div>
+  </section>

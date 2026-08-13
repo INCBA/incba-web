@@ -43,6 +43,36 @@
           confiable.
         </p>
 
+      <figure class="diagrama fade-up">
+        <svg viewBox="0 0 460 210" role="img" aria-labelledby="dia-des-t dia-des-d" xmlns="http://www.w3.org/2000/svg">
+          <title id="dia-des-t">El hueco entre que se vende y que el sistema se entera</title>
+          <desc id="dia-des-d">Con carga manual, entre la venta y el registro en el sistema pasan horas en las que el stock publicado es mayor al real. Integrado, el registro es inmediato.</desc>
+
+          <text class="dia-fila" x="20" y="20">Con carga manual</text>
+
+          <rect class="dia-hueco" x="70" y="42" width="260" height="34" rx="4"/>
+          <text class="dia-hueco-txt" x="200" y="64" text-anchor="middle">el stock publicado es mayor al real</text>
+
+          <line class="dia-eje" x1="20" y1="94" x2="440" y2="94"/>
+          <circle class="dia-marca-hito dia-marca-alerta" cx="70" cy="94" r="7"/>
+          <circle class="dia-marca-hito dia-marca-alerta" cx="330" cy="94" r="7"/>
+          <text class="dia-eje-txt" x="70" y="118" text-anchor="middle">entra la venta</text>
+          <text class="dia-eje-txt" x="330" y="118" text-anchor="middle">alguien la carga</text>
+
+          <line class="dia-separador" x1="20" y1="140" x2="440" y2="140"/>
+
+          <text class="dia-fila" x="20" y="166">Integrado</text>
+
+          <line class="dia-eje" x1="20" y1="188" x2="440" y2="188"/>
+          <circle class="dia-marca-hito dia-marca-ok-p" cx="110" cy="188" r="7"/>
+          <text class="dia-eje-txt" x="110" y="206" text-anchor="middle">venta y registro, a la vez</text>
+        </svg>
+        <figcaption>
+          En un día normal ese hueco no se nota. En un pico de ventas se convierte en
+          sobreventa: vendiste algo que ya no tenías.
+        </figcaption>
+      </figure>
+
         <h2>Qué significa integrar</h2>
         <p>
           Integrar es que los sistemas se comuniquen entre sí sin que una persona haga de

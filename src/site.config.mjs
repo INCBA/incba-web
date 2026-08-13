@@ -115,7 +115,7 @@ export const PAGES = [
     nav: 'Servicios',
     breadcrumb: 'Servicios',
     promoverH1: true,
-    sections: ['servicios', 'servicios-prosa', 'servicios-hijas', ':faq', 'servicios-enlaces'],
+    sections: ['servicios', 'servicios-prosa', 'dia-servicios', 'servicios-hijas', ':faq', 'servicios-enlaces'],
     faq: [
       {
         q: '¿Hay que reemplazar los sistemas que ya tenemos?',
@@ -151,7 +151,7 @@ export const PAGES = [
     nav: null,
     breadcrumb: 'Integración de plataformas',
     promoverH1: true,
-    sections: ['svc-integracion', ':faq', 'servicios-enlaces'],
+    sections: ['svc-integracion', 'dia-integracion', ':faq', 'servicios-enlaces'],
     faq: [
       {
         q: '¿Cuánto tarda una integración de este tipo?',
@@ -175,7 +175,7 @@ export const PAGES = [
     nav: null,
     breadcrumb: 'Arquitectura API',
     promoverH1: true,
-    sections: ['svc-api', ':faq', 'servicios-enlaces'],
+    sections: ['svc-api', 'dia-api', ':faq', 'servicios-enlaces'],
     faq: [
       {
         q: '¿Necesito una arquitectura o me alcanza con integrar de a dos?',
@@ -199,7 +199,7 @@ export const PAGES = [
     nav: 'Proceso',
     breadcrumb: 'Proceso',
     promoverH1: true,
-    sections: ['proceso', ':faq', 'proceso-enlaces'],
+    sections: ['proceso', 'dia-proceso', ':faq', 'proceso-enlaces'],
     // Las preguntas salen de los miedos documentados en los arquetipos del plan
     // de marketing, no de suposiciones. Ninguna respuesta lleva cifras: los
     // valores concretos (precio del diagnóstico, plazos típicos) todavía no están
@@ -263,7 +263,7 @@ export const PAGES = [
     nav: 'Por qué INCBA',
     breadcrumb: 'Por qué INCBA',
     promoverH1: true,
-    sections: ['diferencial', 'diferencial-prosa', 'manifesto', ':faq', 'diferencial-enlaces'],
+    sections: ['diferencial', 'diferencial-prosa', 'dia-diferencial', 'manifesto', ':faq', 'diferencial-enlaces'],
     faq: [
       {
         q: '¿Cuál es la diferencia real con una software factory?',
