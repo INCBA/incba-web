@@ -710,20 +710,6 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   30%, 70% { opacity: 1; }
 }
 
-.circuit-dot {
-  animation: dot-pulse 3s ease-in-out infinite;
-}
-.cd-1 { animation-delay: 0.2s; }
-.cd-2 { animation-delay: 0.8s; }
-.cd-3 { animation-delay: 1.4s; }
-.cd-4 { animation-delay: 1s; }
-.cd-5 { animation-delay: 1.8s; }
-
-@keyframes dot-pulse {
-  0%, 100% { r: 3; opacity: 0.3; }
-  50% { r: 6; opacity: 0.8; }
-}
-
 /* Letters layout */
 .decoder-letters {
   display: flex;
@@ -739,7 +725,10 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
   flex-direction: column;
   align-items: center;
   gap: 0;
-  min-width: 124px;
+  /* Ancho fijo, no minimo: con min-width la columna crecia segun el largo de
+     su descripcion y las letras quedaban a distancias distintas entre si. */
+  flex: 0 0 124px;
+  width: 124px;
 }
 
 /* The big letter glyph */
@@ -784,10 +773,6 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 
 .decoder-letter:hover .letter-accent {
   text-shadow: 0 0 30px rgba(0, 200, 150, 0.9);
-}
-
-/* Scanline sweep effect */
-.decoder-letter:nth-child(6)   40%, 100% { left: 200%; }
 }
 
 /* Connector line */

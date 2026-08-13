@@ -15,10 +15,6 @@
             <stop offset="50%" stop-color="#00C896" stop-opacity="0.3"/>
             <stop offset="100%" stop-color="#00C896" stop-opacity="0"/>
           </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
         </defs>
         <!-- Horizontal lines -->
         <line x1="0" y1="80" x2="1200" y2="80" stroke="url(#circuit-grad)" stroke-width="1" class="circuit-line cl-1"/>
@@ -28,12 +24,6 @@
         <line x1="200" y1="0" x2="200" y2="400" stroke="url(#circuit-grad)" stroke-width="1" class="circuit-line cl-4"/>
         <line x1="600" y1="0" x2="600" y2="400" stroke="url(#circuit-grad)" stroke-width="1" class="circuit-line cl-5"/>
         <line x1="1000" y1="0" x2="1000" y2="400" stroke="url(#circuit-grad)" stroke-width="1" class="circuit-line cl-6"/>
-        <!-- Junction dots -->
-        <circle cx="200" cy="80" r="3" fill="#00C896" opacity="0.5" filter="url(#glow)" class="circuit-dot cd-1"/>
-        <circle cx="600" cy="200" r="3" fill="#00C896" opacity="0.5" filter="url(#glow)" class="circuit-dot cd-2"/>
-        <circle cx="1000" cy="320" r="3" fill="#00C896" opacity="0.5" filter="url(#glow)" class="circuit-dot cd-3"/>
-        <circle cx="200" cy="320" r="3" fill="#00C896" opacity="0.4" filter="url(#glow)" class="circuit-dot cd-4"/>
-        <circle cx="1000" cy="80" r="3" fill="#00C896" opacity="0.4" filter="url(#glow)" class="circuit-dot cd-5"/>
       </svg>
 
       <div class="decoder-letters" id="decoder">
@@ -88,7 +78,7 @@
 
         <div class="decoder-letter fade-up stagger-4" data-letter="B">
           <div class="letter-glyph">
-            <span class="letter-char letter-accent">B</span>
+            <span class="letter-char">B</span>
           </div>
           <div class="letter-connector">
             <svg viewBox="0 0 40 60" xmlns="http://www.w3.org/2000/svg">
