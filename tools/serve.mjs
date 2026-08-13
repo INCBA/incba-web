@@ -71,7 +71,15 @@ createServer((req, res) => {
     res.end(`404 — ${req.url}\n`)
     return
   }
-  res.writeHead(200, { 'content-type': TIPOS[extname(archivo)] || 'application/octet-stream' })
+  // Sin Cache-Control, ETag ni Last-Modified el navegador cachea por heurística
+  // y sigue mostrando el CSS viejo después de regenerar. En un servidor de
+  // desarrollo eso es lo peor que puede pasar: parece que el cambio no se aplicó.
+  res.writeHead(200, {
+    'content-type': TIPOS[extname(archivo)] || 'application/octet-stream',
+    'cache-control': 'no-store, no-cache, must-revalidate',
+    pragma: 'no-cache',
+    expires: '0',
+  })
   res.end(readFileSync(archivo))
 }).listen(port, () => {
   console.log(`sirviendo ${base} en http://localhost:${port}`)
