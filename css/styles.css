@@ -2034,10 +2034,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 
 /* La franja ya aporta aire arriba: sin esto la primera sección arranca
    demasiado abajo. */
-.page-top + .section,
-.page-top + .clients-section,
-.page-top + .cta-section,
-.page-top + .decoder-section { padding-top: 72px; }
+
 
 /* Las internas promueven a <h1> el <h2> con el que abrían en el sitio de una
    sola página. El cambio es jerárquico, no visual: la clase mantiene el tamaño
@@ -2061,7 +2058,7 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 
 /* Enlazado interno entre páginas. No es decorativo: las páginas nuevas
    arrancan sin autoridad y estos enlaces son los que se la reparten. */
-.enlaces-relacionados { padding: 72px 0; text-align: center; }
+.enlaces-relacionados { text-align: center; }
 
 .enlaces-relacionados p {
   font-size: clamp(1.05rem, 1.8vw, 1.2rem);
@@ -2098,7 +2095,6 @@ a.resumen-card { display: block; color: inherit; }
 
 @media (max-width: 768px) {
   .page-top { padding: 88px 0 20px; }
-  .enlaces-relacionados { padding: 56px 0; }
 }
 
 /* Footer al fondo en las páginas cortas.
