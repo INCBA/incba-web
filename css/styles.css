@@ -778,8 +778,18 @@ h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
 /* Connector line */
 .letter-connector {
   width: 40px;
-  height: 50px;
-  opacity: 0.6;
+  /* 58 px es la altura exacta del contenido del viewBox: la flecha llena la
+     caja entera y el texto arranca pegado, sin aire en el medio. */
+  height: 58px;
+  opacity: 0.75;
+}
+
+/* El <svg> no tenía tamaño declarado en ningún lado, así que quedaba a criterio
+   del navegador y sobraba aire entre la flecha y el texto de abajo. */
+.letter-connector svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .connector-line {
@@ -2519,4 +2529,42 @@ main > *:last-child { flex: 1 0 auto; }
 
 @media (max-width: 560px) {
   .dia-eje-txt, .dia-hueco-txt { font-size: 14px; }
+}
+
+/* ============================================
+   Ritmo entre secciones
+   ============================================ */
+
+/* Dos secciones seguidas con el mismo fondo se leen como un solo bloque con un
+   hueco en el medio: no hay nada que indique que el tema cambió. Una línea muy
+   tenue marca el corte sin agregar peso visual.
+
+   La franja de breadcrumbs queda fuera a propósito: es continuidad del
+   encabezado de la página, no un corte entre temas. */
+.section-alt + .section-alt,
+.section:not(.section-alt):not(.section-dark) + .section:not(.section-alt):not(.section-dark) {
+  border-top: 1px solid var(--gray-200);
+}
+
+.section-dark + .section-dark {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Los bloques que cierran una página venían con menos aire que el resto y
+   quedaban apretados contra lo anterior. */
+.enlaces-relacionados { padding: 96px 0; }
+
+/* Tras los breadcrumbs alcanzaba con menos aire, pero 72 px quedaba corto
+   contra los 120 del resto del sitio. */
+.page-top + .section,
+.page-top + .clients-section,
+.page-top + .cta-section,
+.page-top + .decoder-section { padding-top: 88px; }
+
+@media (max-width: 768px) {
+  .enlaces-relacionados { padding: 64px 0; }
+  .page-top + .section,
+  .page-top + .clients-section,
+  .page-top + .cta-section,
+  .page-top + .decoder-section { padding-top: 56px; }
 }
