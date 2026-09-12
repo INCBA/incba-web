@@ -68,6 +68,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Píxel de Meta, conjunto de datos "INCBA Web" (2000270224008101).
+       Solo se inicializa en incba.com.ar e incba.cl: el staging de
+       test.incba.com.ar y el desarrollo local no deben ensuciar los eventos.
+       Los eventos de conversión están en js/main.js. -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    window.INCBA_PIXEL_ID = '2000270224008101';
+    window.INCBA_PIXEL_ON = /^(www\.)?(incba\.com\.ar|incba\.cl)$/.test(location.hostname);
+    if (window.INCBA_PIXEL_ON) {
+      fbq('init', window.INCBA_PIXEL_ID);
+      fbq('track', 'PageView');
+    }
+  </script>
 </head>
 <body>
 

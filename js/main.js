@@ -122,4 +122,51 @@ document.addEventListener('DOMContentLoaded', () => {
     decoderObs.observe(decoder);
   }
 
+  // --- Meta pixel conversion events ---
+  // El píxel se inicializa en el <head> y solo en producción. Para las landings
+  // nuevas alcanza con marcar el CTA: data-fb-event="Lead" y, si hace falta,
+  // data-fb-name="diagnostico" para distinguirlo en el administrador de eventos.
+  const track = (event, params) => {
+    if (window.INCBA_PIXEL_ON && typeof window.fbq === 'function') {
+      window.fbq('track', event, params);
+    }
+  };
+
+  const contactMethod = (href) => {
+    if (href.includes('wa.me')) return 'whatsapp';
+    if (href.startsWith('tel:')) return 'telefono';
+    if (href.startsWith('mailto:')) return 'email';
+    return 'otro';
+  };
+
+  document.querySelectorAll('a[href^="mailto:"], a[href^="tel:"], a[href*="wa.me"]').forEach(link => {
+    link.addEventListener('click', () => {
+      track('Contact', {
+        method: contactMethod(link.getAttribute('href')),
+        content_name: link.dataset.fbName || link.textContent.trim().slice(0, 40),
+      });
+    });
+  });
+
+  document.querySelectorAll('[data-fb-event]').forEach(el => {
+    el.addEventListener('click', () => {
+      track(el.dataset.fbEvent, el.dataset.fbName ? { content_name: el.dataset.fbName } : undefined);
+    });
+  });
+
+  // Mirar los servicios es la señal más temprana de interés: sirve para armar
+  // públicos y, más adelante, para comparar landings por servicio.
+  const servicios = document.getElementById('servicios');
+  if (servicios && 'IntersectionObserver' in window) {
+    const serviciosObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          track('ViewContent', { content_name: 'servicios', content_type: 'section' });
+          serviciosObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    serviciosObs.observe(servicios);
+  }
+
 });
