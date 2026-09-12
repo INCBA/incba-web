@@ -43,6 +43,16 @@ const RULES = [
   ['Argentina &amp; Chile', 'Chile &amp; Argentina', 2],
   ['eCommerce, Argentina, Chile"', 'eCommerce, Chile, Argentina"', 1],
 
+  // --- Verificación del dominio ante Meta ---
+  // La metaetiqueta va solo en la variante chilena: incba.com.ar se verificó
+  // por registro TXT y no la necesita.
+  [
+    '<meta name="theme-color" content="#0B1C2D">',
+    '<meta name="theme-color" content="#0B1C2D">\n' +
+      '  <meta name="facebook-domain-verification" content="dakeik5ldma7s0z9idjeu1b3v4fso3" />',
+    1,
+  ],
+
   // --- Contacto de Chile ---
   // El WhatsApp y el teléfono de la versión chilena apuntan al número local.
   ['https://wa.me/5493517422702', 'https://wa.me/56957400433', 1],
