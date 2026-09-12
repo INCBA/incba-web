@@ -43,6 +43,15 @@ const RULES = [
   ['Argentina &amp; Chile', 'Chile &amp; Argentina', 2],
   ['eCommerce, Argentina, Chile"', 'eCommerce, Chile, Argentina"', 1],
 
+  // --- Contacto de Chile ---
+  // El WhatsApp y el teléfono de la versión chilena apuntan al número local.
+  ['https://wa.me/5493517422702', 'https://wa.me/56957400433', 1],
+  [
+    '<a href="tel:+5493517422702">+54 9 351 742 2702</a>',
+    '<a href="tel:+56957400433">+56 9 5740 0433</a>',
+    1,
+  ],
+
   // --- URLs canónicas y sociales ---
   [`<link rel="canonical" href="${AR}/">`, `<link rel="canonical" href="${CL}/">`, 1],
   [`<meta property="og:url" content="${AR}/">`, `<meta property="og:url" content="${CL}/">`, 1],
