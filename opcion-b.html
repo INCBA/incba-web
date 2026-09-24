@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>INCBA | Tecnología para el día a día de tu negocio</title>
+  <meta name="description" content="Te ayudamos a conectar tus programas y a pasar menos horas en tareas repetitivas. Trabajamos con emprendedores, negocios y empresas de Argentina y Chile.">
+  <!-- Prototipo de la opción B: no se indexa para no competir con la web real
+       si alguna vez queda publicado por error. -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#F7F9FC">
+  <meta name="color-scheme" content="light">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="img/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <meta property="og:title" content="INCBA | Tecnología para el día a día de tu negocio">
+  <meta property="og:description" content="Te ayudamos a conectar tus programas y a pasar menos horas en tareas repetitivas. Trabajamos con emprendedores, negocios y empresas de Argentina y Chile.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://incba.com.ar/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="INCBA">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..700&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/opcion-b.css">
+
+  <script>
+    // Con JS disponible se pliega el menú en celular (sin JS queda a la vista).
+    document.documentElement.classList.add('js');
+
+    // Píxel de Meta, conjunto de datos "INCBA Web" (2000270224008101).
+    // A diferencia de index.html, fbevents.js ni siquiera se descarga fuera de
+    // incba.com.ar e incba.cl. Los eventos de conversión están en js/opcion-b.js.
+    window.INCBA_PIXEL_ID = '2000270224008101';
+    window.INCBA_PIXEL_ON = /^(www\.)?(incba\.com\.ar|incba\.cl)$/.test(location.hostname);
+    if (window.INCBA_PIXEL_ON) {
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', window.INCBA_PIXEL_ID);
+      fbq('track', 'PageView');
+    }
+  </script>
+  <script src="js/opcion-b.js" defer></script>
+</head>
+<body>
+
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- Íconos dibujados a mano. Las marcas de las apps solo se sugieren. -->
+  <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-wa" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2Z"/>
+      <path fill="currentColor" d="M9.2 7.7c.3 0 .5.1.6.4l.8 1.9c.1.2 0 .4-.1.6l-.6.7c-.1.2-.1.3 0 .5a6.6 6.6 0 0 0 3 2.6c.2.1.4.1.5-.1l.7-.9c.2-.2.4-.2.6-.1l1.9.9c.2.1.3.3.3.5 0 .9-.8 1.9-1.9 2-.9.1-2.6-.3-4.4-1.8a9 9 0 0 1-2.6-3.6c-.4-1.3 0-2.5.8-3.3.1-.2.2-.3.4-.3Z"/>
+    </symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="16" height="16" rx="4.6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="16.6" cy="7.4" r="1.1" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-msn" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M12 3.5c-4.8 0-8.5 3.5-8.5 8 0 2.4 1 4.4 2.7 5.8v3.2l3-1.6c.9.3 1.8.4 2.8.4 4.8 0 8.5-3.5 8.5-8s-3.7-7.8-8.5-7.8Z"/>
+      <path fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="m7.4 13.6 3.1-3.3 2.4 2 3.7-3.7"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m5.5 12.5 4 4 9-9"/>
+    </symbol>
+    <symbol id="i-leido" viewBox="0 0 18 12">
+      <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="m1 6.5 3 3L10.5 2.5M7.6 9.2l.3.3L14.5 2.5"/>
+    </symbol>
+    <symbol id="i-abajo" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m-6-6 6 6 6-6"/>
+    </symbol>
+    <symbol id="i-atras" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6-6-6 6 6 6"/>
+    </symbol>
+    <symbol id="i-video" viewBox="0 0 24 24">
+      <rect x="3" y="6.5" width="12.5" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="m15.5 10.5 5-3v9l-5-3"/>
+    </symbol>
+    <symbol id="i-llamada" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M6.6 3.8h2.6l1.4 4-1.9 1.3a10 10 0 0 0 5.2 5.2l1.3-1.9 4 1.4V16a2.4 2.4 0 0 1-2.6 2.4A14.4 14.4 0 0 1 4.2 6.4 2.4 2.4 0 0 1 6.6 3.8Z"/>
+    </symbol>
+    <symbol id="i-correo" viewBox="0 0 24 24">
+      <rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="m4 7 8 6 8-6"/>
+    </symbol>
+    <symbol id="i-bolsa" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M9 10V7a3 3 0 0 1 6 0v3"/>
+    </symbol>
+    <symbol id="i-chispa" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M11 3.5c.4 3.9 2.2 5.8 6.2 6.3-4 .5-5.8 2.4-6.2 6.3-.4-3.9-2.2-5.8-6.2-6.3 4-.5 5.8-2.4 6.2-6.3Z"/>
+      <path fill="currentColor" d="M18 13.5c.2 1.8 1 2.7 2.8 2.9-1.8.2-2.6 1.1-2.8 2.9-.2-1.8-1-2.7-2.8-2.9 1.8-.2 2.6-1.1 2.8-2.9Z"/>
+    </symbol>
+    <symbol id="i-reloj" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 7.5V12l3 2"/>
+    </symbol>
+    <symbol id="i-hoja" viewBox="0 0 24 24">
+      <rect x="4.5" y="3" width="15" height="18" rx="2.5" fill="currentColor"/>
+      <path fill="none" stroke="#fff" stroke-width="1.5" d="M8 10h8M8 13.5h8M8 17h8M11.5 10v7"/>
+    </symbol>
+    <symbol id="i-llave" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M14.5 4.5a5 5 0 0 0-4.7 6.7L4 17v3h3l5.8-5.8a5 5 0 1 0 1.7-9.7Z"/>
+      <circle cx="15" cy="9" r="1.3" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-persona" viewBox="0 0 32 32">
+      <circle cx="16" cy="10.5" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6.5 26.5c.9-5 4.8-8 9.5-8s8.6 3 9.5 8"/>
+    </symbol>
+    <symbol id="i-local" viewBox="0 0 32 32">
+      <path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M5 12.5 7.5 5h17l2.5 7.5M5 12.5a3.7 3.7 0 0 0 7.3 0 3.7 3.7 0 0 0 7.4 0 3.7 3.7 0 0 0 7.3 0M5 12.5h22"/>
+      <path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M7 16.5V27h18V16.5M13 27v-6.5h6V27"/>
+    </symbol>
+    <symbol id="i-edificio" viewBox="0 0 32 32">
+      <path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M6 27V6.5h13V27M19 12.5h7V27M3.5 27h25"/>
+      <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M10 11h5M10 15.5h5M10 20h5M22.5 17h0M22.5 21h0"/>
+    </symbol>
+  </svg>
+
+  <!-- ============ Barra de navegación ============ -->
+  <header class="barra" id="barra">
+    <div class="contenedor barra-interior">
+      <a class="barra-logo" href="#inicio">
+        <img src="img/logo-tinta.png" alt="INCBA" width="637" height="251">
+      </a>
+
+      <!-- En celular, js/opcion-b.js lleva el foco al primer enlace al abrir. -->
+      <nav class="barra-nav" id="menu" aria-label="Principal">
+        <ul role="list">
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#para-quien">Para quién</a></li>
+          <li><a href="#como-trabajamos">Cómo trabajamos</a></li>
+          <li><a href="#equipo">Equipo</a></li>
+          <li><a href="#agencias">Agencias</a></li>
+        </ul>
+      </nav>
+
+      <a class="boton boton-principal boton-chico barra-wa" href="https://wa.me/5493517422702?text=Hola%2C%20quiero%20hacer%20una%20consulta" target="_blank" rel="noopener" data-fb-name="barra">
+        <svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg>
+        Escríbenos
+      </a>
+
+      <button class="barra-menu" type="button" aria-expanded="false" aria-controls="menu">
+        <span class="barra-menu-lineas" aria-hidden="true"></span>
+        <span class="sr">Menú</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="contenido" tabindex="-1">
+
+    <!-- ============ Hero ============ -->
+    <section class="hero" id="inicio" aria-labelledby="titulo-inicio">
+      <div class="contenedor hero-grilla">
+        <div class="hero-texto">
+          <p class="eyebrow">Consultora tecnológica · Argentina y Chile</p>
+          <h1 id="titulo-inicio">Ordenamos los sistemas de tu negocio para que hagas menos cosas a mano</h1>
+          <p class="hero-bajada">Si cargas los mismos datos en dos lugares o se te van las horas en tareas que se repiten, te ayudamos a resolverlo con los programas que ya usas o con uno hecho a tu medida.</p>
+
+          <div class="hero-acciones">
+            <a class="boton boton-principal" href="https://wa.me/5493517422702?text=Hola%2C%20quiero%20hacer%20una%20consulta" target="_blank" rel="noopener" data-fb-name="hero">
+              <svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg>
+              Escríbenos por WhatsApp
+            </a>
+            <a class="boton boton-secundario" href="#servicios">
+              Ver qué hacemos
+              <svg class="icono" aria-hidden="true"><use href="#i-abajo"/></svg>
+            </a>
+          </div>
+
+          <div class="hero-nota">
+            <ul class="caras" role="list" aria-hidden="true">
+              <li><img src="img/equipo/felipe.jpg" alt="" width="640" height="640" decoding="async" fetchpriority="low"></li>
+              <li><img src="img/equipo/benjamin.jpg" alt="" width="640" height="640" decoding="async" fetchpriority="low"></li>
+              <li><img src="img/equipo/camilo.jpg" alt="" width="640" height="640" decoding="async" fetchpriority="low"></li>
+            </ul>
+            <p>La primera charla es sin costo y la tienes con las mismas personas que van a hacer el trabajo.</p>
+          </div>
+        </div>
+
+        <div class="hero-escena">
+          <!-- El chat se arma solo con CSS: sin JS o con movimiento reducido
+               se ve directamente la conversación completa. -->
+          <figure class="chat" aria-label="Ejemplo de una primera conversación por WhatsApp">
+            <div class="chat-cabecera" aria-hidden="true">
+              <svg class="chat-atras"><use href="#i-atras"/></svg>
+              <span class="chat-avatar">
+                <!-- La A del logo con su flecha teal -->
+                <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#0B1C2D"/><path fill="#fff" d="M11.2 29.6 17.6 10.4h4.8l6.4 19.2h-4.3L20 15.6l-4.5 14Z"/><path fill="#2BA59A" d="m7.6 24.4 24.6-4.1-.8 3.3-17.2 2.6Z"/></svg>
+              </span>
+              <span class="chat-contacto">
+                <span class="chat-nombre">INCBA</span>
+                <span class="chat-estado">en línea</span>
+              </span>
+              <svg class="chat-accion"><use href="#i-video"/></svg>
+              <svg class="chat-accion"><use href="#i-llamada"/></svg>
+            </div>
+
+            <ol class="chat-mensajes" role="list">
+              <li class="msg msg-sale" style="--d:.3s">
+                <div class="msg-burbuja">
+                  <p><span class="sr">Luciana: </span>Hola, vendo ropa por Instagram y WhatsApp y se me mezclan los pedidos. ¿Me pueden ayudar?</p>
+                  <span class="msg-meta"><time>10:41</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span>
+                </div>
+              </li>
+              <li class="msg msg-entra" style="--t:.75s; --d:1.55s">
+                <span class="escribiendo" aria-hidden="true"><span></span><span></span><span></span></span>
+                <div class="msg-burbuja">
+                  <p><span class="sr">INCBA: </span>Hola, Luciana. Soy Felipe, de INCBA. Claro que sí. Cuéntame cómo los anotas hoy y lo vemos juntos.</p>
+                  <span class="msg-meta"><time>10:42</time></span>
+                </div>
+              </li>
+              <li class="msg msg-sale" style="--d:2.2s">
+                <div class="msg-burbuja">
+                  <p><span class="sr">Luciana: </span>En un cuaderno y en el mismo chat,&nbsp;jaja</p>
+                  <span class="msg-meta"><time>10:43</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span>
+                </div>
+              </li>
+              <li class="msg msg-entra" style="--t:2.5s; --d:3.2s">
+                <span class="escribiendo" aria-hidden="true"><span></span><span></span><span></span></span>
+                <div class="msg-burbuja">
+                  <p><span class="sr">INCBA: </span>Es más común de lo que crees. ¿Te&nbsp;queda bien una llamada mañana a las&nbsp;10?</p>
+                  <span class="msg-meta"><time>10:43</time></span>
+                </div>
+              </li>
+            </ol>
+
+            <div class="chat-pie" aria-hidden="true">
+              <span class="chat-campo"></span>
+              <span class="chat-mic"></span>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Situaciones ============ -->
+    <section class="seccion banda-celeste situaciones" id="situaciones" aria-labelledby="titulo-situaciones">
+      <div class="contenedor">
+        <header class="encabezado">
+          <h2 id="titulo-situaciones">¿Te pasa algo de esto?</h2>
+          <p>Son cosas que pasan seguido en el trabajo de todos los días. Si alguna te suena conocida, podemos ver juntos cómo resolverla.</p>
+        </header>
+
+        <ul class="hilo" role="list">
+          <li class="situacion">
+            <h3 class="burbuja">Contesto lo mismo veinte veces al día</h3>
+            <p>Que cuánto cuesta, que si hacen envíos. Cuando te das cuenta, se te fue la mañana con el celular en la mano.</p>
+          </li>
+          <li class="situacion">
+            <h3 class="burbuja">Vendí algo que ya no tenía</h3>
+            <p>La tienda online decía que había stock y en el local ya no quedaba. Pasa cuando cada sistema lleva su propia cuenta y alguien tiene que ir igualándolas a mano.</p>
+          </li>
+          <li class="situacion">
+            <h3 class="burbuja">El informe del mes me lleva un día entero</h3>
+            <p>Hay que pedirle los números a cada área y juntarlos en una planilla que nunca cierra a la primera.</p>
+          </li>
+          <li class="situacion">
+            <h3 class="burbuja">Me olvidé de avisarle al cliente</h3>
+            <p>Avisar que el pedido salió o recordar una cita depende de que alguien se acuerde.</p>
+          </li>
+          <li class="situacion">
+            <h3 class="burbuja">Cargamos el mismo pedido en tres lugares</h3>
+            <p>Entra por la web, alguien lo pasa al sistema de gestión y otra persona lo copia en la planilla de despacho.</p>
+          </li>
+          <li class="situacion">
+            <h3 class="burbuja">Nadie se anima a tocar el sistema</h3>
+            <p>Lo hizo alguien que ya no está en la empresa. Funciona más o menos, y cada cambio da un poco de miedo.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Servicios ============ -->
+    <section class="seccion servicios" id="servicios" aria-labelledby="titulo-servicios">
+      <div class="contenedor">
+        <header class="encabezado encabezado-partido">
+          <h2 id="titulo-servicios">Lo que hacemos</h2>
+          <p>Te lo contamos con ejemplos, que así se entiende mejor. Si lo tuyo no aparece aquí, escríbenos igual, porque muchas veces es una mezcla de varias de estas cosas.</p>
+        </header>
+
+        <ul class="servicios-lista" role="list">
+
+          <!-- 1 · Pedido -->
+          <li class="servicio">
+            <div class="servicio-texto">
+              <h3>Que tus sistemas se hablen entre sí</h3>
+              <p>Unimos tu tienda online con el sistema de gestión (ERP), el programa donde llevas el stock y la facturación, y también con los pagos y los envíos. Así cada dato se carga una sola vez y queda disponible en todos los lugares donde se usa.</p>
+            </div>
+            <figure class="escena">
+              <span class="escena-etiqueta">Ejemplo</span>
+              <div class="pantalla pedido">
+                <div class="pedido-cabecera">
+                  <span class="pedido-icono" aria-hidden="true"><svg class="icono"><use href="#i-bolsa"/></svg></span>
+                  <p class="pedido-titulo"><span class="pedido-origen">Tienda online</span><span class="sep" aria-hidden="true"> · </span><span class="pedido-numero">Pedido #3172</span></p>
+                </div>
+                <ol class="pedido-pasos" role="list">
+                  <li><span class="tilde" aria-hidden="true"><svg><use href="#i-check"/></svg></span><span><b>Marisa Ortiz</b><span class="sep" aria-hidden="true"> · </span><span class="pedido-items">2 latas de látex blanco 4 L, 1 rodillo</span></span></li>
+                  <li><span class="tilde" aria-hidden="true"><svg><use href="#i-check"/></svg></span><span>Pago aprobado</span></li>
+                  <li><span class="tilde" aria-hidden="true"><svg><use href="#i-check"/></svg></span><span>Stock de látex blanco 4 L en el sistema: <span class="stock"><s>16</s> → <b>14</b></span></span></li>
+                  <li><span class="tilde" aria-hidden="true"><svg><use href="#i-check"/></svg></span><span>Factura emitida y enviada por correo</span></li>
+                </ol>
+              </div>
+            </figure>
+          </li>
+
+          <!-- 2 · Planilla -->
+          <li class="servicio">
+            <div class="servicio-texto">
+              <h3>Automatizar las tareas de siempre</h3>
+              <p>Buscamos las tareas que tu equipo repite cada semana, como pasar datos de una planilla a otra o armar el mismo informe, y hacemos que un programa se encargue de ellas. Lo mismo con los avisos a clientes que hoy alguien tiene que acordarse de mandar.</p>
+            </div>
+            <figure class="escena">
+              <span class="escena-etiqueta">Ejemplo</span>
+              <div class="pantalla planilla">
+                <div class="planilla-barra">
+                  <svg class="icono planilla-icono" aria-hidden="true"><use href="#i-hoja"/></svg>
+                  <p class="planilla-titulo">Ventas de la semana</p>
+                </div>
+                <div class="hoja">
+                  <div class="hoja-fila hoja-columnas" aria-hidden="true"><span></span><span>A</span><span>B</span><span>C</span></div>
+                  <p class="hoja-fila"><span class="hoja-n" data-n="1" aria-hidden="true"></span><span>Lunes</span><span class="sep" aria-hidden="true"> · </span><span>34 pedidos</span><span class="sep" aria-hidden="true"> · </span><span class="hoja-num">$412.300</span></p>
+                  <p class="hoja-fila"><span class="hoja-n" data-n="2" aria-hidden="true"></span><span>Martes</span><span class="sep" aria-hidden="true"> · </span><span>29 pedidos</span><span class="sep" aria-hidden="true"> · </span><span class="hoja-num">$356.900</span></p>
+                  <p class="hoja-fila hoja-fila-viva"><span class="hoja-n" data-n="3" aria-hidden="true"></span><span>Miércoles</span><span class="sep" aria-hidden="true"> · </span><span class="completando">se está completando…</span></p>
+                  <div class="hoja-fila hoja-vacia" aria-hidden="true"><span class="hoja-n" data-n="4"></span><span></span><span></span><span></span></div>
+                </div>
+                <p class="planilla-pie"><svg class="icono" aria-hidden="true"><use href="#i-reloj"/></svg>Actualizada automáticamente a las 8:00</p>
+              </div>
+            </figure>
+          </li>
+
+          <!-- 3 · Tablero -->
+          <li class="servicio">
+            <div class="servicio-texto">
+              <h3>Renovar sistemas viejos</h3>
+              <p>Ese sistema que ya no da más, o que nadie se anima a tocar, primero lo estudiamos con calma para entender bien qué hace. Después lo renovamos por partes, cuidando los datos, y cada parte la revisas y la apruebas antes de que sigamos con la próxima.</p>
+            </div>
+            <figure class="escena">
+              <span class="escena-etiqueta">Ejemplo</span>
+              <div class="pantalla tablero">
+                <p class="tablero-titulo">Cambio al sistema nuevo</p>
+                <div class="tablero-avance" aria-hidden="true"><span class="lista"></span><span class="revision"></span><span></span></div>
+                <ul class="partes" role="list">
+                  <li class="parte"><span class="parte-n">Parte 1</span><span class="sep" aria-hidden="true"> · </span><span class="parte-nombre">Clientes y contactos (3.412)</span><span class="sep" aria-hidden="true"> · </span><span class="chip chip-lista">lista</span></li>
+                  <li class="parte"><span class="parte-n">Parte 2</span><span class="sep" aria-hidden="true"> · </span><span class="parte-nombre">Historial de compras</span><span class="sep" aria-hidden="true"> · </span><span class="chip chip-revision">en revisión con tu equipo</span></li>
+                  <li class="parte"><span class="parte-n">Parte 3</span><span class="sep" aria-hidden="true"> · </span><span class="parte-nombre">Facturación</span><span class="sep" aria-hidden="true"> · </span><span class="chip chip-pendiente">pendiente</span></li>
+                </ul>
+                <p class="tablero-pie">Próximo paso: aprobar la parte 2</p>
+              </div>
+            </figure>
+          </li>
+
+          <!-- 4 · App a medida -->
+          <li class="servicio">
+            <div class="servicio-texto">
+              <h3>Programas hechos a tu medida</h3>
+              <p>Cuando ninguno de los programas que ya existen se adapta a cómo trabaja tu equipo, hacemos uno para ti, ya sea un sistema interno completo o una aplicación sencilla para una tarea puntual.</p>
+            </div>
+            <figure class="escena escena-angosta">
+              <span class="escena-etiqueta">Ejemplo</span>
+              <div class="pantalla app">
+                <p class="app-barra"><span class="app-titulo">Órdenes de trabajo</span><span class="sep" aria-hidden="true"> · </span><span class="app-taller">Taller Los Aromos</span></p>
+                <ul class="ordenes" role="list">
+                  <li class="orden">
+                    <span class="orden-icono" aria-hidden="true"><svg class="icono"><use href="#i-llave"/></svg></span>
+                    <p><span class="orden-n">#215</span><span class="sep" aria-hidden="true"> · </span><span class="orden-trabajo">Cambio de embrague</span><span class="sep" aria-hidden="true"> · </span><span class="orden-estado"><span class="mini-avatar" data-inicial="R" aria-hidden="true"></span>a cargo de Rubén</span></p>
+                  </li>
+                  <li class="orden">
+                    <span class="orden-icono" aria-hidden="true"><svg class="icono"><use href="#i-llave"/></svg></span>
+                    <p><span class="orden-n">#216</span><span class="sep" aria-hidden="true"> · </span><span class="orden-trabajo">Revisión general</span><span class="sep" aria-hidden="true"> · </span><span class="orden-estado"><span class="chip chip-revision">esperando repuesto</span></span></p>
+                  </li>
+                </ul>
+                <p class="aviso"><span class="aviso-icono" aria-hidden="true"><svg><use href="#i-check"/></svg></span><span>Aviso enviado al cliente: “Tu auto ya está listo para retirar”</span></p>
+              </div>
+            </figure>
+          </li>
+
+          <!-- 5 · Notificación -->
+          <li class="servicio">
+            <div class="servicio-texto">
+              <h3>Inteligencia artificial donde sirve</h3>
+              <p>La inteligencia artificial (IA) trabaja con los datos que le das, por eso antes de sumarla ordenamos la información y los procesos. Con eso listo, la IA puede encargarse de tareas concretas, como leer las facturas de tus proveedores y cargarlas en el sistema.</p>
+            </div>
+            <figure class="escena escena-angosta">
+              <span class="escena-etiqueta">Ejemplo</span>
+              <div class="pantalla celular">
+                <div class="notif">
+                  <span class="notif-icono" aria-hidden="true"><svg class="icono"><use href="#i-chispa"/></svg></span>
+                  <div class="notif-cuerpo">
+                    <p class="notif-titulo">Llegó una factura de Distribuidora Santa Rita</p>
+                    <p>La IA leyó el archivo: 12 productos, total $438.900</p>
+                    <p>Cargada en compras como borrador</p>
+                    <p class="notif-accion"><span>Falta tu aprobación</span><span class="sep" aria-hidden="true"> · </span><span class="notif-boton">Revisar</span></p>
+                  </div>
+                </div>
+                <span class="notif-debajo" aria-hidden="true"></span>
+                <span class="notif-debajo notif-debajo-2" aria-hidden="true"></span>
+              </div>
+            </figure>
+          </li>
+
+          <!-- 6 · Bandeja compartida -->
+          <li class="servicio">
+            <div class="servicio-texto">
+              <h3>WhatsApp, Instagram y Messenger en un solo lugar</h3>
+              <p>Todas las conversaciones llegan a una misma bandeja y tu equipo se las reparte, así cada uno sabe cuáles le tocan. La herramienta la construimos nosotros y ya está funcionando.</p>
+            </div>
+            <figure class="escena">
+              <span class="escena-etiqueta">Ejemplo</span>
+              <div class="pantalla bandeja">
+                <p class="bandeja-cabecera"><span class="bandeja-titulo">Bandeja compartida</span><span class="sep" aria-hidden="true"> · </span><span class="insignia">3 sin responder</span></p>
+                <ul class="conversaciones" role="list">
+                  <li class="conv conv-wa">
+                    <span class="conv-icono" aria-hidden="true"><svg class="icono"><use href="#i-wa"/></svg></span>
+                    <p class="conv-texto"><span class="conv-canal">WhatsApp</span><span class="sep" aria-hidden="true"> · </span><b class="conv-nombre">Coni</b><span class="sep" aria-hidden="true">: </span><span class="conv-msg">¿Les quedan las zapatillas blancas en 38?</span></p>
+                    <span class="mini-avatar mini-avatar-teal" data-inicial="G" aria-hidden="true"></span>
+                  </li>
+                  <li class="conv conv-ig">
+                    <span class="conv-icono" aria-hidden="true"><svg class="icono"><use href="#i-ig"/></svg></span>
+                    <p class="conv-texto"><span class="conv-canal">Instagram</span><span class="sep" aria-hidden="true"> · </span><b class="conv-nombre">Nacho R.</b><span class="sep" aria-hidden="true">: </span><span class="conv-msg">¿Cuánto tarda el envío a Rosario?</span></p>
+                    <span class="conv-punto" aria-hidden="true"></span>
+                  </li>
+                  <li class="conv conv-msn">
+                    <span class="conv-icono" aria-hidden="true"><svg class="icono"><use href="#i-msn"/></svg></span>
+                    <p class="conv-texto"><span class="conv-canal">Messenger</span><span class="sep" aria-hidden="true"> · </span><b class="conv-nombre">Héctor Vidal</b><span class="sep" aria-hidden="true">: </span><span class="conv-msg">¿Ya salió mi pedido?</span></p>
+                    <span class="conv-punto" aria-hidden="true"></span>
+                  </li>
+                </ul>
+                <p class="bandeja-asignacion"><span class="mini-avatar mini-avatar-teal" data-inicial="G" aria-hidden="true"></span>Gabriela tomó la conversación con Coni</p>
+              </div>
+            </figure>
+          </li>
+
+          <!-- 7 · Tienda online -->
+          <li class="servicio">
+            <div class="servicio-texto">
+              <h3>Páginas web y tiendas online</h3>
+              <p>Armamos tu página o tu tienda para que muestres lo que haces y vendas por internet. También podemos conectar la que ya tienes con el resto de tus herramientas.</p>
+            </div>
+            <figure class="escena">
+              <span class="escena-etiqueta">Ejemplo</span>
+              <div class="pantalla tienda">
+                <p class="tienda-cabecera"><span class="tienda-puntos" aria-hidden="true"><i></i><i></i><i></i></span><span class="tienda-tipo">Tienda online</span><span class="sep-visible" aria-hidden="true"> · </span><span class="tienda-nombre">Dulcería La Morena</span></p>
+                <div class="producto">
+                  <div class="producto-foto" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                  <div class="producto-info">
+                    <p class="producto-nombre"><span>Caja de 12 alfajores de maicena</span><span class="sep" aria-hidden="true"> · </span><span class="producto-precio">$7.450</span></p>
+                    <p class="producto-boton">Agregar al carrito</p>
+                  </div>
+                </div>
+              </div>
+              <p class="venta"><span class="venta-icono" aria-hidden="true"><svg class="icono"><use href="#i-bolsa"/></svg></span><span class="venta-texto">Nueva venta</span><span class="sep-visible" aria-hidden="true"> · </span><time>23:14</time></p>
+            </figure>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Para quién ============ -->
+    <section class="seccion banda-celeste para-quien" id="para-quien" aria-labelledby="titulo-para-quien">
+      <div class="contenedor">
+        <header class="encabezado">
+          <h2 id="titulo-para-quien">A quién ayudamos</h2>
+          <p>Nos llegan clientes de tamaños muy distintos. Siempre empezamos por entender cómo funciona hoy tu negocio, y a partir de ahí te proponemos qué hacer.</p>
+        </header>
+
+        <div class="perfiles">
+          <article class="perfil">
+            <svg class="perfil-icono" aria-hidden="true"><use href="#i-persona"/></svg>
+            <h3>Personas y emprendedores</h3>
+            <p>Si vendes por Instagram o WhatsApp, o trabajas por tu cuenta, te ayudamos a ordenar los mensajes y los pedidos para que no dependa todo de tu memoria.</p>
+            <p class="ejemplo"><strong>Por ejemplo:</strong> Juntar en un solo lugar los mensajes de WhatsApp e Instagram y que cada pedido se anote automáticamente en una planilla.</p>
+          </article>
+          <article class="perfil">
+            <svg class="perfil-icono" aria-hidden="true"><use href="#i-local"/></svg>
+            <h3>Negocios</h3>
+            <p>Aquí entran los comercios, las dietéticas, las clínicas y las pymes que atienden clientes todos los días. Hacemos que la tienda online y el local muestren el mismo stock, y que nadie tenga que cargar las ventas dos veces.</p>
+            <p class="ejemplo"><strong>Por ejemplo:</strong> Que los clientes de una peluquería reciban por WhatsApp el recordatorio de su cita el día anterior, sin que nadie tenga que mandarlo.</p>
+          </article>
+          <article class="perfil">
+            <svg class="perfil-icono" aria-hidden="true"><use href="#i-edificio"/></svg>
+            <h3>Empresas</h3>
+            <p>Cuando tu empresa tiene varias áreas y un sistema de gestión (ERP), trabajamos con tu equipo de sistemas, si tienes uno, o directamente con los encargados de cada sector, para que las áreas dejen de ir cada una por su lado. Todo lo que hacemos queda documentado, así tu gente lo puede mantener.</p>
+            <p class="ejemplo"><strong>Por ejemplo:</strong> Unir el ERP con el CRM (el sistema donde el equipo comercial registra a sus clientes), para que ventas y administración manejen los mismos números.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Cómo trabajamos ============ -->
+    <section class="seccion proceso" id="como-trabajamos" aria-labelledby="titulo-proceso">
+      <div class="contenedor">
+        <header class="encabezado encabezado-partido">
+          <h2 id="titulo-proceso">Cómo trabajamos</h2>
+          <p>Vamos por etapas, para que siempre sepas en qué estamos y puedas opinar a tiempo.</p>
+        </header>
+
+        <ol class="pasos" role="list">
+          <li class="paso paso-inicio">
+            <div class="paso-marca">
+              <span class="paso-num" aria-hidden="true">1</span>
+              <span class="etiqueta-inicio">Empieza aquí</span>
+            </div>
+            <h3>Conversamos</h3>
+            <p>Nos cuentas qué te complica en el día a día y cómo lo resuelves hoy.</p>
+          </li>
+          <li class="paso">
+            <div class="paso-marca"><span class="paso-num" aria-hidden="true">2</span></div>
+            <h3>Armamos un plan</h3>
+            <p>Te explicamos qué conviene hacer primero y te enviamos una propuesta por escrito, en palabras que se entiendan.</p>
+          </li>
+          <li class="paso">
+            <div class="paso-marca"><span class="paso-num" aria-hidden="true">3</span></div>
+            <h3>Construimos por partes</h3>
+            <p>Te mostramos cada etapa terminada para que la pruebes, y pasamos a la siguiente cuando estés conforme.</p>
+          </li>
+          <li class="paso">
+            <div class="paso-marca"><span class="paso-num" aria-hidden="true">4</span></div>
+            <h3>Lo dejamos funcionando</h3>
+            <p>Ponemos todo en marcha y lo dejamos documentado, de modo que quien lo tenga que tocar más adelante sepa cómo está hecho.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ Equipo ============ -->
+    <section class="seccion equipo" id="equipo" aria-labelledby="titulo-equipo">
+      <div class="contenedor">
+        <header class="encabezado">
+          <h2 id="titulo-equipo">Quiénes te van a atender</h2>
+          <p>Somos Felipe, Benjamín y Camilo, un equipo chico que trabaja entre Argentina y Chile. Los que se sientan contigo en las reuniones son los mismos que después programan lo que acordamos, así que cualquier duda se la preguntas directamente a quien está haciendo tu proyecto.</p>
+        </header>
+
+        <ul class="personas" role="list">
+          <li class="persona">
+            <div class="persona-foto"><img src="img/equipo/felipe.jpg" alt="Foto de Felipe Rebolledo" width="640" height="640" loading="lazy" decoding="async"></div>
+            <h3>Felipe Rebolledo</h3>
+            <p class="persona-rol"><span>Lidera los proyectos</span><span class="sep" aria-hidden="true"> · </span><span>Desarrollador full stack</span></p>
+            <p>Suele ser la primera persona con la que hablas y es quien arma el plan de cada proyecto. Como desarrollador full stack, programa tanto lo que ves en pantalla como la parte interna que lo hace funcionar. Se especializa en sistemas e infraestructura, es decir, en los servidores y la base técnica sobre la que se apoya todo lo demás.</p>
+          </li>
+          <li class="persona">
+            <div class="persona-foto"><img src="img/equipo/benjamin.jpg" alt="Foto de Benjamín Navarrete" width="640" height="640" loading="lazy" decoding="async"></div>
+            <h3>Ing. Benjamín Navarrete</h3>
+            <p class="persona-rol"><span>Ingeniero informático</span><span class="sep" aria-hidden="true"> · </span><span>Automatizaciones e inteligencia artificial</span></p>
+            <p>Se fija en las tareas que tu equipo hace a mano para encontrar las que se pueden automatizar, y después arma lo necesario para que ya no dependan de nadie. También ve en qué partes conviene usar inteligencia artificial y se encarga de sumarla.</p>
+          </li>
+          <li class="persona">
+            <div class="persona-foto"><img src="img/equipo/camilo.jpg" alt="Foto de Camilo Acencio" width="640" height="640" loading="lazy" decoding="async"></div>
+            <h3>Ing. Camilo Acencio</h3>
+            <p class="persona-rol"><span>Ingeniero informático</span><span class="sep" aria-hidden="true"> · </span><span>Backend y servidores</span></p>
+            <p>Trabaja en lo que funciona por detrás de cada sistema, lo que en el oficio se llama backend, y en los servidores donde queda instalado. Cuando llega el momento de ponerlo en producción, que es cuando empieza a usarse en serio, cuida que todo quede estable.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Clientes ============ -->
+    <section class="seccion clientes" id="clientes" aria-labelledby="titulo-clientes">
+      <div class="contenedor">
+        <header class="encabezado encabezado-partido">
+          <h2 id="titulo-clientes">Nuestros clientes</h2>
+          <p>Comercios de barrio, marcas y empresas de rubros muy distintos.</p>
+        </header>
+
+        <!-- --w es el ancho de cada logo calculado para que todos ocupen un área
+             parecida (tamaño óptico parejo) y --o, su opacidad, para emparejar el
+             peso: los macizos bajan y los de trazo fino suben. "es-oscuro" = logo
+             blanco, se invierte para verse sobre claro; "es-claro" = logo de
+             tono muy claro, se oscurece. -->
+        <ul class="logos" role="list">
+          <li><img src="img/clientes-web/betamotor.webp" alt="Betamotor" width="646" height="616" style="--w:58px; --o:.45" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/norviguet.webp" alt="Norviguet" width="2010" height="523" style="--w:112px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/btob.webp" alt="BtoB" width="830" height="392" style="--w:86px" loading="lazy" decoding="async"></li>
+          <li class="es-claro"><img src="img/clientes-web/xinu.webp" alt="Xinu Perfumería" width="575" height="230" style="--w:116px; --o:.8" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/clinica-creare.webp" alt="Clínica Creare" width="1024" height="264" style="--w:120px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/ingav.png" alt="INGAV" width="445" height="194" style="--w:116px; --o:.45" loading="lazy" decoding="async"></li>
+          <li class="es-claro"><img src="img/clientes-web/docesoles.webp" alt="Doce Soles" width="403" height="443" style="--w:64px; --o:.8" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/norpan.webp" alt="NOR-PAN" width="240" height="86" style="--w:106px" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/jaque-content.webp" alt="Jaque Content" width="84" height="49" style="--w:70px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/preciowow.webp" alt="Precio WOW" width="802" height="470" style="--w:82px" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/silexis.webp" alt="Silexis" width="700" height="150" style="--w:128px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/fullerton.png" alt="Fullerton" width="300" height="78" style="--w:124px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/rc-ingenieria.webp" alt="RC Ingeniería" width="200" height="123" style="--w:62px; --o:.5" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/onalulu-deco.webp" alt="Onalulú Deco" width="191" height="54" style="--w:110px; --o:.8" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/camino-estrellas.webp" alt="Camino de las Estrellas" width="1744" height="490" style="--w:108px; --o:.45" loading="lazy" decoding="async"></li>
+          <li class="es-claro"><img src="img/clientes-web/rincon-de-ideas.webp" alt="Rincón de Ideas" width="3334" height="975" style="--w:138px; --o:.8" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/dietetica-almendra.webp" alt="Dietética Almendra" width="504" height="432" style="--w:60px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/ipone.webp" alt="IPONE" width="157" height="41" style="--w:94px; --o:.45" loading="lazy" decoding="async"></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Agencias ============ -->
+    <section class="seccion agencias" id="agencias" aria-labelledby="titulo-agencias">
+      <div class="contenedor agencias-grilla">
+        <h2 id="titulo-agencias">Para agencias, estudios y consultoras</h2>
+        <div class="agencias-cuerpo">
+          <p>Si tus clientes necesitan algo de lo que hacemos y no tienes un equipo técnico propio, nos encargamos nosotros. Podemos trabajar con tu marca, lo que se conoce como marca blanca. Por cada cliente que nos refieras hay una comisión para ti. También te damos material para vender, como propuestas y presentaciones, y te acompañamos a las reuniones con tu cliente.</p>
+          <a class="boton boton-secundario" href="https://wa.me/5493517422702?text=Hola%2C%20quiero%20conocer%20el%20programa%20para%20agencias" target="_blank" rel="noopener" data-fb-name="agencias">
+            <svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg>
+            Quiero conocer el programa
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Contacto ============ -->
+    <section class="seccion banda-celeste contacto" id="contacto" aria-labelledby="titulo-contacto">
+      <div class="contenedor">
+        <div class="contacto-panel">
+          <div class="contacto-texto">
+            <h2 id="titulo-contacto">Cuéntanos qué necesitas</h2>
+            <p>Puedes escribirnos aunque no sepas bien cómo se llama lo que buscas. Con que nos expliques cómo trabajas hoy y qué te gustaría cambiar, ya tenemos por dónde empezar.</p>
+          </div>
+          <div class="contacto-acciones">
+            <a class="boton boton-principal boton-grande" href="https://wa.me/5493517422702?text=Hola%2C%20quiero%20hacer%20una%20consulta" target="_blank" rel="noopener" data-fb-name="contacto">
+              <svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg>
+              Escribir por WhatsApp
+            </a>
+            <p class="contacto-dato contacto-correo">
+              <svg class="icono" aria-hidden="true"><use href="#i-correo"/></svg>
+              <span>O si prefieres, por correo: <a class="dato-valor" href="mailto:felipe@incba.com.ar" data-fb-name="contacto-correo">felipe@incba.com.ar</a></span>
+            </p>
+            <p class="contacto-dato">
+              <svg class="icono" aria-hidden="true"><use href="#i-llamada"/></svg>
+              <a class="dato-valor" href="tel:+5493517422702" data-fb-name="contacto-telefono">+54 9 351 742 2702</a>
+            </p>
+            <p class="contacto-nota">La primera charla no tiene costo, estés en Argentina o en Chile.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ Pie ============ -->
+  <footer class="pie">
+    <div class="contenedor pie-grilla">
+      <div class="pie-marca">
+        <img src="img/logo-tinta.png" alt="INCBA" width="637" height="251" loading="lazy" decoding="async">
+        <p>INCBA es una consultora tecnológica que trabaja en Argentina y Chile. Ayudamos a personas, negocios y empresas a ordenar sus sistemas y a dedicarle menos tiempo a las tareas repetitivas.</p>
+      </div>
+      <nav class="pie-nav" aria-label="Secciones">
+        <ul role="list">
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#para-quien">Para quién</a></li>
+          <li><a href="#como-trabajamos">Cómo trabajamos</a></li>
+          <li><a href="#equipo">Equipo</a></li>
+          <li><a href="#agencias">Agencias</a></li>
+        </ul>
+      </nav>
+      <p class="pie-copy">© 2026 INCBA</p>
+    </div>
+  </footer>
+
+</body>
+</html>
