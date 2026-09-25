@@ -6,9 +6,16 @@ name: Publicar espejo incba.cl
 # versión chilena desde index.html y la publica en INCBA/incba-web-cl,
 # así el contenido de ambos dominios sale siempre de la misma fuente.
 
+# EN PAUSA desde el 2026-09-25: sólo se corre a mano.
+# Ese día incba.com.ar pasó a la portada nueva (la "opción B") e incba.cl se
+# quedó a propósito con la versión anterior: va a tener su propia versión
+# chilena, con otra historia, más adelante. tools/build-cl.mjs busca textos
+# exactos de la portada VIEJA y falla contra la nueva, así que dispararlo en
+# cada push sólo produciría builds rotos. Mientras tanto incba.cl sigue
+# sirviendo lo último que se publicó en INCBA/incba-web-cl.
+# Para reactivarlo: reescribir las RULES de tools/build-cl.mjs contra la
+# portada chilena y volver a poner el disparador de push a master.
 on:
-  push:
-    branches: [master]
   workflow_dispatch:
 
 concurrency:

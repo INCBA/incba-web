@@ -1,11 +1,11 @@
 {
-  "name": "INCBA — Technology Consulting",
+  "name": "INCBA — Consultora Tecnológica",
   "short_name": "INCBA",
   "icons": [
     { "src": "img/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ],
-  "theme_color": "#0B1C2D",
-  "background_color": "#0B1C2D",
+  "theme_color": "#F7F9FC",
+  "background_color": "#F7F9FC",
   "display": "standalone"
 }
