@@ -1,7 +1,7 @@
 /* ============================================
    INCBA — Opción B
-   Menú en celular, chat del hero, flujo del pedido, carruseles, formulario,
-   botón flotante y eventos del píxel de Meta.
+   Menú en celular, chat del hero, flujo del pedido, esquema del CRM,
+   carruseles, formulario, botón flotante y eventos del píxel de Meta.
    Todo el contenido se ve sin este archivo: acá solo hay mejoras.
    ============================================ */
 
@@ -212,6 +212,20 @@
         obsFlujo.observe(flujo);
       }
     });
+  }
+
+  // --- Esquema del CRM: se anima la primera vez que se ve ---
+  // La animación (dos pasadas, menos de cinco segundos) está en el CSS; acá
+  // solo se decide cuándo empieza: cuando el esquema se ve casi entero.
+  if (!sinMovimiento.matches && hayObservador) {
+    const obsEsquema = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (!entrada.isIntersecting) return;
+        entrada.target.classList.add('anima');
+        obsEsquema.unobserve(entrada.target);
+      });
+    }, { threshold: 0.7 });
+    document.querySelectorAll('.esquema').forEach((esquema) => obsEsquema.observe(esquema));
   }
 
   // --- Carruseles ---

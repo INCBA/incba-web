@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>INCBA | Tecnología para tu negocio · Diagnóstico gratuito</title>
-  <meta name="description" content="Ordenamos los mensajes y los sistemas de tu negocio. Agenda un diagnóstico gratuito por videollamada, o en persona en Córdoba, Santiago o Temuco.">
+  <meta name="description" content="Desarrollo de sistemas y automatización en Argentina y Chile. Agenda un diagnóstico gratuito por videollamada, o en persona en Córdoba, Santiago o Temuco.">
   <!-- Prototipo de la opción B: no se indexa para no competir con la web real
        si alguna vez queda publicado por error. -->
   <meta name="robots" content="noindex, nofollow">
@@ -17,7 +17,7 @@
   <link rel="manifest" href="site.webmanifest">
 
   <meta property="og:title" content="INCBA | Tecnología para tu negocio · Diagnóstico gratuito">
-  <meta property="og:description" content="Ordenamos los mensajes y los sistemas de tu negocio. Agenda un diagnóstico gratuito por videollamada, o en persona en Córdoba, Santiago o Temuco.">
+  <meta property="og:description" content="Desarrollo de sistemas y automatización en Argentina y Chile. Agenda un diagnóstico gratuito por videollamada, o en persona en Córdoba, Santiago o Temuco.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://incba.com.ar/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
@@ -161,6 +161,28 @@
       <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M6.2 16.5V11a5.8 5.8 0 0 1 11.6 0v5.5l1.7 2H4.5l1.7-2Z"/>
       <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M10 21h4"/>
     </symbol>
+    <!-- Esquema del CRM de mensajes: cada canal lleva un ícono genérico
+         (globo, foto, dos globos), no el logo de la aplicación. -->
+    <symbol id="i-foto" viewBox="0 0 24 24">
+      <rect x="3.5" y="4.5" width="17" height="15" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="15.3" cy="9.4" r="1.6" fill="currentColor"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="m3.9 16.6 4.7-4.7 3.6 3.6 2.4-2.4 5.5 5.4"/>
+    </symbol>
+    <symbol id="i-charla" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M5.4 9h7.2a2.4 2.4 0 0 1 2.4 2.4v3.7a2.4 2.4 0 0 1-2.4 2.4H8.5L5.3 20v-2.5A2.4 2.4 0 0 1 3 15.1v-3.7A2.4 2.4 0 0 1 5.4 9Z"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M9 9V6a2.4 2.4 0 0 1 2.4-2.4h7.2A2.4 2.4 0 0 1 21 6v3.7a2.4 2.4 0 0 1-2.4 2.4h-.3v2.4L15 12.1"/>
+    </symbol>
+    <symbol id="i-bandeja" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3.5 13.5 6.2 5.6a1.6 1.6 0 0 1 1.5-1.1h8.6a1.6 1.6 0 0 1 1.5 1.1l2.7 7.9v4.4a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-4.4Z"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3.5 13.5h4.6l1.4 2.6h5l1.4-2.6h4.6"/>
+    </symbol>
+    <symbol id="i-equipo" viewBox="0 0 24 24">
+      <circle cx="9" cy="8.3" r="3.3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M2.8 19.6c.6-3.5 3-5.5 6.2-5.5s5.6 2 6.2 5.5M15.6 5.2a3.3 3.3 0 0 1 0 6.3m2 2.9c2 .7 3.3 2.5 3.7 5.2"/>
+    </symbol>
+    <symbol id="i-historial" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 1 0 2.3-5.4L4.5 8.8m0-4.3v4.3h4.3M12 8v4.3l2.9 1.8"/>
+    </symbol>
     <symbol id="i-impresora" viewBox="0 0 24 24">
       <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M7 9V3.5h10V9M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v6.5H7V14Z"/>
     </symbol>
@@ -223,9 +245,9 @@
     <section class="hero" id="inicio" aria-labelledby="titulo-inicio">
       <div class="contenedor hero-grilla">
         <div class="hero-texto">
-          <p class="eyebrow">Consultora tecnológica · Argentina y Chile</p>
-          <h1 id="titulo-inicio">Ordenamos los sistemas de tu negocio para que hagas menos cosas a mano</h1>
-          <p class="hero-bajada">Si cargas los mismos datos en dos lugares o se te van las horas en tareas que se repiten, te ayudamos a resolverlo con los programas que ya usas o con uno hecho a tu medida.</p>
+          <p class="eyebrow">Consultora tecnológica</p>
+          <h1 id="titulo-inicio">Desarrollo de sistemas y automatización</h1>
+          <p class="hero-bajada">Trabajamos con personas, negocios y empresas de Argentina y Chile.</p>
 
           <div class="hero-acciones">
             <a class="boton boton-principal" href="https://calendly.com/felipe-incba" target="_blank" rel="noopener" data-fb-event="Schedule" data-fb-name="hero">
@@ -325,10 +347,9 @@
       <div class="contenedor meta-grilla">
         <span class="meta-sello" aria-hidden="true"><svg><use href="#i-escudo"/></svg></span>
         <div class="meta-titular">
-          <p class="meta-etiqueta">Verificada por Meta</p>
           <h2 id="titulo-meta">INCBA está verificada por Meta como proveedor de tecnología (Tech Provider)</h2>
         </div>
-        <p class="meta-texto">Para los mensajes de tu negocio trabajamos con la API oficial de WhatsApp Business, el canal que Meta ofrece a las empresas. Por ahí salen las respuestas automáticas, los avisos y las campañas, con plantillas que Meta revisa antes de que se puedan usar.</p>
+        <p class="meta-texto">Hacemos sistemas CRM y automatizaciones para WhatsApp, Instagram y Messenger con las conexiones oficiales (API) de Meta.</p>
       </div>
     </section>
 
@@ -453,11 +474,40 @@
 
         <ul class="servicios-lista" role="list">
 
-          <!-- 1 · Mensajes: bandeja con respuestas automáticas -->
-          <li class="servicio">
+          <!-- 1 · CRM de mensajes: esquema de canales y escena de chat -->
+          <li class="servicio servicio-crm">
             <div class="servicio-texto">
-              <h3 id="titulo-mensajes">Tus mensajes en un solo lugar, con respuestas automáticas por WhatsApp</h3>
-              <p>Las preguntas de siempre, como horarios, precios o envíos, reciben una respuesta automática a cualquier hora, y cuando hace falta, una persona del equipo sigue la conversación. Lo que te escriben por WhatsApp, Instagram y Messenger llega a una misma bandeja que tu equipo se reparte; esa bandeja la construimos nosotros y ya está funcionando. Los avisos y las promociones salen por la API oficial, que es la conexión que WhatsApp habilita para empresas, con mensajes modelo aprobados de antemano. Si conviene, sumamos inteligencia artificial para que el sistema entienda lo que escribe el cliente aunque no use las palabras exactas o escriba con errores.</p>
+              <h3 id="titulo-mensajes">CRM de mensajes</h3>
+              <p>Lo que te escriben por tus redes llega a un mismo CRM, que automatiza respuestas y avisos.</p>
+
+              <!-- Esquema: canales → CRM → lo que hace. Para el lector de pantalla
+                   son dos listas con su rótulo y el CRM entre ellas; los
+                   conectores y las flechas son solo dibujo. -->
+              <div class="esquema" role="group" aria-label="Cómo funciona el CRM de mensajes">
+                <div class="esquema-grilla">
+                  <div class="esquema-entradas">
+                    <p class="sr">Canales que llegan al CRM:</p>
+                    <ul role="list">
+                      <li style="--i:0"><span class="esquema-chip"><svg class="icono" aria-hidden="true"><use href="#i-chat"/></svg>WhatsApp</span></li>
+                      <li style="--i:1"><span class="esquema-chip"><svg class="icono" aria-hidden="true"><use href="#i-foto"/></svg>Instagram</span></li>
+                      <li style="--i:2"><span class="esquema-chip"><svg class="icono" aria-hidden="true"><use href="#i-charla"/></svg>Messenger</span></li>
+                    </ul>
+                  </div>
+                  <div class="esquema-centro">
+                    <span class="esquema-centro-icono" aria-hidden="true"><svg><use href="#i-bandeja"/></svg></span>
+                    <span>Tu CRM</span>
+                  </div>
+                  <div class="esquema-salidas">
+                    <p class="sr">Qué hace el CRM:</p>
+                    <ul role="list">
+                      <li style="--i:0"><span class="esquema-chip"><svg class="icono" aria-hidden="true"><use href="#i-rayo"/></svg>Responde preguntas frecuentes</span></li>
+                      <li style="--i:1"><span class="esquema-chip"><svg class="icono" aria-hidden="true"><use href="#i-equipo"/></svg>Reparte chats al equipo</span></li>
+                      <li style="--i:2"><span class="esquema-chip"><svg class="icono" aria-hidden="true"><use href="#i-historial"/></svg>Guarda el historial de cada cliente</span></li>
+                      <li style="--i:3"><span class="esquema-chip"><svg class="icono" aria-hidden="true"><use href="#i-campana"/></svg>Envía avisos</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
             <figure class="escena">
               <div class="pantalla conversacion">

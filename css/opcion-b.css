@@ -372,8 +372,18 @@ main:focus { outline: none; }
   letter-spacing: 0.02em;
 }
 
+/* El título del hero es corto: va más grande que el h1 base, y en escritorio
+   crece con la columna para quedar en dos líneas frente al chat. */
+.hero h1 {
+  font-size: clamp(2.25rem, 0.2rem + 4.4vw, 3.75rem);
+  line-height: 1.02;
+}
+@media (max-width: 899px) {
+  .hero h1 { font-size: clamp(2.25rem, 1.2rem + 4.2vw, 3.25rem); }
+}
+
 .hero-bajada {
-  margin-top: 24px;
+  margin-top: 22px;
   max-width: 34em;
   color: var(--tinta-2);
   font-size: var(--t-l);
@@ -792,14 +802,6 @@ main:focus { outline: none; }
   box-shadow: 0 0 0 8px rgba(15, 127, 118, 0.1), 0 16px 32px -18px rgba(11, 28, 45, 0.45);
 }
 .meta-sello svg { width: 54%; height: 54%; }
-.meta-etiqueta {
-  margin-bottom: 12px;
-  color: var(--teal-texto);
-  font-size: var(--t-s);
-  font-weight: 800;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-}
 .meta-titular h2 {
   font-size: clamp(1.625rem, 1.1rem + 1.7vw, 2.5rem);
   line-height: 1.1;
@@ -1145,6 +1147,220 @@ main:focus { outline: none; }
   .servicio { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .servicio:nth-child(even) .servicio-texto { order: 0; }
   .servicio .escena { justify-self: center; }
+}
+
+/* ============ Esquema del CRM de mensajes ============
+   Canales a la izquierda, el CRM al centro y lo que hace a la derecha. Si la
+   columna es angosta (celular, tableta, notebook chica) pasa a vertical:
+   canales arriba, el CRM y, colgado de un riel, lo que hace. La vertical es
+   la base: un navegador sin consultas de contenedor se queda con esa. */
+
+/* La columna del texto gana un poco de ancho para que el esquema entre en
+   horizontal; el chat de la derecha (410 px como máximo) mide lo mismo. */
+@media (min-width: 720px) {
+  .servicio-crm { grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr); }
+}
+
+.esquema {
+  --linea: #8FBDB7;   /* conectores */
+  --flecha: #5E958E;  /* puntas de flecha: 3,2:1 sobre el papel */
+  --hueco: 30px;      /* largo de los conectores horizontales */
+  --bajada: 26px;     /* largo de los conectores de los canales, en vertical */
+  --riel: 22px;       /* del riel a cada tarea, en vertical */
+  container-type: inline-size;
+  margin-top: 28px;
+}
+
+.esquema-chip {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--celeste-2);
+  border-radius: 10px;
+  background: var(--superficie);
+  color: var(--tinta);
+  font-size: var(--t-s);
+  font-weight: 700;
+  line-height: 1.3;
+}
+.esquema-chip .icono { width: 18px; height: 18px; color: var(--canal-texto); }
+.esquema-salidas .esquema-chip { border-color: #C7E6E0; background: var(--teal-claro); font-weight: 600; }
+.esquema-salidas .esquema-chip .icono { color: var(--teal-texto); }
+
+.esquema-centro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 11px 16px;
+  border-radius: 14px;
+  background: var(--teal);
+  color: #fff;
+  font-family: var(--f-titulo);
+  font-size: var(--t-l);
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  box-shadow: 0 0 0 5px rgba(15, 127, 118, 0.12), 0 14px 28px -16px rgba(11, 28, 45, 0.5);
+}
+.esquema-centro-icono {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+}
+.esquema-centro-icono svg { width: 20px; height: 20px; }
+
+/* Conectores. El trazo es un fondo con lugar arriba y abajo para el pulso
+   (un punto que lo recorre); la punta es un triángulo de bordes. */
+.esquema li { position: relative; display: flex; }
+.esquema-entradas li::before,
+.esquema-salidas li::before {
+  content: "";
+  position: absolute;
+  background:
+    radial-gradient(circle, var(--teal) 0 2.5px, rgba(15, 127, 118, 0.3) 3.2px, transparent 4px) no-repeat,
+    linear-gradient(var(--linea), var(--linea)) no-repeat;
+}
+.esquema-entradas li::after,
+.esquema-salidas .esquema-chip::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+/* Vertical: los tres canales en fila, cada uno con su flecha hacia el CRM. */
+.esquema-entradas ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.esquema-entradas li { padding-bottom: var(--bajada); }
+.esquema-entradas .esquema-chip { flex-direction: column; justify-content: center; gap: 4px; padding: 10px 4px; text-align: center; }
+.esquema-entradas li::before {
+  left: 50%;
+  bottom: 6px;
+  width: 8px;
+  height: calc(var(--bajada) - 6px);
+  margin-left: -4px;
+  background-size: 8px 8px, 2px 100%;
+  background-position: 50% -10px, 50% 0;
+}
+.esquema-entradas li::after {
+  left: 50%;
+  bottom: 0;
+  margin-left: -5px;
+  border-width: 7px 5px 0;
+  border-color: var(--flecha) transparent transparent;
+}
+
+/* Vertical: las tareas cuelgan de un riel que sale del CRM. Cada tarea dibuja
+   su tramo de riel (::after) y su ramal con flecha (::before del li y del chip). */
+.esquema-salidas ul { padding: 12px 0 0 calc(18px + var(--riel)); }
+.esquema-salidas li { padding-block: 4px; }
+.esquema-salidas li::after {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--riel) - 1px);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--linea);
+}
+.esquema-salidas li:first-child::after { top: -12px; }
+.esquema-salidas li:last-child::after { bottom: 50%; }
+.esquema-salidas li::before {
+  left: calc(-1 * var(--riel));
+  top: 50%;
+  width: calc(var(--riel) - 7px);
+  height: 8px;
+  margin-top: -4px;
+  background-size: 8px 8px, 100% 2px;
+  background-position: -10px 50%, 0 50%;
+}
+.esquema-salidas .esquema-chip::before {
+  left: -8px;
+  top: 50%;
+  margin-top: -5px;
+  border-width: 5px 0 5px 7px;
+  border-color: transparent transparent transparent var(--flecha);
+}
+
+/* Horizontal: el CRM es una columna del alto del esquema; cada canal entra
+   con su flecha y cada tarea sale con la suya. */
+@container (min-width: 560px) {
+  .esquema-grilla {
+    display: grid;
+    grid-template-columns: max-content 88px minmax(0, 1fr);
+    column-gap: var(--hueco);
+  }
+  .esquema-entradas,
+  .esquema-salidas { display: flex; flex-direction: column; }
+  .esquema-entradas ul,
+  .esquema-salidas ul { display: flex; flex: 1; flex-direction: column; justify-content: center; }
+
+  .esquema-entradas ul { justify-content: space-around; gap: 10px; }
+  .esquema-entradas li { padding-bottom: 0; }
+  .esquema-entradas .esquema-chip { flex-direction: row; justify-content: flex-start; gap: 8px; padding: 8px 12px; text-align: left; }
+  .esquema-entradas li::before {
+    left: 100%;
+    top: 50%;
+    bottom: auto;
+    width: calc(var(--hueco) - 6px);
+    height: 8px;
+    margin: -4px 0 0;
+    background-size: 8px 8px, 100% 2px;
+    background-position: -10px 50%, 0 50%;
+  }
+  .esquema-entradas li::after {
+    left: calc(100% + var(--hueco) - 7px);
+    top: 50%;
+    bottom: auto;
+    margin: -5px 0 0;
+    border-width: 5px 0 5px 7px;
+    border-color: transparent transparent transparent var(--flecha);
+  }
+
+  .esquema-centro { flex-direction: column; gap: 8px; padding: 16px 8px; }
+
+  .esquema-salidas ul { gap: 8px; padding: 0; }
+  .esquema-salidas li { padding-block: 0; }
+  .esquema-salidas li::after { display: none; }
+  .esquema-salidas li::before { left: auto; right: calc(100% + 7px); width: calc(var(--hueco) - 7px); }
+}
+
+/* Pulso: la primera vez que el esquema se ve (clase que pone js/opcion-b.js),
+   un punto recorre cada conector dos veces y el CRM se enciende al recibirlo.
+   Dura menos de cinco segundos y después queda quieto. */
+@media (prefers-reduced-motion: no-preference) {
+  .esquema.anima .esquema-entradas li::before { animation: pulso-baja 2.2s ease-in-out calc(var(--i) * 90ms) 2; }
+  .esquema.anima .esquema-centro { animation: centro-recibe 2.2s ease-out 2; }
+  .esquema.anima .esquema-salidas li::before { animation: pulso-sale 2.2s ease-in-out calc(var(--i) * 90ms) 2; }
+  @container (min-width: 560px) {
+    .esquema.anima .esquema-entradas li::before { animation-name: pulso-entra; }
+  }
+}
+@keyframes pulso-baja {
+  from { background-position: 50% -10px, 50% 0; }
+  38%, to { background-position: 50% calc(100% + 10px), 50% 0; }
+}
+@keyframes pulso-entra {
+  from { background-position: -10px 50%, 0 50%; }
+  38%, to { background-position: calc(100% + 10px) 50%, 0 50%; }
+}
+@keyframes pulso-sale {
+  from, 46% { background-position: -10px 50%, 0 50%; }
+  82%, to { background-position: calc(100% + 10px) 50%, 0 50%; }
+}
+@keyframes centro-recibe {
+  from, 34% { box-shadow: 0 0 0 5px rgba(15, 127, 118, 0.12), 0 14px 28px -16px rgba(11, 28, 45, 0.5); }
+  46% { box-shadow: 0 0 0 10px rgba(15, 127, 118, 0.2), 0 14px 28px -16px rgba(11, 28, 45, 0.5); }
+  72%, to { box-shadow: 0 0 0 5px rgba(15, 127, 118, 0.12), 0 14px 28px -16px rgba(11, 28, 45, 0.5); }
 }
 
 /* ============ Escenas: las únicas "pantallas" con sombra ============ */
