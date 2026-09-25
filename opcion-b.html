@@ -39,9 +39,15 @@
     // El chat del hero se reproduce: desde antes del primer pintado se ve solo
     // el primer mensaje, para que no aparezca completo y después se pliegue.
     // opcion-b.js toma la posta; si fallara, al terminar la carga se muestra entero.
+    // La historia de Pichón con el teléfono fijo (historia-viva) también se
+    // decide acá, para que la grilla no cambie después del primer pintado. En
+    // pantallas bajas o con movimiento reducido queda la secuencia vertical
+    // (en celular el teléfono y la tarjeta del capítulo piden más alto).
+    // La misma consulta está en js/opcion-b.js.
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
       document.documentElement.classList.add('chat-previo');
       addEventListener('load', function () { document.documentElement.classList.remove('chat-previo'); });
+      if (matchMedia('(min-width: 900px) and (min-height: 520px), (max-width: 899px) and (min-height: 600px)').matches) document.documentElement.classList.add('historia-viva');
     }
 
     // Píxel de Meta, conjunto de datos "INCBA Web" (2000270224008101).
@@ -59,7 +65,7 @@
       fbq('track', 'PageView');
     }
   </script>
-  <script src="js/opcion-b.js" defer onerror="document.documentElement.classList.remove('js', 'chat-previo')"></script>
+  <script src="js/opcion-b.js" defer onerror="document.documentElement.classList.remove('js', 'chat-previo', 'historia-viva')"></script>
 </head>
 <body>
 
@@ -69,8 +75,17 @@
        no se imitan logos de terceros. -->
   <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
     <symbol id="i-wa" viewBox="0 0 24 24">
-      <path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2Z"/>
-      <path fill="currentColor" d="M9.2 7.7c.3 0 .5.1.6.4l.8 1.9c.1.2 0 .4-.1.6l-.6.7c-.1.2-.1.3 0 .5a6.6 6.6 0 0 0 3 2.6c.2.1.4.1.5-.1l.7-.9c.2-.2.4-.2.6-.1l1.9.9c.2.1.3.3.3.5 0 .9-.8 1.9-1.9 2-.9.1-2.6-.3-4.4-1.8a9 9 0 0 1-2.6-3.6c-.4-1.3 0-2.5.8-3.3.1-.2.2-.3.4-.3Z"/>
+      <!-- Íconos oficiales de WhatsApp, Instagram y Messenger (trazos de Simple Icons 13.21.0, CC0).
+           Sólo para identificar canales y botones que abren WhatsApp: la guía de marca de WhatsApp lo
+           permite para mostrar que el negocio atiende por ahí, sin modificar el dibujo, y prohíbe sugerir
+           una alianza o un aval. El logo de Meta NO se usa: requiere aprobación de marca. -->
+      <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/>
+    </symbol>
+    <symbol id="i-ms" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M.001 11.639C.001 4.949 5.241 0 12.001 0S24 4.95 24 11.639c0 6.689-5.24 11.638-12 11.638-1.21 0-2.38-.16-3.47-.46a.96.96 0 00-.64.05l-2.39 1.05a.96.96 0 01-1.35-.85l-.07-2.14a.97.97 0 00-.32-.68A11.39 11.389 0 01.002 11.64zm8.32-2.19l-3.52 5.6c-.35.53.32 1.139.82.75l3.79-2.87c.26-.2.6-.2.87 0l2.8 2.1c.84.63 2.04.4 2.6-.48l3.52-5.6c.35-.53-.32-1.13-.82-.75l-3.79 2.87c-.25.2-.6.2-.86 0l-2.8-2.1a1.8 1.8 0 00-2.61.48z"/>
     </symbol>
     <symbol id="i-calendario" viewBox="0 0 24 24">
       <rect x="3.5" y="5" width="17" height="15.5" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/>
@@ -90,10 +105,6 @@
     </symbol>
     <symbol id="i-externo" viewBox="0 0 24 24">
       <path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M8 16 16 8m-6.5 0H16v6.5"/>
-    </symbol>
-    <symbol id="i-sol" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/>
-      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 2.6v2.1m0 14.6v2.1M4.6 4.6l1.5 1.5m11.8 11.8 1.5 1.5M2.6 12h2.1m14.6 0h2.1M4.6 19.4l1.5-1.5M17.9 6.1l1.5-1.5"/>
     </symbol>
     <symbol id="i-pin" viewBox="0 0 24 24">
       <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M12 21.2s-6.6-5.7-6.6-11.2a6.6 6.6 0 1 1 13.2 0c0 5.5-6.6 11.2-6.6 11.2Z"/>
@@ -119,6 +130,12 @@
     </symbol>
     <symbol id="i-leido" viewBox="0 0 18 12">
       <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="m1 6.5 3 3L10.5 2.5M7.6 9.2l.3.3L14.5 2.5"/>
+    </symbol>
+    <symbol id="i-abajo" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m-6-6 6 6 6-6"/>
+    </symbol>
+    <symbol id="i-enviar" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M4.6 19.4 20.8 12 4.6 4.6l-.1 5.8 10.9 1.6-10.9 1.6.1 5.8Z"/>
     </symbol>
     <symbol id="i-atras" viewBox="0 0 24 24">
       <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6-6-6 6 6 6"/>
@@ -163,15 +180,6 @@
     </symbol>
     <!-- Esquema del CRM de mensajes: cada canal lleva un ícono genérico
          (globo, foto, dos globos), no el logo de la aplicación. -->
-    <symbol id="i-foto" viewBox="0 0 24 24">
-      <rect x="3.5" y="4.5" width="17" height="15" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/>
-      <circle cx="15.3" cy="9.4" r="1.6" fill="currentColor"/>
-      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="m3.9 16.6 4.7-4.7 3.6 3.6 2.4-2.4 5.5 5.4"/>
-    </symbol>
-    <symbol id="i-charla" viewBox="0 0 24 24">
-      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M5.4 9h7.2a2.4 2.4 0 0 1 2.4 2.4v3.7a2.4 2.4 0 0 1-2.4 2.4H8.5L5.3 20v-2.5A2.4 2.4 0 0 1 3 15.1v-3.7A2.4 2.4 0 0 1 5.4 9Z"/>
-      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M9 9V6a2.4 2.4 0 0 1 2.4-2.4h7.2A2.4 2.4 0 0 1 21 6v3.7a2.4 2.4 0 0 1-2.4 2.4h-.3v2.4L15 12.1"/>
-    </symbol>
     <symbol id="i-bandeja" viewBox="0 0 24 24">
       <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3.5 13.5 6.2 5.6a1.6 1.6 0 0 1 1.5-1.1h8.6a1.6 1.6 0 0 1 1.5 1.1l2.7 7.9v4.4a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-4.4Z"/>
       <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3.5 13.5h4.6l1.4 2.6h5l1.4-2.6h4.6"/>
@@ -241,9 +249,16 @@
 
   <main id="contenido" tabindex="-1">
 
-    <!-- ============ Hero ============ -->
-    <section class="hero" id="inicio" aria-labelledby="titulo-inicio">
-      <div class="contenedor hero-grilla">
+    <!-- ============ Hero e historia de Pichón ============
+         El hero y la historia comparten la grilla .relato: el teléfono del hero
+         es el mismo que después queda fijo en el centro mientras se cuentan los
+         capítulos. Cada capítulo va en el DOM en orden (título, texto y su
+         pantalla). Sin JS, con movimiento reducido o en pantallas bajas se ve
+         como una secuencia vertical común. -->
+    <div class="historia-marco">
+    <div class="relato contenedor">
+
+      <section class="hero" id="inicio" aria-labelledby="titulo-inicio">
         <div class="hero-texto">
           <p class="eyebrow">Consultora tecnológica</p>
           <h1 id="titulo-inicio">Desarrollo de sistemas y automatización</h1>
@@ -255,7 +270,7 @@
               Agendar diagnóstico gratuito
             </a>
             <a class="boton boton-secundario" href="https://wa.me/5493517422702?text=Hola%2C%20quiero%20hacer%20una%20consulta" target="_blank" rel="noopener" data-fb-name="hero">
-              <svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg>
+              <svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>
               Escríbenos por WhatsApp
             </a>
           </div>
@@ -284,66 +299,373 @@
             <p>En Córdoba, Santiago, Temuco y alrededores, el diagnóstico también puede ser en persona.</p>
           </div>
         </div>
+      </section>
 
-        <div class="hero-escena">
-          <!-- El chat se ve desde el teléfono de Vero. La lista va dentro de un
-               contenedor en column-reverse: sin JS o con movimiento reducido
-               arranca scrolleado al final, como un WhatsApp real. -->
-          <div class="chat">
-            <div class="chat-cabecera" aria-hidden="true">
-              <svg class="chat-atras"><use href="#i-atras"/></svg>
-              <span class="chat-avatar">
-                <!-- La A del logo con su flecha teal -->
-                <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#0B1C2D"/><path fill="#fff" d="M11.2 29.6 17.6 10.4h4.8l6.4 19.2h-4.3L20 15.6l-4.5 14Z"/><path fill="#2BA59A" d="m7.6 24.4 24.6-4.1-.8 3.3-17.2 2.6Z"/></svg>
-              </span>
-              <span class="chat-contacto">
-                <span class="chat-nombre">INCBA</span>
-                <span class="chat-estado">en línea</span>
-              </span>
-              <svg class="chat-accion"><use href="#i-video"/></svg>
-              <svg class="chat-accion"><use href="#i-llamada"/></svg>
-            </div>
+      <h2 class="sr" id="titulo-historia">La historia de Pichón</h2>
+      <a class="historia-saltar" href="#verificacion"><svg class="icono" aria-hidden="true"><use href="#i-abajo"/></svg>Saltar la historia</a>
+      <p class="historia-seguir" aria-hidden="true">Sigue bajando<svg class="icono"><use href="#i-abajo"/></svg></p>
 
-            <!-- En teléfonos el chat no se desplaza por dentro (atrapaba el
-                 scroll de la página): este botón lo despliega entero. -->
+      <!-- Marco del teléfono: solo dibujo, debajo de las pantallas. -->
+      <div class="telefono" aria-hidden="true"></div>
+
+      <!-- 1 · La consulta -->
+
+      <div class="cap" id="cap-consulta" data-clave="consulta" style="--fila:3">
+        <div class="cap-tarjeta">
+          <h3>La consulta</h3>
+          <p>Vero vende ropa de bebé en Córdoba y no da abasto con los mensajes.</p>
+        </div>
+      </div>
+
+      <figure class="pantalla-h ph-chat activa" data-clave="consulta" style="--fila:3">
+        <!-- El chat se ve desde el teléfono de Vero. La lista va dentro de un
+             contenedor en column-reverse: arranca mostrando el final, como un
+             WhatsApp real. -->
+        <div class="ph-interior">
+          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">16:04</span><span class="ph-iconos"></span></div>
+          <div class="chat" id="chat-hero">
+            <div class="chat-cabecera" aria-hidden="true"><svg class="chat-atras"><use href="#i-atras"/></svg><span class="chat-avatar"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#0B1C2D"/><path fill="#fff" d="M11.2 29.6 17.6 10.4h4.8l6.4 19.2h-4.3L20 15.6l-4.5 14Z"/><path fill="#2BA59A" d="m7.6 24.4 24.6-4.1-.8 3.3-17.2 2.6Z"/></svg></span><span class="chat-contacto"><span class="chat-nombre">INCBA</span><span class="chat-estado">en línea</span></span><svg class="chat-accion"><use href="#i-video"/></svg><svg class="chat-accion"><use href="#i-llamada"/></svg></div>
+            <!-- Con el dedo el chat no se desplaza por dentro (atrapaba el
+                 scroll de la página): este botón lo despliega entero o, con
+                 el teléfono fijo de la historia, deja subir por él. -->
             <button class="chat-ver-todo" id="chat-ver-todo" type="button" aria-controls="chat-cuerpo" hidden>Ver toda la conversación</button>
-
             <div class="chat-cuerpo" id="chat-cuerpo" tabindex="0" role="region" aria-label="Conversación de WhatsApp entre Vero e INCBA">
               <div class="chat-hilo">
                 <ol class="chat-mensajes" role="list">
-                  <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>hola buenas tardes! me pasó su número una amiga</p><span class="msg-meta"><time datetime="18:02">18:02</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>tengo una tienda de ropa de bebé acá en córdoba, vendemos en el local, en la web y por instagram y whatsapp</p><span class="msg-meta"><time datetime="18:03">18:03</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>y la verdad estoy desbordada jaja me paso el día contestando lo mismo. talles, envíos, si hay en otro color</p><span class="msg-meta"><time datetime="18:03">18:03</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">INCBA: </span>Hola, Vero, gracias por escribir. Soy Felipe, de INCBA. ¿Los mensajes los contestas tú sola?</p><span class="msg-meta"><time datetime="18:07">18:07</time></span></div></li>
-                  <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>somos dos, mi socia y yo, cada una con su celu. y los pedidos en un cuaderno jaja ya sé</p><span class="msg-meta"><time datetime="18:09">18:09</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>ah y la semana pasada vendimos por la web un enterito que en el local ya no estaba. le tuve que devolver la plata a la chica, un papelón</p><span class="msg-meta"><time datetime="18:10">18:10</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">INCBA: </span>Uf, me imagino. ¿En el local usan algún programa para vender o facturar?</p><span class="msg-meta"><time datetime="18:13">18:13</time></span></div></li>
-                  <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>tenemos uno para facturar pero la web va por otro lado. lo que vendemos en el local lo tengo que descontar a mano, cuando me acuerdo</p><span class="msg-meta"><time datetime="18:15">18:15</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">INCBA: </span>Con eso ya me hago una idea. Yo empezaría por juntar WhatsApp e Instagram en una sola bandeja para ti y tu socia, y en WhatsApp dejaría respuestas automáticas para las preguntas de talles y envíos. Cuando alguien quiere comprar, le contesta una de ustedes.</p><span class="msg-meta"><time datetime="18:18">18:18</time></span></div></li>
-                  <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">INCBA: </span>Y vería cómo conectar la web con el programa que usan para facturar, así lo que venden en el local se descuenta también en la tienda online, sin que tengas que acordarte.</p><span class="msg-meta"><time datetime="18:19">18:19</time></span></div></li>
-                  <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>ay eso me salvaría la vida</p><span class="msg-meta"><time datetime="18:21">18:21</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>y cuánto sale algo así?</p><span class="msg-meta"><time datetime="18:21">18:21</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">INCBA: </span>Depende de lo que haga falta en tu caso. Por eso te propongo empezar con un diagnóstico, que no tiene costo. Es una charla de media hora, una hora como mucho, para ver cómo trabajan, y después te mando una propuesta por escrito.</p><span class="msg-meta"><time datetime="18:24">18:24</time></span></div></li>
-                  <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">INCBA: </span>Como estás en Córdoba, puede ser por videollamada o pasamos por el local. ¿Qué te queda más cómodo?</p><span class="msg-meta"><time datetime="18:24">18:24</time></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>hola buenas tardes! me pasó su número una amiga</p><span class="msg-meta"><time datetime="15:42">15:42</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>tengo una tienda de ropa de bebé acá en córdoba, vendemos en el local, en la web y por instagram y whatsapp</p><span class="msg-meta"><time datetime="15:42">15:42</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>y la verdad estoy desbordada jaja me paso el día contestando lo mismo. talles, envíos, si hay en otro color</p><span class="msg-meta"><time datetime="15:43">15:43</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>¡Hola, Vero! ¿Cómo andás? Soy Felipe, de INCBA&nbsp;🙂</p><span class="msg-meta"><time datetime="15:46">15:46</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Uh, te re entiendo</p><span class="msg-meta"><time datetime="15:46">15:46</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Contame, ¿los mensajes los contestás vos sola?</p><span class="msg-meta"><time datetime="15:46">15:46</time></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>somos dos, mi socia y yo, cada una con su celu. y los pedidos en un cuaderno jaja ya sé</p><span class="msg-meta"><time datetime="15:48">15:48</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>ah y la semana pasada vendimos por la web un enterito que en el local ya no estaba. le tuve que devolver la plata a la chica, un papelón</p><span class="msg-meta"><time datetime="15:49">15:49</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Jaja tranqui, el cuaderno es un clásico</p><span class="msg-meta"><time datetime="15:50">15:50</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Uf, lo del enterito es un garrón</p><span class="msg-meta"><time datetime="15:50">15:50</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>¿En el local usan algún programa para vender o facturar?</p><span class="msg-meta"><time datetime="15:51">15:51</time></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>tenemos uno para facturar pero la web va por otro lado. lo que vendemos en el local lo tengo que descontar a mano, cuando me acuerdo</p><span class="msg-meta"><time datetime="15:53">15:53</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Listo, ya me hago una idea</p><span class="msg-meta"><time datetime="15:55">15:55</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Podemos hacer que en WhatsApp las preguntas de talles y envíos se contesten solas. Cuando alguien ya quiere comprar, ahí le escriben ustedes</p><span class="msg-meta"><time datetime="15:55">15:55</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Más adelante se pueden juntar WhatsApp e Instagram en un solo lugar, así las dos ven todo y no se pisan</p><span class="msg-meta"><time datetime="15:56">15:56</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Y lo del enterito se arregla conectando la web con el programa del local</p><span class="msg-meta"><time datetime="15:57">15:57</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Vendés en uno y en el otro se descuenta solo, sin que te tengas que acordar</p><span class="msg-meta"><time datetime="15:57">15:57</time></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>ay eso me salvaría la vida</p><span class="msg-meta"><time datetime="15:58">15:58</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>y cuánto sale algo así?</p><span class="msg-meta"><time datetime="15:58">15:58</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Mirá, se puede ir de a poco</p><span class="msg-meta"><time datetime="16:00">16:00</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Podemos empezar por algo chico, como las respuestas automáticas</p><span class="msg-meta"><time datetime="16:00">16:00</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Sale económico y ya te saca un montón de mensajes de encima</p><span class="msg-meta"><time datetime="16:00">16:00</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Y si ves que te sirve, después sumamos lo demás</p><span class="msg-meta"><time datetime="16:01">16:01</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Si querés lo charlamos, es gratis. Media hora, una hora como mucho, y vemos bien por dónde arrancar</p><span class="msg-meta"><time datetime="16:01">16:01</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>¿Te queda mejor una videollamada o paso por el local? Estoy acá en Córdoba también</p><span class="msg-meta"><time datetime="16:02">16:02</time></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>pasá por el local! así ves el caos en vivo jaja</p><span class="msg-meta"><time datetime="16:04">16:04</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
                   <li class="chat-escribiendo" aria-hidden="true" hidden><span></span><span></span><span></span></li>
                 </ol>
               </div>
             </div>
+            <div class="chat-pie" aria-hidden="true"><span class="chat-campo"></span><span class="chat-mic"><svg class="chat-enviar"><use href="#i-enviar"/></svg></span></div>
+          </div>
+        </div>
+      </figure>
 
-            <div class="chat-pie" aria-hidden="true">
-              <span class="chat-campo"></span>
-              <span class="chat-mic"></span>
+      <!-- 2 · El diagnóstico -->
+
+      <div class="cap" id="cap-diagnostico" data-clave="diagnostico" style="--fila:4">
+        <div class="cap-tarjeta">
+          <h3>El diagnóstico</h3>
+          <p>Felipe pasa por el local a ver cómo trabajan. No tiene costo.</p>
+        </div>
+      </div>
+
+      <figure class="pantalla-h ph-agenda" data-clave="diagnostico" style="--fila:4" aria-label="Chat con INCBA y evento en la agenda">
+        <div class="ph-interior">
+          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">16:07</span><span class="ph-iconos"></span></div>
+          <div class="chat chat-mini">
+            <div class="chat-cabecera" aria-hidden="true"><svg class="chat-atras"><use href="#i-atras"/></svg><span class="chat-avatar"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#0B1C2D"/><path fill="#fff" d="M11.2 29.6 17.6 10.4h4.8l6.4 19.2h-4.3L20 15.6l-4.5 14Z"/><path fill="#2BA59A" d="m7.6 24.4 24.6-4.1-.8 3.3-17.2 2.6Z"/></svg></span><span class="chat-contacto"><span class="chat-nombre">INCBA</span><span class="chat-estado">en línea</span></span><svg class="chat-accion"><use href="#i-video"/></svg><svg class="chat-accion"><use href="#i-llamada"/></svg></div>
+            <div class="chat-cuerpo ph-feed">
+              <div class="chat-hilo ph-feed-lista">
+                <ol class="chat-mensajes" role="list">
+                  <li class="msg msg-sale msg-contexto" aria-hidden="true" data-opcional="1"><div class="msg-burbuja"><p><span class="sr">Vero: </span>pasá por el local! así ves el caos en vivo jaja</p><span class="msg-meta"><time datetime="16:04">16:04</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                  <li class="msg msg-entra sec" data-espera="350"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>¡Dale! ¿El jueves a las cinco te va?</p><span class="msg-meta"><time datetime="16:05">16:05</time></span></div></li>
+                  <li class="msg msg-sale sec" data-espera="700"><div class="msg-burbuja"><p><span class="sr">Vero: </span>perfecto! te espero</p><span class="msg-meta"><time datetime="16:06">16:06</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+          <div class="evento sec sec-fijo" data-espera="550">
+            <p class="evento-titulo"><span class="evento-k"><svg class="icono" aria-hidden="true"><use href="#i-calendario"/></svg>Evento<span class="sep">: </span></span><span class="evento-nombre">Diagnóstico INCBA · Pichón</span></p>
+            <p class="evento-cuando">Jueves · 17:00 a 18:00</p>
+            <ul class="evento-datos" role="list">
+              <li><svg class="icono" aria-hidden="true"><use href="#i-pin"/></svg><p><span class="evento-k">Lugar<span class="sep">: </span></span><span>local de Pichón, barrio Güemes, Córdoba</span></p></li>
+              <li><svg class="icono" aria-hidden="true"><use href="#i-equipo"/></svg><p><span class="evento-k">Participan<span class="sep">: </span></span><span>Vero y Caro (Pichón) · Felipe (INCBA)</span></p></li>
+              <li data-opcional="2"><svg class="icono" aria-hidden="true"><use href="#i-doc"/></svg><p><span class="evento-k">Después<span class="sep">: </span></span><span>Felipe manda la propuesta por escrito</span></p></li>
+            </ul>
+            <p class="evento-aviso" data-opcional="2"><svg class="icono" aria-hidden="true"><use href="#i-check"/></svg>Recordatorio enviado a Vero por WhatsApp</p>
+          </div>
+        </div>
+      </figure>
+
+      <!-- 3 · Primero, lo más chico -->
+
+      <div class="cap" id="cap-respuestas" data-clave="respuestas" style="--fila:5">
+        <div class="cap-tarjeta">
+          <h3>Primero, lo&nbsp;más&nbsp;chico</h3>
+          <p>Respuestas automáticas para las preguntas de talles y envíos.</p>
+        </div>
+      </div>
+
+      <!-- data-opcional: lo que se pliega (1 antes que 2) si la escena no entra
+           en el teléfono; queda en el DOM para los lectores de pantalla. -->
+      <figure class="pantalla-h ph-tienda" data-clave="respuestas" style="--fila:5" aria-label="WhatsApp de Pichón, chat con Martina">
+        <div class="ph-interior">
+          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">23:14</span><span class="ph-iconos"></span></div>
+          <div class="chat chat-mini">
+            <div class="chat-cabecera" aria-hidden="true"><svg class="chat-atras"><use href="#i-atras"/></svg><span class="mini-avatar mini-avatar-grande chat-avatar-ini" data-inicial="M"></span><span class="chat-contacto"><span class="chat-nombre">Martina</span><span class="chat-estado">en línea</span></span><svg class="chat-accion"><use href="#i-video"/></svg><svg class="chat-accion"><use href="#i-llamada"/></svg></div>
+            <div class="chat-cuerpo ph-feed">
+              <div class="chat-hilo ph-feed-lista">
+                <ol class="chat-mensajes" role="list">
+                  <li class="msg msg-entra sec" data-espera="250"><div class="msg-burbuja"><p><span class="sr">Martina: </span>hola! es para regalar, qué talle le va a un bebé de 4 meses?</p><span class="msg-meta"><time datetime="23:12">23:12</time></span></div></li>
+                  <li class="msg msg-sale msg-autom sec" data-espera="400" data-opcional="2"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Hola, Martina! Gracias por escribirnos&nbsp;💛</p><span class="msg-meta"><time datetime="23:12">23:12</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                  <li class="msg msg-sale msg-autom sec" data-espera="250"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>Para 4 meses te recomendamos talle <span class="nw">3-6</span>. Si es para regalo, el <span class="nw">6-9</span> le va a durar más</p><span class="msg-meta"><time datetime="23:12">23:12</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                  <li class="msg msg-sale msg-autom sec" data-espera="250" data-opcional="1"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>Te dejo la guía de talles&nbsp;👇</p><span class="msg-meta"><time datetime="23:12">23:12</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                  <li class="msg msg-sale msg-autom msg-sin-hora msg-tarjeta sec" data-espera="250" data-opcional="1"><div class="msg-burbuja"><p class="talles-titulo">Guía de talles<span class="sep">: </span></p><ul class="talles" role="list"><li><span class="talle">0-3 meses</span><span class="sep">, </span><span class="talle-medida">hasta 61 cm</span></li><li><span class="talle">3-6 meses</span><span class="sep">, </span><span class="talle-medida">hasta 67 cm</span></li><li><span class="talle">6-9 meses</span><span class="sep">, </span><span class="talle-medida">hasta 72 cm</span></li></ul></div></li>
+                  <li class="msg msg-entra sec" data-espera="550"><div class="msg-burbuja"><p><span class="sr">Martina: </span>y hacen envíos a carlos paz?</p><span class="msg-meta"><time datetime="23:13">23:13</time></span></div></li>
+                  <li class="msg msg-sale msg-autom sec" data-espera="350"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Sí! Enviamos a todo el país. A Carlos Paz llega en 24 a 48&nbsp;h hábiles</p><span class="msg-meta"><time datetime="23:13">23:13</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                  <li class="msg msg-entra sec" data-espera="550"><div class="msg-burbuja"><p><span class="sr">Martina: </span>buenísimo, mañana compro</p><span class="msg-meta"><time datetime="23:14">23:14</time></span></div></li>
+                  <li class="msg msg-sale msg-autom sec" data-espera="350"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Genial! Mañana desde las 9 te escribe Vero o Caro para ayudarte a elegir</p><span class="msg-meta"><time datetime="23:14">23:14</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                </ol>
+              </div>
             </div>
           </div>
         </div>
+      </figure>
+
+      <!-- 4 · Una sola bandeja -->
+
+      <div class="cap" id="cap-bandeja" data-clave="bandeja" style="--fila:6">
+        <div class="cap-tarjeta">
+          <h3>Una sola bandeja</h3>
+          <p>Vero y Caro ven WhatsApp e Instagram juntos y se reparten las charlas.</p>
+        </div>
       </div>
-    </section>
+
+      <figure class="pantalla-h ph-bandeja" data-clave="bandeja" style="--fila:6">
+        <div class="ph-interior">
+          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">10:32</span><span class="ph-iconos"></span></div>
+          <div class="bandeja-cabecera">
+            <p class="bandeja-titulo"><b>Bandeja de Pichón</b><span class="sep"> · </span><span class="bandeja-sub">WhatsApp e Instagram</span></p>
+            <p class="bandeja-filtros"><span class="sr">Filtros: </span><span class="filtro filtro-activo">Todas</span><span class="sep"> · </span><span class="filtro">Mías</span><span class="sep"> · </span><span class="filtro">De Caro</span></p>
+          </div>
+          <ul class="bandeja-lista" role="list">
+            <li class="conv-item" style="--i:0">
+              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="M" aria-hidden="true"></span>
+              <p class="conv-linea"><span class="canal canal-wa">WhatsApp</span><span class="sep"> · </span><b class="conv-nombre">Martina G.</b><span class="sep">: </span><span class="conv-texto">quiero el body rayado en <span class="nw">6-9</span>, es para mandar a Carlos Paz</span><span class="sep"> · </span><span class="quien"><span class="mini-avatar" data-inicial="V" aria-hidden="true"></span>Vero</span></p>
+            </li>
+            <li class="conv-item" style="--i:1">
+              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="L" aria-hidden="true"></span>
+              <p class="conv-linea"><span class="canal canal-ig">Instagram</span><span class="sep"> · </span><b class="conv-nombre">Luciana P.</b><span class="sep">: </span><span class="conv-texto">tienen el enterito de plush en rosa?</span><span class="sep"> · </span><span class="quien"><span class="mini-avatar mini-avatar-teal" data-inicial="C" aria-hidden="true"></span>Caro</span></p>
+              <p class="nota-interna"><span class="nota-k">Nota interna de Caro<span class="sep">: </span></span><span>esta la atiendo yo, ayer me preguntó por el mismo enterito</span></p>
+            </li>
+            <li class="conv-item" style="--i:2" data-opcional="1">
+              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="S" aria-hidden="true"></span>
+              <p class="conv-linea"><span class="canal canal-wa">WhatsApp</span><span class="sep"> · </span><b class="conv-nombre">Sofía R.</b><span class="sep">: </span><span class="conv-texto">me lo envuelven para regalo? lo paso a buscar el viernes</span><span class="sep"> · </span><span class="quien"><span class="mini-avatar mini-avatar-teal" data-inicial="C" aria-hidden="true"></span>Caro</span></p>
+            </li>
+            <li class="conv-item" style="--i:3">
+              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="R" aria-hidden="true"></span>
+              <p class="conv-linea"><span class="canal canal-ig">Instagram</span><span class="sep"> · </span><b class="conv-nombre">Romina B.</b><span class="sep">: </span><span class="conv-texto">hacen envíos a Río Cuarto?</span><span class="sep"> · </span><span class="quien quien-auto"><svg class="icono" aria-hidden="true"><use href="#i-rayo"/></svg>Respondida automáticamente</span></p>
+            </li>
+          </ul>
+          <p class="bandeja-pie"><svg class="icono" aria-hidden="true"><use href="#i-check"/></svg>Sin asignar: ninguna</p>
+        </div>
+      </figure>
+
+      <!-- 5 · La web y el local, conectados -->
+
+      <div class="cap" id="cap-stock" data-clave="stock" style="--fila:7">
+        <div class="cap-tarjeta">
+          <h3>La web y el&nbsp;local, conectados</h3>
+          <p>Lo que se vende en un lado se descuenta en el otro, al momento.</p>
+        </div>
+      </div>
+
+      <figure class="pantalla-h ph-stock" data-clave="stock" style="--fila:7" aria-label="Stock de la tienda online y del local">
+        <div class="ph-interior">
+          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">12:05</span><span class="ph-iconos"></span></div>
+          <ol class="stock-lista" role="list">
+            <li class="st st-local sec sec-fijo" data-espera="250"><span class="st-icono" aria-hidden="true"><svg><use href="#i-local"/></svg></span><p><span class="st-donde">Venta en el local</span><span class="sep"> · </span><time class="st-hora" datetime="11:20">11:20</time><span class="sep"> · </span><span class="st-prod">Enterito de plush rosa <span class="nw">0-3 m</span></span><span class="sep"> · </span><span class="st-dato chip chip-lista">Facturado</span></p></li>
+            <li class="st st-web st-sigue sec sec-fijo" data-espera="450"><span class="st-icono" aria-hidden="true"><svg><use href="#i-bolsa"/></svg></span><p><span class="st-donde">Tienda online</span><span class="sep"> · </span><span class="st-prod">Enterito de plush rosa <span class="nw">0-3 m</span></span><span class="sep"> · </span><span class="st-dato st-stock"><span class="st-stock-k">Stock </span><span class="st-num"><span class="st-antes">1</span><span class="sep"> → </span><span class="st-ahora">0</span></span></span></p></li>
+            <li class="st-vista sec sec-fijo" data-espera="700">
+              <p class="st-vista-producto"><span class="st-vista-k">En la web<span class="sep">: </span></span><span class="st-foto" aria-hidden="true"></span><span class="st-prod">Enterito de plush rosa <span class="nw">0-3 m</span></span><span class="sep"> · </span><span class="st-agotado">Sin stock</span><span class="sep"> · </span><span class="st-boton">Avisarme cuando vuelva</span></p>
+              <p class="st-nota" data-opcional="1"><svg class="icono" aria-hidden="true"><use href="#i-campana"/></svg>Luciana P. pidió aviso cuando vuelva</p>
+            </li>
+            <li class="st st-web st-otra sec sec-fijo" data-espera="750"><span class="st-icono" aria-hidden="true"><svg><use href="#i-bolsa"/></svg></span><p><span class="st-donde">Venta en la web</span><span class="sep"> · </span><time class="st-hora" datetime="12:05">12:05</time><span class="sep"> · </span><span class="st-prod">Gorrito de hilo gris</span></p></li>
+            <li class="st st-local st-sigue sec sec-fijo" data-espera="450"><span class="st-icono" aria-hidden="true"><svg><use href="#i-local"/></svg></span><p><span class="st-donde">Programa del local</span><span class="sep"> · </span><span class="st-prod">Gorrito de hilo gris</span><span class="sep"> · </span><span class="st-dato st-stock"><span class="st-stock-k">Stock </span><span class="st-num"><span class="st-antes">3</span><span class="sep"> → </span><span class="st-ahora">2</span></span></span></p></li>
+          </ol>
+          <p class="st-pie sec sec-fijo" data-espera="500"><svg class="icono" aria-hidden="true"><use href="#i-sync"/></svg><span>Todo al día</span><span class="sep"> · </span><span class="st-pie-sub">sincronizado hace un momento</span></p>
+        </div>
+      </figure>
+
+      <!-- 6 · Avisos que salen solos -->
+
+      <div class="cap" id="cap-avisos" data-clave="avisos" style="--fila:8">
+        <div class="cap-tarjeta">
+          <h3>Avisos que&nbsp;salen solos</h3>
+          <p>Cuando sale un pedido o vuelve un talle, la clienta se entera.</p>
+        </div>
+      </div>
+
+      <figure class="pantalla-h ph-avisos" data-clave="avisos" style="--fila:8" aria-label="Avisos automáticos de Pichón">
+        <div class="ph-interior">
+          <div class="ph-estado ph-estado-claro" aria-hidden="true"><span class="ph-hora">18:40</span><span class="ph-iconos"></span></div>
+          <div class="ph-feed avisos-feed">
+            <ol class="ph-feed-lista avisos" role="list">
+              <li class="aviso-chat sec" data-espera="250">
+                <p class="aviso-nombre"><span class="mini-avatar" data-inicial="M" aria-hidden="true"></span>Martina</p>
+                <ol class="aviso-msgs" role="list">
+                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:0"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Hola, Martina! Tu body rayado ya salió&nbsp;📦 Te llega a Carlos Paz entre mañana y el viernes</p></div></li>
+                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:1"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>Podés seguir el envío acá&nbsp;👉 <span class="msg-boton">Ver seguimiento</span></p></div></li>
+                  <li class="msg msg-entra msg-sin-hora" style="--i:2" data-opcional="2"><div class="msg-burbuja"><p><span class="sr">Martina: </span>graciaaas!!</p></div></li>
+                </ol>
+              </li>
+              <li class="aviso-chat sec" data-espera="1000">
+                <p class="aviso-nombre"><span class="mini-avatar" data-inicial="L" aria-hidden="true"></span>Luciana</p>
+                <ol class="aviso-msgs" role="list">
+                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:0"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Hola, Luciana! Volvió el enterito de plush rosa en <span class="nw">0-3 meses</span>. ¿Querés que te lo guardemos?</p></div></li>
+                  <li class="msg msg-entra msg-sin-hora" style="--i:1"><div class="msg-burbuja"><p><span class="sr">Luciana: </span>siii porfa!! paso el sábado</p></div></li>
+                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:2" data-opcional="2"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Listo! Queda reservado a tu nombre hasta el sábado&nbsp;💛</p></div></li>
+                </ol>
+              </li>
+              <li class="aviso-chat sec" data-espera="900" data-opcional="1">
+                <p class="aviso-nombre"><span class="mini-avatar" data-inicial="S" aria-hidden="true"></span>Sofía</p>
+                <ol class="aviso-msgs" role="list">
+                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:0"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Hola, Sofía! Tu paquete para regalo ya está listo. Podés pasar a buscarlo por el local de 10 a 19</p></div></li>
+                </ol>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </figure>
+
+      <!-- 7 · Cuando la tienda crece -->
+
+      <div class="cap" id="cap-panel" data-clave="panel" style="--fila:9">
+        <div class="cap-tarjeta">
+          <h3>Cuando la&nbsp;tienda crece</h3>
+          <p>Un panel a medida para ver qué se vende y qué reponer.</p>
+        </div>
+      </div>
+
+      <figure class="pantalla-h ph-panel" data-clave="panel" style="--fila:9">
+        <div class="ph-interior">
+          <div class="ph-estado ph-estado-oscuro" aria-hidden="true"><span class="ph-hora">9:00</span><span class="ph-iconos"></span></div>
+          <p class="panel-cabecera"><b>Panel de Pichón</b><span class="sep"> · </span><span class="panel-periodo">Esta semana</span></p>
+          <div class="panel-cuerpo">
+            <div class="panel-tarjeta">
+              <p class="panel-k">Ventas por canal</p>
+              <ul class="panel-barras" role="list"><li style="--v:100%; --i:0"><span class="pb-nombre">Local</span><span class="pb-barra" aria-hidden="true"></span></li><li style="--v:76%; --i:1"><span class="pb-nombre">Instagram</span><span class="pb-barra" aria-hidden="true"></span></li><li style="--v:58%; --i:2"><span class="pb-nombre">WhatsApp</span><span class="pb-barra" aria-hidden="true"></span></li><li style="--v:41%; --i:3"><span class="pb-nombre">Web</span><span class="pb-barra" aria-hidden="true"></span></li></ul>
+            </div>
+            <div class="panel-tarjeta" data-opcional="1">
+              <p class="panel-k">Lo más vendido</p>
+              <ol class="panel-top" role="list"><li style="--i:0">body rayado</li><li style="--i:1">enterito de plush</li><li style="--i:2">set de baberos</li></ol>
+            </div>
+            <div class="panel-fila">
+              <div class="panel-tarjeta">
+                <p class="panel-k">Talles que más salen</p>
+                <p class="panel-talles"><b>3-6</b> y <b>6-9</b> meses</p>
+              </div>
+              <div class="panel-tarjeta panel-reponer">
+                <p class="panel-k">Para reponer</p>
+                <ul role="list"><li>body rayado <span class="nw">6-9 m</span></li><li>medias antideslizantes <span class="nw">0-3 m</span></li></ul>
+              </div>
+            </div>
+          </div>
+          <div class="panel-resumen">
+            <p class="panel-resumen-k"><svg class="icono" aria-hidden="true"><use href="#i-chispa"/></svg>Resumen del lunes<span class="sep">: </span></p>
+            <p>el body rayado <span class="nw">6-9 m</span> se agota cada dos semanas. Conviene pedir más al proveedor</p>
+          </div>
+        </div>
+      </figure>
+
+      <!-- 8 · Lo que ganó Vero -->
+
+      <div class="cap" id="cap-resultados" data-clave="resultados" style="--fila:10">
+        <div class="cap-tarjeta">
+          <h3>Lo que ganó Vero</h3>
+          <p>Unos meses después, en Pichón.</p>
+        </div>
+      </div>
+
+      <figure class="pantalla-h ph-resultados" data-clave="resultados" style="--fila:10">
+        <!-- Pantalla bloqueada con el mensaje de Vero. Las cuatro tarjetas van
+             antes en el DOM (así las lee un lector de pantalla); a la vista el
+             mensaje queda arriba y, en escritorio, las tarjetas salen del
+             teléfono hacia la derecha. -->
+        <div class="ph-interior">
+          <div class="ph-estado ph-estado-bloqueo" aria-hidden="true"><span class="ph-hora"></span><span class="ph-iconos"></span></div>
+          <p class="bloqueo-reloj" aria-hidden="true" data-opcional="1">21:18</p>
+          <ul class="resultados" role="list">
+            <li class="res" style="--i:0"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-reloj"/></svg></span><p><span class="res-titulo">Tiempo para lo importante</span><span class="sep">: </span><span class="res-linea">Vero dedica las mañanas a elegir la próxima colección.</span></p></li>
+            <li class="res" style="--i:1"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-bolsa"/></svg></span><p><span class="res-titulo">Ventas que no se pierden</span><span class="sep">: </span><span class="res-linea">La que pregunta de noche compra a la mañana.</span></p></li>
+            <li class="res" style="--i:2"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-sync"/></svg></span><p><span class="res-titulo">Stock sin sorpresas</span><span class="sep">: </span><span class="res-linea">Lo que aparece en la web está en el local.</span></p></li>
+            <li class="res" style="--i:3"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-equipo"/></svg></span><p><span class="res-titulo">Cada una con lo suyo</span><span class="sep">: </span><span class="res-linea">Cada charla tiene dueña y las dos ven la misma bandeja.</span></p></li>
+          </ul>
+          <div class="notif-vero">
+            <p class="notif-de"><span class="mini-avatar mini-avatar-grande" data-inicial="V" aria-hidden="true"></span><b>Vero</b><span class="sep"> · </span><time datetime="21:17">21:17</time></p>
+            <p class="notif-texto">el sábado atendió caro y yo ni miré el celu. primera vez en años jaja</p>
+          </div>
+        </div>
+      </figure>
+
+      <!-- 9 · ¿Y tu negocio? -->
+
+      <div class="cap" id="cap-cierre" data-clave="cierre" style="--fila:11">
+        <div class="cap-tarjeta">
+          <h3>¿Y tu negocio?</h3>
+          <p>Cuéntanos qué te quita tiempo. Buscamos juntos el primer paso, aunque sea chico.</p>
+        </div>
+      </div>
+
+      <figure class="pantalla-h ph-cierre" data-clave="cierre" style="--fila:11">
+        <div class="ph-interior">
+          <div class="ph-estado ph-estado-claro" aria-hidden="true"><span class="ph-hora">9:30</span><span class="ph-iconos"></span></div>
+          <div class="cierre-cuerpo">
+            <span class="cierre-caras" aria-hidden="true" style="--i:0" data-opcional="1">
+              <img src="img/equipo/felipe-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
+              <img src="img/equipo/benjamin-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
+              <img src="img/equipo/camilo-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
+            </span>
+            <p class="cierre-titulo" style="--i:1">Diagnóstico gratuito</p>
+            <ul class="cierre-datos" role="list" style="--i:2">
+              <li><svg class="icono" aria-hidden="true"><use href="#i-reloj"/></svg>De 30 minutos a 1 hora</li>
+              <li><svg class="icono" aria-hidden="true"><use href="#i-pin"/></svg>Por videollamada o en persona en Córdoba, Santiago o Temuco</li>
+            </ul>
+            <a class="boton boton-principal boton-grande cierre-boton" style="--i:3" href="https://calendly.com/felipe-incba" target="_blank" rel="noopener" data-fb-event="Schedule" data-fb-name="historia">
+              <svg class="icono" aria-hidden="true"><use href="#i-calendario"/></svg>
+              Agendar mi diagnóstico
+            </a>
+          </div>
+        </div>
+      </figure>
+
+
+      <!-- Indicador de pasos (capítulos 3 a 7): solo dibujo, los capítulos ya
+           cuentan lo mismo. Cada punto es más grande que el anterior. -->
+      <ol class="hist-pasos" aria-hidden="true">
+        <li data-paso="respuestas" style="--i:0"><span class="hp-punto"></span><span class="hp-nombre">Respuestas</span></li>
+        <li data-paso="bandeja" style="--i:1"><span class="hp-punto"></span><span class="hp-nombre">Bandeja</span></li>
+        <li data-paso="stock" style="--i:2"><span class="hp-punto"></span><span class="hp-nombre">Web y local</span></li>
+        <li data-paso="avisos" style="--i:3"><span class="hp-punto"></span><span class="hp-nombre">Avisos</span></li>
+        <li data-paso="panel" style="--i:4"><span class="hp-punto"></span><span class="hp-nombre">Panel</span></li>
+      </ol>
+
+    </div>
+    </div>
 
     <!-- ============ Verificación de Meta ============
          Reglas de marca de Meta: acá no va ningún logo ni ícono de Meta,
          Facebook, Instagram ni WhatsApp, ni palabras que sugieran una
          asociación comercial con Meta. El sello es un escudo propio. -->
-    <section class="meta-banda" aria-labelledby="titulo-meta">
+    <!-- "Saltar la historia" trae el foco acá (tabindex="-1"). -->
+    <section class="meta-banda" id="verificacion" tabindex="-1" aria-labelledby="titulo-meta">
       <div class="contenedor meta-grilla">
         <span class="meta-sello" aria-hidden="true"><svg><use href="#i-escudo"/></svg></span>
         <div class="meta-titular">
@@ -432,7 +754,7 @@
               </div>
               <p>Si estás en Córdoba Capital, Santiago, Temuco o alrededores, parte del equipo puede ir a verte.</p>
               <a class="boton boton-secundario boton-grande" href="https://wa.me/5493517422702?text=Hola%2C%20quiero%20coordinar%20un%20diagn%C3%B3stico%20en%20persona" target="_blank" rel="noopener" data-fb-name="diagnostico-en-persona">
-                <svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg>
+                <svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>
                 Coordinar visita por WhatsApp
               </a>
             </li>
@@ -488,9 +810,9 @@
                   <div class="esquema-entradas">
                     <p class="sr">Canales que llegan al CRM:</p>
                     <ul role="list">
-                      <li style="--i:0"><span class="esquema-chip"><svg class="icono" aria-hidden="true"><use href="#i-chat"/></svg>WhatsApp</span></li>
-                      <li style="--i:1"><span class="esquema-chip"><svg class="icono" aria-hidden="true"><use href="#i-foto"/></svg>Instagram</span></li>
-                      <li style="--i:2"><span class="esquema-chip"><svg class="icono" aria-hidden="true"><use href="#i-charla"/></svg>Messenger</span></li>
+                      <li style="--i:0"><span class="esquema-chip"><svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp</span></li>
+                      <li style="--i:1"><span class="esquema-chip"><svg class="icono icono-marca" aria-hidden="true"><use href="#i-ig"/></svg>Instagram</span></li>
+                      <li style="--i:2"><span class="esquema-chip"><svg class="icono icono-marca" aria-hidden="true"><use href="#i-ms"/></svg>Messenger</span></li>
                     </ul>
                   </div>
                   <div class="esquema-centro">
@@ -513,7 +835,7 @@
               <div class="pantalla conversacion">
                 <div class="conv-cabecera">
                   <span class="mini-avatar mini-avatar-grande" data-inicial="C" aria-hidden="true"></span>
-                  <p class="conv-contacto"><b>Coni</b><span class="sep"> · </span><span class="canal">WhatsApp</span></p>
+                  <p class="conv-contacto"><b>Coni</b><span class="sep"> · </span><span class="canal canal-wa">WhatsApp</span></p>
                 </div>
                 <ol class="conv-mensajes" role="list">
                   <li class="cm cm-cliente"><p><span class="sr">Cliente: </span>hola! hacen envíos a rancagua?</p></li>
@@ -557,7 +879,7 @@
                     <div class="pantalla mini mini-chat">
                       <div class="mc-cabecera">
                         <span class="mini-avatar mini-avatar-grande" data-inicial="V" aria-hidden="true"></span>
-                        <p class="mc-contacto"><span class="canal">WhatsApp</span><span class="sep"> · </span><b>Veterinaria San Roque</b></p>
+                        <p class="mc-contacto"><span class="canal canal-wa">WhatsApp</span><span class="sep"> · </span><b>Veterinaria San Roque</b></p>
                       </div>
                       <div class="mc-cuerpo">
                         <div class="mc-msg"><p>Hola, Paula. Te recordamos el turno de Simón para la vacuna anual, mañana a las 17:30.</p><p>Responde 1 para confirmar o 2 para cambiar el horario.</p></div>
@@ -591,7 +913,7 @@
                     <div class="pantalla mini mini-chat">
                       <div class="mc-cabecera">
                         <span class="mini-avatar mini-avatar-grande" data-inicial="F" aria-hidden="true"></span>
-                        <p class="mc-contacto"><span class="canal">WhatsApp</span><span class="sep"> · </span><b>Ferretería Los Andes</b></p>
+                        <p class="mc-contacto"><span class="canal canal-wa">WhatsApp</span><span class="sep"> · </span><b>Ferretería Los Andes</b></p>
                       </div>
                       <div class="mc-cuerpo">
                         <div class="mc-msg mc-con-adjunto">
@@ -937,7 +1259,7 @@
       <div class="contenedor">
         <header class="encabezado">
           <h2 id="titulo-equipo">Quiénes te van a atender</h2>
-          <p>Somos Felipe, Benjamín y Camilo, los tres fundadores de INCBA, y trabajamos entre Argentina y Chile. Los que se sientan contigo en las reuniones son los mismos que después programan lo que acordamos, así que cualquier duda se la preguntas directamente a quien está haciendo tu proyecto.</p>
+          <p>Somos los tres fundadores de INCBA, desarrolladores full stack en Córdoba, Temuco y Santiago. Hablas directamente con quienes programan tu proyecto.</p>
         </header>
 
         <ul class="personas" role="list">
@@ -947,9 +1269,13 @@
               <span class="persona-foto-marca" aria-hidden="true"><svg><use href="#i-externo"/></svg></span>
             </a>
             <h3>Felipe Rebolledo</h3>
-            <p class="persona-rol">Consultor y líder técnico</p>
-            <p class="persona-bio">Felipe diseña y pone en marcha sistemas de gestión a medida, y antes de empezar se mete en la operación de cada cliente para ver cómo circula el trabajo. Se formó como Técnico Superior en Desarrollo Web y Aplicaciones Digitales (ISPC, Córdoba) y hace más de cinco años que programa sistemas completos, en proyectos como tiendas online o facturación electrónica. También lleva años trabajando sobre sistemas que ya están en uso, como sitios WordPress complejos o programas viejos, y decidiendo en cada caso si conviene renovarlos o conectarlos con lo nuevo sin frenar el negocio.</p>
-            <p class="persona-fuera"><svg class="icono" aria-hidden="true"><use href="#i-sol"/></svg><span>Es el bajista de la banda Muestra Gratis y, en sus ratos libres, diseña e imprime en 3D o sale a recorrer la naturaleza de Argentina y Chile.</span></p>
+            <p class="persona-rol">Dirección de proyectos</p>
+            <ul class="persona-temas" role="list" aria-label="Especialidades">
+              <li>ERP y CRM</li>
+              <li>Facturación electrónica</li>
+              <li>Integraciones</li>
+            </ul>
+            <p class="persona-bio">Felipe, Técnico Superior en Desarrollo Web y Aplicaciones Digitales (ISPC), lidera los proyectos. Hace más de cinco años que programa sistemas de gestión y tiendas online a medida, y renueva o integra plataformas que ya están en uso.</p>
             <a class="persona-linkedin" href="https://www.linkedin.com/in/felipe-rebolledo-5ba018200/" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="#i-linkedin"/></svg>Ver perfil en LinkedIn</a>
           </li>
           <li class="persona">
@@ -958,9 +1284,13 @@
               <span class="persona-foto-marca" aria-hidden="true"><svg><use href="#i-externo"/></svg></span>
             </a>
             <h3>Ing. Benjamín Navarrete</h3>
-            <p class="persona-rol">Ingeniero de software</p>
-            <p class="persona-bio">Benjamín desarrolló en INCBA la plataforma de control logístico que una empresa de distribución opera a diario. Estudió Ingeniería Civil en Informática en la Universidad Católica de Temuco y lleva más de cinco años entre el desarrollo de sistemas, los servidores en la nube y la automatización de procesos con inteligencia artificial. Trabajó en NTT DATA y en Wird, en proyectos para clientes de banca y seguros.</p>
-            <p class="persona-fuera"><svg class="icono" aria-hidden="true"><use href="#i-sol"/></svg><span>Además de entrenar en el gimnasio, toca la guitarra eléctrica y juega videojuegos en línea.</span></p>
+            <p class="persona-rol">Automatización e infraestructura</p>
+            <ul class="persona-temas" role="list" aria-label="Especialidades">
+              <li>n8n</li>
+              <li>IA aplicada</li>
+              <li>Nube y servidores</li>
+            </ul>
+            <p class="persona-bio">Benjamín es Ingeniero Civil en Informática (Universidad Católica de Temuco) y pasó por NTT DATA y Wird. En INCBA se ocupa sobre todo de automatizar procesos. Desarrolló la plataforma logística que una distribuidora opera a diario.</p>
             <a class="persona-linkedin" href="https://www.linkedin.com/in/bnavarreteo/" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="#i-linkedin"/></svg>Ver perfil en LinkedIn</a>
           </li>
           <li class="persona">
@@ -969,9 +1299,13 @@
               <span class="persona-foto-marca" aria-hidden="true"><svg><use href="#i-externo"/></svg></span>
             </a>
             <h3>Ing. Camilo Acencio</h3>
-            <p class="persona-rol">Ingeniero analista</p>
-            <p class="persona-bio">En cada proyecto, Camilo parte por entender a fondo qué es lo central del negocio y lo cruza con lo que muestran los datos para decidir con el equipo qué hacer. Así construyó, para una empresa agroalimentaria, los sistemas de pagos a proveedores, conciliación bancaria y cambio de divisas que su equipo de finanzas usa cada día. Es Ingeniero en Informática (Universidad Tecnológica de Chile), arrancó hace más de diez años en soporte, redes e infraestructura antes de dedicarse a la consultoría, y habla inglés con fluidez.</p>
-            <p class="persona-fuera"><svg class="icono" aria-hidden="true"><use href="#i-sol"/></svg><span>Le gusta hacer trekking y acampar en la naturaleza, y entrena fútbol en una academia.</span></p>
+            <p class="persona-rol">Finanzas y procesos de negocio</p>
+            <ul class="persona-temas" role="list" aria-label="Especialidades">
+              <li>Análisis de negocio</li>
+              <li>Cambio de divisas</li>
+              <li>Datos financieros</li>
+            </ul>
+            <p class="persona-bio">Camilo desarrolla herramientas de todo tipo, en especial para finanzas y procesos centrales del negocio. Construyó los sistemas de pagos y conciliación bancaria de una empresa agroalimentaria. Es Ingeniero en Informática, con más de diez años de experiencia.</p>
             <a class="persona-linkedin" href="https://www.linkedin.com/in/camilo-acencio/" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="#i-linkedin"/></svg>Ver perfil en LinkedIn</a>
           </li>
         </ul>
@@ -1020,7 +1354,7 @@
         <div class="agencias-cuerpo">
           <p>Si tus clientes necesitan algo de lo que hacemos y no tienes un equipo técnico propio, nos encargamos nosotros. Podemos trabajar con tu marca, lo que se conoce como marca blanca. Por cada cliente que nos refieras hay una comisión para ti. También te damos material para vender, como propuestas y presentaciones, y te acompañamos a las reuniones con tu cliente.</p>
           <a class="boton boton-secundario" href="https://wa.me/5493517422702?text=Hola%2C%20quiero%20conocer%20el%20programa%20para%20agencias" target="_blank" rel="noopener" data-fb-name="agencias">
-            <svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg>
+            <svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>
             Quiero conocer el programa
           </a>
         </div>
@@ -1042,57 +1376,29 @@
               Agendar diagnóstico gratuito
             </a>
             <a class="boton boton-secundario boton-grande" href="https://wa.me/5493517422702?text=Hola%2C%20quiero%20hacer%20una%20consulta" target="_blank" rel="noopener" data-fb-name="contacto">
-              <svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg>
+              <svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>
               Escribir por WhatsApp
             </a>
             <!-- draggable="false" deja seleccionar el texto de los enlaces
                  arrastrando, para copiar el dato sin abrir nada. -->
+            <!-- En incba.cl va contacto@incba.cl. -->
             <p class="contacto-dato">
               <svg class="icono" aria-hidden="true"><use href="#i-correo"/></svg>
-              <span>O si prefieres, por correo: <a class="dato-valor dato-correo" href="mailto:felipe@incba.com.ar" draggable="false" data-fb-name="contacto-correo">felipe@incba.com.ar</a></span>
+              <span>O si prefieres, por correo: <a class="dato-valor dato-correo" href="mailto:contacto@incba.com.ar" draggable="false" data-fb-name="contacto-correo">contacto@incba.com.ar</a></span>
             </p>
             <ul class="telefonos" role="list">
               <li class="contacto-dato">
-                <svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg>
+                <svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>
                 <span class="telefono-pais">Argentina</span>
                 <a class="dato-valor" href="https://wa.me/5493517422702" target="_blank" rel="noopener" draggable="false" data-fb-name="contacto-telefono-ar">+54 9 351 742 2702</a>
               </li>
               <li class="contacto-dato">
-                <svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg>
+                <svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>
                 <span class="telefono-pais">Chile</span>
                 <a class="dato-valor" href="https://wa.me/56957400433" target="_blank" rel="noopener" draggable="false" data-fb-name="contacto-telefono-cl">+56 9 5740 0433</a>
               </li>
             </ul>
           </div>
-
-          <!-- Sin JS el formulario igual abre el chat (sin el texto armado):
-               los campos no tienen name, así que no viajan en la dirección. -->
-          <form class="contacto-form" id="contacto-form" action="https://wa.me/5493517422702" method="get" target="_blank">
-            <div class="form-cabecera">
-              <h3 id="titulo-form">¿Te ayudamos a armar el mensaje?</h3>
-              <p id="form-aviso">Al tocar el botón se abre WhatsApp con tu mensaje listo para enviar.</p>
-            </div>
-            <div class="form-campos">
-              <div class="campo">
-                <label for="contacto-nombre">Tu nombre</label>
-                <input id="contacto-nombre" type="text" autocomplete="name" enterkeyhint="next" placeholder="Ej.: Camila Soto" required>
-                <p class="campo-error" id="contacto-nombre-error" hidden></p>
-              </div>
-              <div class="campo">
-                <label for="contacto-necesidad">Qué necesitas</label>
-                <textarea id="contacto-necesidad" rows="2" placeholder="Ej.: contestar más rápido los mensajes de WhatsApp" required></textarea>
-                <p class="campo-error" id="contacto-necesidad-error" hidden></p>
-              </div>
-              <div class="campo">
-                <label for="contacto-lugar">Ciudad o país</label>
-                <input id="contacto-lugar" type="text" autocomplete="address-level2" enterkeyhint="send" placeholder="Ej.: Temuco, Chile">
-              </div>
-              <button class="boton boton-secundario form-boton" id="contacto-enviar" type="submit" aria-describedby="form-aviso">
-                <svg class="icono" aria-hidden="true"><use href="#i-wa"/></svg>
-                Seguir en WhatsApp
-              </button>
-            </div>
-          </form>
         </div>
       </div>
     </section>
@@ -1122,8 +1428,8 @@
 
   <!-- ============ Botón flotante ============
        Solo con JS (sin JS no podría abrirse). Se oculta mientras se ven el
-       hero, las modalidades del diagnóstico y la sección de contacto, que ya
-       tienen las mismas opciones. -->
+       hero y la historia de Pichón, las modalidades del diagnóstico y la
+       sección de contacto, que ya tienen las mismas opciones. -->
   <div class="flotante oculto" id="flotante">
     <button class="flotante-boton" id="flotante-boton" type="button" aria-expanded="false" aria-controls="flotante-menu">
       <svg class="icono" aria-hidden="true"><use href="#i-chat"/></svg>
@@ -1134,7 +1440,7 @@
       <ul role="list" aria-labelledby="flotante-encabezado">
         <li>
           <a class="flotante-opcion" href="https://wa.me/5493517422702?text=Hola%2C%20quiero%20hacer%20una%20consulta" target="_blank" rel="noopener" data-fb-name="flotante">
-            <span class="flotante-icono" aria-hidden="true"><svg class="icono"><use href="#i-wa"/></svg></span>
+            <span class="flotante-icono" aria-hidden="true"><svg class="icono icono-wa"><use href="#i-wa"/></svg></span>
             Escribir por WhatsApp
           </a>
         </li>

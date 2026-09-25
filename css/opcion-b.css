@@ -26,8 +26,6 @@
   --arena-mapa: #F9EDD8;     /* tarjeta del mapa (tinta-2 6:1) */
   --gris-chip: #EEF1F5;
   --linea-pantalla: #E4EAF1; /* divisores dentro de las escenas */
-  --borde-campo: #7A90A6;    /* 3,3:1 sobre blanco: borde de controles */
-  --error: #B42318;
 
   /* Canales en las escenas: se nombran con texto y un gris azulado propio,
      sin imitar los colores ni los logos de cada aplicación. */
@@ -42,6 +40,9 @@
   --wa-meta: #54656F;
   --wa-leido: #2E9FD8;
   --hoja: #1E8E3E;
+  /* Teléfono de la historia de Pichón */
+  --tel-marco: #14273A;
+  --sombra-tel: 0 2px 6px rgba(11, 28, 45, 0.12), 0 44px 80px -36px rgba(11, 28, 45, 0.55);
   --dulceria: #6B3E26;
 
   /* --- Tipografía --- */
@@ -345,20 +346,48 @@ main:focus { outline: none; }
 .barra-menu[aria-expanded="true"] .barra-menu-lineas::before { transform: translateY(7px) rotate(45deg); }
 .barra-menu[aria-expanded="true"] .barra-menu-lineas::after { transform: translateY(-7px) rotate(-45deg); }
 
-/* ============ Hero ============ */
+/* ============ Hero e historia de Pichón ============
+   El hero y los nueve capítulos comparten la grilla .relato. La base es una
+   secuencia vertical (sin JS, con movimiento reducido o en pantallas bajas):
+   el hero y cada capítulo con su pantalla al lado, o debajo en celular. Con
+   .historia-viva (la pone el <head>) el teléfono queda fijo, js/opcion-b.js
+   escribe --p (0 → 1: del hero al centro) y elige la pantalla de cada capítulo. */
 
-.hero {
-  padding-block: clamp(36px, 5.5vw, 80px) clamp(56px, 7vw, 104px);
-  overflow-x: hidden; /* navegadores sin clip */
-  overflow-x: clip;
+/* --p no se hereda: js/opcion-b.js lo escribe solo en el hero, el marco y
+   las pantallas, y así el viaje al centro no recalcula estilos de toda la
+   historia en cada cuadro. El hero se lo pasa a su texto y a su panel. */
+@property --p {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
 }
 
-/* La columna de texto tiene que alojar los dos botones en una fila (~620 px). */
-.hero-grilla {
-  display: grid;
-  grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
-  gap: clamp(40px, 6vw, 88px);
-  align-items: center;
+/* Recorta lo que el panel celeste del hero asoma a la derecha. clip (y no
+   hidden) para no crear un contenedor de scroll que anule el sticky. */
+.historia-marco { overflow-x: clip; }
+/* Sin clip (Safari anterior al 16) el panel llega solo hasta el margen. */
+@supports not (overflow: clip) {
+  .historia-viva .hero::before,
+  :root:not(.historia-viva) .ph-chat::before { right: calc(-1 * var(--margen)) !important; }
+}
+
+.relato {
+  --vh: 1vh;
+  --ancho-tel: 372px;
+  --marco-tel: 7px;
+  --radio-tel: 42px;
+  --aire-chat: clamp(24px, 3vw, 36px);
+  position: relative;
+  isolation: isolate;
+}
+@supports (height: 1svh) {
+  .relato { --vh: 1svh; }
+}
+
+.hero {
+  --p-hero: var(--p);
+  position: relative;
+  padding-block: clamp(36px, 5.5vw, 80px) clamp(40px, 6vw, 64px);
 }
 
 .eyebrow {
@@ -478,110 +507,597 @@ main:focus { outline: none; }
   .cara img { width: 44px; height: 44px; border-width: 2px; }
 }
 
-/* Panel celeste detrás del chat: llega hasta el borde derecho de la ventana.
-   Su borde izquierdo se calcula desde el chat (196px = medio chat), así el
-   chat queda con el mismo aire arriba, abajo y a la izquierda. */
-.hero-escena {
-  --aire-chat: clamp(28px, 4vw, 52px);
-  position: relative;
-  isolation: isolate;
-  display: flex;
-  justify-content: center;
-  padding-block: var(--aire-chat);
-}
-.hero-escena::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  bottom: 0;
-  left: calc(50% - min(196px, 50%) - var(--aire-chat));
-  right: -50vw;
-  border-radius: var(--r-panel) 0 0 var(--r-panel);
-  background: var(--celeste);
-}
-
-/* Abajo, poco aire: en el primer pantallazo de una notebook asoma el filo de
-   la banda de Meta y se entiende que la página sigue. */
-@media (min-width: 900px) {
-  .hero { padding-block: clamp(28px, 3vw, 40px) clamp(16px, 1.6vw, 24px); }
-  .hero-escena { --aire-chat: clamp(24px, 3vw, 36px); }
-}
-
-@media (max-width: 899px) {
-  .hero-grilla { grid-template-columns: minmax(0, 1fr); }
-  .hero { padding-bottom: clamp(48px, 8vw, 72px); }
-  .hero-escena { padding-bottom: 0; }
-  /* La banda cubre la parte de arriba del chat y el resto apoya sobre el papel. */
-  .hero-escena::before {
-    left: calc(-1 * var(--margen));
-    right: calc(-1 * var(--margen));
-    bottom: 30%;
-    border-radius: 0;
-  }
-}
-
 @media (max-width: 479px) {
   .hero-acciones .boton { width: 100%; }
   .hero-nota { align-items: flex-start; }
 }
 
-/* ============ Chat del hero (estilo mensajería claro) ============ */
+/* --- Capítulos --- */
+.cap-tarjeta h3 { font-size: var(--t-h3-grande); }
+.cap-tarjeta p {
+  margin-top: 10px;
+  max-width: 26em;
+  color: var(--tinta-2);
+  font-size: var(--t-l);
+  line-height: 1.55;
+}
+
+.historia-saltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px 0 14px;
+  border: 1.5px solid #A9BCCF;
+  border-radius: var(--r-chip);
+  background: var(--superficie);
+  color: var(--tinta);
+  font-size: var(--t-s);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.historia-saltar:hover { border-color: var(--tinta); color: var(--tinta); }
+.historia-saltar:focus-visible { border-radius: var(--r-chip); }
+.historia-saltar .icono { width: 18px; height: 18px; color: var(--teal-texto); }
+
+.historia-seguir,
+.telefono,
+.hist-pasos { display: none; }
+
+.pantalla-h { margin-inline: auto; }
+/* Talles como "0-3 m" no se cortan en el guion. */
+.nw { white-space: nowrap; }
+
+/* --- Secuencia vertical --- */
+@media (min-width: 900px) {
+  :root:not(.historia-viva) .relato {
+    display: grid;
+    grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
+    gap: clamp(56px, 7vw, 96px) clamp(40px, 6vw, 88px);
+    align-items: center;
+    padding-block: calc(clamp(28px, 3vw, 40px) + var(--aire-chat)) var(--seccion);
+  }
+  :root:not(.historia-viva) .hero { grid-area: 1 / 1; padding-block: 0; }
+  :root:not(.historia-viva) .historia-saltar { grid-row: 2; grid-column: 1; justify-self: start; }
+  :root:not(.historia-viva) .cap { grid-row: var(--fila); grid-column: 1; }
+  :root:not(.historia-viva) .pantalla-h { grid-row: var(--fila); grid-column: 2; }
+  /* El chat es la pantalla del primer capítulo: va al lado del hero, del
+     botón de saltar y de "La consulta" (fila 3). */
+  :root:not(.historia-viva) .ph-chat { grid-row: 1 / 4; }
+  /* Panel celeste detrás del chat: llega hasta el borde derecho de la ventana
+     y deja el mismo aire arriba, abajo y a la izquierda. */
+  :root:not(.historia-viva) .ph-chat::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: calc(-1 * var(--aire-chat) - var(--marco-tel));
+    bottom: calc(-1 * var(--aire-chat) - var(--marco-tel));
+    left: calc(-1 * var(--aire-chat) - var(--marco-tel));
+    right: -50vw;
+    border-radius: var(--r-panel) 0 0 var(--r-panel);
+    background: var(--celeste);
+  }
+}
+@media (max-width: 899px) {
+  :root:not(.historia-viva) .relato { padding-bottom: var(--seccion); }
+  :root:not(.historia-viva) .cap { margin-top: 56px; }
+  :root:not(.historia-viva) .pantalla-h { margin-top: 24px; }
+}
+
+/* --- Historia con el teléfono fijo --- */
+/* El aire del final queda debajo del teléfono cuando se suelta: ni él ni su
+   sombra tocan la banda de Meta. */
+.historia-viva .relato {
+  --largo-cap: calc(80 * var(--vh));
+  display: grid;
+  grid-template-rows: repeat(11, auto);
+  align-items: start;
+  padding-bottom: var(--seccion);
+  container-type: inline-size;
+}
+.historia-viva .cap { grid-row: var(--fila); min-height: var(--largo-cap); }
+/* El último capítulo queda un poco más, hasta que el teléfono se suelta. */
+.historia-viva .cap[data-clave="cierre"] { min-height: calc(100 * var(--vh)); }
+.historia-viva .cap-tarjeta { position: sticky; top: var(--tope-texto); z-index: 1; }
+
+.historia-viva .telefono,
+.historia-viva .pantalla-h {
+  position: sticky;
+  top: var(--tope-tel);
+  align-self: start;
+  justify-self: center;
+  width: var(--ancho-tel);
+  max-width: none;
+  height: var(--alto-tel);
+  margin: 0;
+  transform: translateX(calc(var(--dx) * (1 - var(--p)))) scale(calc(var(--escala-0) + (1 - var(--escala-0)) * var(--p)));
+}
+.historia-viva .telefono {
+  display: block;
+  z-index: 2;
+  border-radius: var(--radio-tel);
+  background: var(--tel-marco);
+  box-shadow: var(--sombra-tel);
+}
+/* Fundido entre pantallas: la que entra aparece encima y la que sale se
+   apaga recién cuando la nueva ya tapa todo (sin cruce de dos pantallas a
+   medias). Las inactivas siguen en el DOM y los lectores de pantalla las leen. */
+.historia-viva .pantalla-h {
+  z-index: 3;
+  box-shadow: none;
+  opacity: 0;
+  pointer-events: none;
+}
+.historia-viva .pantalla-h.saliente { z-index: 4; transition: opacity 0s linear 0.5s; }
+.historia-viva .pantalla-h.activa {
+  z-index: 5;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 900px) {
+  .historia-viva .relato {
+    --ancho-tel: clamp(320px, 26vw, 368px);
+    --aire-tel: clamp(16px, calc(3.6 * var(--vh)), 40px);
+    --alto-tel: clamp(440px, calc(100 * var(--vh) - var(--alto-barra) - 1px - 2 * var(--aire-tel)), 780px);
+    --tope-tel: calc(var(--alto-barra) + 1px + (100 * var(--vh) - var(--alto-barra) - 1px - var(--alto-tel)) / 2);
+    --tope-texto: calc(var(--tope-tel) + var(--alto-tel) * 0.3);
+    /* En el hero el teléfono va pegado al borde derecho; --p lo trae al centro. */
+    --dx: calc((min(100vw, var(--ancho) + 2 * var(--margen)) - 2 * var(--margen) - var(--ancho-tel)) / 2);
+    --escala-0: 0.9;
+    grid-template-columns: [texto] minmax(0, 1fr) [tel] auto [lado] minmax(0, 1fr);
+    column-gap: clamp(28px, 4vw, 64px);
+  }
+  @supports (width: 1cqw) {
+    .historia-viva .relato { --dx: calc((100cqw - var(--ancho-tel)) / 2); }
+  }
+
+  .historia-viva .hero {
+    grid-row: 1;
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    min-height: calc(100 * var(--vh) - var(--alto-barra) - 1px);
+    padding-block: 24px;
+  }
+  /* El texto del hero sigue hacia arriba y se desvanece mientras el teléfono
+     viaja al centro, así no se cruzan. */
+  .historia-viva .hero-texto {
+    max-width: min(640px, 100% - var(--ancho-tel) - clamp(48px, 6vw, 88px));
+    opacity: calc(1 - var(--p-hero) * 1.8);
+    transform: translateY(calc(var(--p-hero) * -48px));
+  }
+  .historia-viva.hero-ido .hero-texto { pointer-events: none; }
+  .historia-viva .hero::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: calc(100% - var(--ancho-tel) * 0.95 - var(--aire-tel) - var(--alto-tel) * 0.05);
+    right: -50vw;
+    border-radius: var(--r-panel) 0 0 var(--r-panel);
+    background: var(--celeste);
+    /* Se apaga antes de que su borde de abajo cruce junto al teléfono. */
+    opacity: calc(1 - var(--p-hero) * 2.5);
+  }
+
+  .historia-viva .cap { grid-column: texto; }
+  /* Aire al final de cada capítulo (sin alargar el recorrido): la tarjeta que
+     se va se despega antes de que llegue la siguiente. */
+  .historia-viva .cap { padding-bottom: calc(16 * var(--vh)); }
+  .historia-viva .cap-tarjeta { max-width: 21em; }
+  /* De la tarjeta que viene (o la que se va) solo se ve el título, atenuado
+     (3,3:1: es texto grande). */
+  .historia-viva .cap:not(.activo) .cap-tarjeta h3 { opacity: 0.5; }
+  .historia-viva .cap:not(.activo) .cap-tarjeta p { opacity: 0; }
+  .historia-viva .cap-tarjeta h3 { font-size: clamp(1.625rem, 0.95rem + 1.35vw, 2.25rem); }
+  .historia-viva .cap-tarjeta p { margin-top: 14px; }
+  .historia-viva .telefono,
+  .historia-viva .pantalla-h { grid-row: 1 / -1; grid-column: tel; }
+}
+
+@media (max-width: 899px) {
+  .historia-viva .relato {
+    --ancho-tel: min(100%, 420px);
+    --marco-tel: 6px;
+    --radio-tel: 34px;
+    /* 176 px: fila de controles, tarjeta del capítulo y aire. */
+    --alto-tel: clamp(300px, calc(100 * var(--vh) - var(--alto-barra) - 1px - 176px), 640px);
+    --tope-tel: calc(var(--alto-barra) + 1px + 38px);
+    --tope-texto: calc(var(--tope-tel) + var(--alto-tel) + 10px);
+    --dx: 0px;
+    --escala-0: 0.94;
+    /* Sombra corta: la tarjeta del capítulo va justo debajo. */
+    --sombra-tel: 0 2px 6px rgba(11, 28, 45, 0.12), 0 14px 24px -16px rgba(11, 28, 45, 0.4);
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .historia-viva .hero { grid-row: 1; padding-bottom: 48px; }
+  .historia-viva .telefono,
+  .historia-viva .pantalla-h { grid-row: 2 / -1; grid-column: 1; }
+  /* Al llegar por un ancla, la tarjeta del capítulo cae debajo del teléfono. */
+  .historia-viva .cap { grid-column: 1; scroll-margin-top: calc(var(--alto-tel) + 48px); }
+  .historia-viva .cap[data-clave="consulta"] {
+    padding-top: calc(var(--alto-tel) + 10px);
+    min-height: calc(var(--alto-tel) + 10px + var(--largo-cap));
+    scroll-margin-top: 38px;
+  }
+  .historia-viva .cap-tarjeta {
+    max-width: 420px;
+    margin-inline: auto;
+    padding: 12px 16px 14px;
+    border: 1px solid var(--celeste-2);
+    border-radius: 18px;
+    background: var(--superficie);
+    box-shadow: 0 12px 26px -20px rgba(11, 28, 45, 0.45);
+  }
+  .historia-viva .cap-tarjeta h3 { font-size: 1.1875rem; }
+  .historia-viva .cap-tarjeta p { margin-top: 4px; font-size: var(--t-m); line-height: 1.45; }
+  /* Fondo del tramo fijo (de la barra al pie del teléfono): las tarjetas que
+     se van pasan por debajo. */
+  .historia-viva .telefono::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: calc(-38px - var(--marco-tel));
+    bottom: -10px;
+    left: calc((100% - 100vw) / 2);
+    right: calc((100% - 100vw) / 2);
+    background: var(--papel);
+  }
+  .historia-viva .pantalla-h { font-size: 0.8125rem; }
+}
+
+/* --- Controles fijos: saltar, invitación a bajar y pasos --- */
+.historia-viva .historia-saltar,
+.historia-viva .historia-seguir,
+.historia-viva .hist-pasos {
+  position: fixed;
+  z-index: 45;
+  opacity: 0;
+  pointer-events: none;
+}
+.historia-viva .historia-saltar {
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 12px 26px -14px rgba(11, 28, 45, 0.45);
+  transform: translateY(8px);
+}
+.historia-viva.hist-fija .historia-saltar,
+.historia-viva .historia-saltar:focus {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+.historia-viva .historia-seguir {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  left: 50%;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  color: var(--tinta-2);
+  font-size: var(--t-s);
+  font-weight: 700;
+  transform: translateX(-50%);
+}
+.historia-seguir .icono { width: 18px; height: 18px; color: var(--teal-texto); }
+.historia-viva.hist-inicio .historia-seguir { opacity: 1; }
+.historia-viva .hist-pasos { display: flex; margin: 0; padding: 0; list-style: none; }
+.historia-viva.hist-con-pasos .hist-pasos { opacity: 1; }
+
+/* Pasos: cada punto es más grande que el anterior (se arrancó por lo chico). */
+.hist-pasos { --col: 22px; }
+.hist-pasos li:nth-child(1) { --s: 10px; }
+.hist-pasos li:nth-child(2) { --s: 13px; }
+.hist-pasos li:nth-child(3) { --s: 16px; }
+.hist-pasos li:nth-child(4) { --s: 19px; }
+.hist-pasos li:nth-child(5) { --s: 22px; }
+.hist-pasos li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--tinta-2);
+  font-size: var(--t-s);
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.hp-punto {
+  position: relative;
+  flex: none;
+  width: var(--s);
+  height: var(--s);
+  margin-inline: calc((var(--col) - var(--s)) / 2);
+  border: 2px solid #B5C6D8;
+  border-radius: 50%;
+  background: var(--superficie);
+}
+/* Anillo del paso actual y relleno de los hechos: capas que entran con
+   opacidad y escala. */
+.hp-punto::before,
+.hp-punto::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.6);
+}
+.hp-punto::before {
+  border: 2px solid var(--teal);
+  background: var(--teal-claro);
+  box-shadow: 0 0 0 4px rgba(15, 127, 118, 0.14);
+}
+.hp-punto::after { background: var(--teal); }
+.hist-pasos .actual .hp-punto::before,
+.hist-pasos .hecho .hp-punto::after { opacity: 1; transform: none; }
+.hist-pasos .actual { color: var(--tinta); font-weight: 800; }
+
+@media (min-width: 900px) {
+  .historia-viva .hist-pasos {
+    flex-direction: column;
+    gap: 18px;
+    top: calc(var(--alto-barra) + 1px + (100 * var(--vh) - var(--alto-barra) - 1px) / 2);
+    left: calc(50% + var(--ancho-tel) / 2 + clamp(40px, 5vw, 80px));
+    transform: translateY(-50%);
+  }
+  /* Línea que une los puntos, por el centro de la columna de 22 px. */
+  .historia-viva .hist-pasos::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 10px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--celeste-2);
+  }
+}
+/* En ventanas bajas no queda lugar al pie para la invitación a bajar. */
+@media (min-width: 900px) and (max-height: 600px) {
+  .historia-viva .historia-seguir { display: none; }
+}
+/* En celular el pie de la primera pantalla lo ocupa el teléfono que asoma: la
+   pastilla le tapaba el encabezado del chat. El teléfono asomando ya invita a
+   bajar, así que la invitación queda sólo en pantallas anchas. */
+@media (max-width: 899px) {
+  .historia-viva .historia-seguir { display: none; }
+}
+
+@media (max-width: 899px) {
+  /* En celular "Saltar" y los pasos van en la fila de arriba del teléfono;
+     en tableta la fila se alinea con el teléfono (420 px). */
+  .historia-viva .historia-saltar {
+    top: calc(var(--alto-barra) + 1px + 4px);
+    right: max(16px, env(safe-area-inset-right, 0px), 50% - 210px);
+    bottom: auto;
+    min-height: 30px;
+    padding: 0 12px 0 9px;
+    font-size: var(--t-xs);
+    box-shadow: none;
+    transform: none;
+  }
+  .historia-viva .historia-saltar .icono { width: 15px; height: 15px; }
+  /* Área táctil de 44 px sin agrandar el botón. */
+  .historia-viva .historia-saltar::after { content: ""; position: absolute; inset: -7px -4px; }
+  /* La invitación a bajar se ve al cargar, al pie y sobre el hero (el
+     teléfono todavía está abajo); cuando el teléfono llega ya no hace falta. */
+  .historia-viva .historia-seguir {
+    padding: 7px 14px 7px 16px;
+    border-radius: var(--r-chip);
+    background: var(--superficie);
+    box-shadow: 0 1px 2px rgba(11, 28, 45, 0.1), 0 10px 22px -12px rgba(11, 28, 45, 0.45);
+    font-size: var(--t-xs);
+  }
+  .historia-viva .hist-pasos {
+    align-items: center;
+    gap: 6px;
+    top: calc(var(--alto-barra) + 1px + 8px);
+    left: max(var(--margen), env(safe-area-inset-left, 0px), 50% - 210px);
+    height: 22px;
+  }
+  .hist-pasos li { gap: 0; }
+  .hist-pasos .hp-nombre { display: none; }
+  .hist-pasos .actual .hp-nombre { display: block; margin-left: 4px; font-size: var(--t-xs); }
+}
+/* En celulares angostos los pasos se achican para no pisar "Saltar la
+   historia"; por debajo de 360 px queda solo la fila de puntos. */
+@media (max-width: 389px) {
+  .historia-viva .hist-pasos { --col: 18px; gap: 3px; }
+  .hist-pasos li:nth-child(1) { --s: 8px; }
+  .hist-pasos li:nth-child(2) { --s: 10px; }
+  .hist-pasos li:nth-child(3) { --s: 13px; }
+  .hist-pasos li:nth-child(4) { --s: 15px; }
+  .hist-pasos li:nth-child(5) { --s: 18px; }
+}
+@media (max-width: 359px) {
+  .hist-pasos .actual .hp-nombre { display: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .historia-viva .historia-saltar,
+  .historia-viva .historia-seguir,
+  .historia-viva .hist-pasos { transition: opacity 0.3s, transform 0.3s; }
+  .historia-viva .cap-tarjeta h3,
+  .historia-viva .cap-tarjeta p { transition: opacity 0.4s; }
+  .hp-punto::before,
+  .hp-punto::after { transition: opacity 0.3s, transform 0.3s; }
+  .historia-seguir .icono { animation: bajar 1.8s ease-in-out infinite; }
+}
+@keyframes bajar {
+  0%, 100% { transform: translateY(-2px); }
+  50% { transform: translateY(3px); }
+}
+
+/* ============ Pantallas del teléfono ============
+   Cada pantalla trae su propio marco (sirve también en la secuencia
+   vertical). En la historia fija, debajo va .telefono con el mismo marco:
+   durante el fundido el borde no parpadea. */
+
+.pantalla-h {
+  position: relative;
+  width: 100%;
+  max-width: var(--ancho-tel);
+  border: var(--marco-tel) solid var(--tel-marco);
+  border-radius: var(--radio-tel);
+  background: var(--tel-marco);
+  box-shadow: var(--sombra-tel);
+  color: var(--wa-texto);
+  font-size: var(--t-s);
+  line-height: 1.42;
+}
+.ph-interior {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: calc(var(--radio-tel) - var(--marco-tel));
+  background: var(--superficie);
+}
+.ph-chat { height: 600px; height: clamp(480px, calc(100 * var(--vh) - 150px), 660px); }
+
+/* Escenas que no entran en el alto del teléfono (celulares, notebooks bajas):
+   js/opcion-b.js las achica con --k y, si igual no entran, pliega lo marcado
+   con data-opcional (1 antes que 2), que sigue en el DOM para los lectores de
+   pantalla. Mientras mide (.midiendo) arma cada escena en su estado final y
+   sin desplazamiento interno. */
+/* El interior escalado sobra un par de píxeles y el marco lo recorta: así su
+   borde no queda a medio píxel sobre el marco. */
+.historia-viva .pantalla-h.escalada { overflow: hidden; }
+.historia-viva .pantalla-h.escalada .ph-interior {
+  width: calc(100% / var(--k) + 2px);
+  height: calc(100% / var(--k) + 2px);
+  border-radius: calc((var(--radio-tel) - var(--marco-tel)) / var(--k));
+  transform: scale(var(--k));
+  transform-origin: 0 0;
+}
+.historia-viva .midiendo .pend {
+  position: static !important;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+}
+.historia-viva .midiendo :is(.chat, .chat-cuerpo, .ph-feed) { flex: none; }
+.pantalla-h[data-ajuste="1"] [data-opcional="1"],
+.pantalla-h[data-ajuste="2"] [data-opcional] {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Barra de estado: la hora cambia según la escena. */
+.ph-estado {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  padding: 3px 18px 0 26px;
+  background: var(--superficie);
+  color: var(--tinta);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.ph-estado::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 60px;
+  height: 17px;
+  margin-left: -30px;
+  border-radius: 9px;
+  background: var(--tel-marco);
+}
+.ph-iconos { display: flex; align-items: center; gap: 5px; }
+.ph-iconos::before {
+  content: "";
+  width: 15px;
+  height: 10px;
+  background:
+    linear-gradient(currentColor 0 0) 0 100% / 3px 35% no-repeat,
+    linear-gradient(currentColor 0 0) 4px 100% / 3px 55% no-repeat,
+    linear-gradient(currentColor 0 0) 8px 100% / 3px 78% no-repeat,
+    linear-gradient(currentColor 0 0) 12px 100% / 3px 100% no-repeat;
+}
+.ph-iconos::after {
+  content: "";
+  width: 20px;
+  height: 10px;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+  background: linear-gradient(currentColor 0 0) 1px 1px / 11px 4px no-repeat;
+}
+.ph-estado-oscuro { background: var(--tinta); color: #fff; }
+.ph-estado-oscuro::before { background: #000; }
+.ph-estado-claro { background: transparent; }
+
+/* ============ Chat (hero y escenas de mensajería) ============ */
 
 .chat {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 392px;
-  overflow: hidden;
-  border: 1px solid rgba(11, 28, 45, 0.07);
-  border-radius: 24px;
+  flex: 1 1 auto;
+  min-height: 0;
   background-color: var(--wa-fondo);
   background-image: radial-gradient(rgba(11, 28, 45, 0.07) 1px, transparent 1.4px);
   background-size: 16px 16px;
-  box-shadow: var(--sombra-pantalla);
   color: var(--wa-texto);
 }
 
 .chat-cabecera {
+  flex: none;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 16px 12px 12px;
+  padding: 6px 14px 9px 10px;
   background: var(--superficie);
   border-bottom: 1px solid var(--linea-pantalla);
 }
 .chat-atras { width: 20px; height: 20px; color: var(--wa-meta); flex: none; }
-.chat-avatar { flex: none; width: 38px; height: 38px; }
+.chat-avatar { flex: none; width: 36px; height: 36px; }
 .chat-avatar svg { display: block; width: 100%; height: 100%; }
+.chat-avatar-ini { width: 36px; height: 36px; font-size: 14px; }
 .chat-contacto { display: flex; flex-direction: column; margin-right: auto; line-height: 1.25; }
-.chat-nombre { font-size: var(--t-base); font-weight: 700; }
+.chat-nombre { font-size: 1rem; font-weight: 700; }
 .chat-estado { color: var(--wa-meta); font-size: var(--t-xs); }
 .chat-accion { width: 21px; height: 21px; margin-left: 12px; color: var(--wa-meta); flex: none; }
 
-/* Alto fijo con desplazamiento interno. column-reverse hace que el
-   navegador arranque mostrando el final de la conversación. En pantallas
-   bajas el alto se achica para que el chat entero entre debajo de la barra
-   (200 px = barra, cabecera y pie del chat). */
+/* column-reverse: el chat arranca mostrando el final de la conversación y,
+   cuando llega un mensaje, crece hacia arriba. */
 .chat-cuerpo {
   position: relative;
   display: flex;
   flex-direction: column-reverse;
-  height: 440px;
-  height: clamp(220px, calc(100svh - 200px), 440px);
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(11, 28, 45, 0.22) transparent;
 }
 .chat-cuerpo:focus-visible { outline-offset: -3px; border-radius: 0; }
+.chat-mini .chat-cuerpo { overflow: hidden; }
 .chat-hilo { flex: none; }
 
 .chat-mensajes {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding: 14px 12px 10px;
+  padding: 12px 12px 10px;
 }
 
 .msg { position: relative; display: flex; }
@@ -593,12 +1109,11 @@ main:focus { outline: none; }
 .msg-burbuja {
   position: relative;
   max-width: 85%;
-  padding: 7px 10px 8px 11px;
+  padding: 6px 10px 7px 11px;
   border-radius: 12px;
   background: var(--superficie);
   box-shadow: 0 1px 0.5px rgba(11, 28, 45, 0.13);
-  font-size: var(--t-m);
-  line-height: 1.42;
+  line-height: 1.4;
 }
 /* Colita de la burbuja: solo en el primer mensaje de cada grupo. */
 .msg-burbuja::before {
@@ -622,10 +1137,11 @@ main:focus { outline: none; }
    reserva el hueco y la hora se ubica encima. */
 .msg-burbuja p::after { content: ""; display: inline-block; width: 40px; }
 .msg-sale .msg-burbuja p::after { width: 58px; }
+.msg-sin-hora .msg-burbuja p::after { content: none; }
 .msg-meta {
   position: absolute;
   right: 9px;
-  bottom: 6px;
+  bottom: 5px;
   display: inline-flex;
   align-items: center;
   gap: 3px;
@@ -635,18 +1151,52 @@ main:focus { outline: none; }
 }
 .msg-leido { width: 17px; height: 11px; color: var(--wa-leido); }
 
-/* Mientras se reproduce la conversación, los mensajes que faltan siguen en
-   el DOM (los lectores de pantalla leen la charla entera) pero no se ven.
-   .chat-previo lo pone el <head> antes del primer pintado. */
-.msg.msg-pendiente,
-.chat-previo .chat-mensajes > .msg ~ .msg {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
+/* Etiqueta chica de los mensajes automáticos: en una seguidilla, solo en el
+   primero (y si ese se pliega, en el que sigue). */
+.msg-autom + .msg-autom .msg-auto { display: none; }
+.pantalla-h[data-ajuste="2"] [data-opcional="2"] + .msg-autom .msg-auto { display: flex; }
+.msg-auto {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: max-content;
+  margin: 0 0 3px -2px;
+  padding: 1px 7px 1px 5px;
+  border-radius: var(--r-chip);
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--teal-texto);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
 }
+.msg-auto .icono { width: 11px; height: 11px; }
+
+/* Botón dentro de un mensaje ("Ver seguimiento"). */
+.msg-boton {
+  display: block;
+  margin: 7px -5px -1px -6px;
+  padding: 6px 8px 1px;
+  border-top: 1px solid rgba(11, 28, 45, 0.1);
+  color: var(--teal-texto);
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Tarjeta de la guía de talles: los tres talles en columnas. */
+.msg-tarjeta .msg-burbuja { width: 85%; padding: 8px 11px 9px; }
+.talles-titulo { font-weight: 800; }
+.talles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 5px; }
+.talles li {
+  display: grid;
+  gap: 1px;
+  padding: 5px 0 1px 9px;
+  border-left: 1px solid rgba(11, 28, 45, 0.12);
+  line-height: 1.3;
+}
+.talles li:first-child { padding-left: 0; border-left: 0; }
+.talle { font-weight: 800; white-space: nowrap; }
+.talle-medida { color: var(--wa-meta); font-size: var(--t-xs); white-space: nowrap; }
 
 .chat-escribiendo {
   display: flex;
@@ -668,49 +1218,54 @@ main:focus { outline: none; }
   background: #8696A0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .msg-nuevo .msg-burbuja { animation: msg-aparece 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-  .msg-entra.msg-nuevo .msg-burbuja { transform-origin: 0 0; }
-  .msg-sale.msg-nuevo .msg-burbuja { transform-origin: 100% 0; }
-  .chat-escribiendo span { animation: punto 0.9s ease-in-out infinite; }
-  .chat-escribiendo span:nth-child(2) { animation-delay: 0.15s; }
-  .chat-escribiendo span:nth-child(3) { animation-delay: 0.3s; }
-}
-
-@keyframes msg-aparece {
-  from { opacity: 0; transform: translateY(8px) scale(0.97); }
-  to { opacity: 1; transform: none; }
-}
-@keyframes punto {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
-  30% { transform: translateY(-3px); opacity: 1; }
-}
-
+/* Pie: campo y micrófono. Mientras Vero escribe, una línea gris crece en el
+   campo y el micrófono pasa a ser el botón de enviar. */
 .chat-pie {
+  flex: none;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 10px 12px;
+  padding: 7px 10px 10px;
 }
 .chat-campo {
+  position: relative;
   flex: 1;
   display: flex;
   align-items: center;
-  height: 42px;
+  height: 40px;
   padding-left: 16px;
+  overflow: hidden;
   border-radius: 999px;
   background: var(--superficie);
   box-shadow: 0 1px 0.5px rgba(11, 28, 45, 0.1);
 }
 .chat-campo::before { content: "Mensaje"; color: var(--wa-meta); font-size: var(--t-m); }
+.chat-campo::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  width: 62%;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 4px;
+  background: #CBD4DD;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.chat-pie.tecleando .chat-campo::before { visibility: hidden; }
+.chat-pie.tecleando .chat-campo::after {
+  transform: scaleX(1);
+  transition: transform var(--tecleo, 1s) cubic-bezier(0.3, 0.6, 0.4, 1);
+}
 /* Micrófono: cápsula (::before), arco (::after) y pie (fondo). */
 .chat-mic {
   position: relative;
   flex: none;
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: linear-gradient(#fff, #fff) 50% 29px / 2px 4px no-repeat, var(--wa-boton);
+  background: linear-gradient(#fff, #fff) 50% 28px / 2px 4px no-repeat, var(--wa-boton);
 }
 .chat-mic::before {
   content: "";
@@ -727,7 +1282,7 @@ main:focus { outline: none; }
   content: "";
   position: absolute;
   left: 50%;
-  top: 22px;
+  top: 21px;
   width: 14px;
   height: 8px;
   border: 2px solid #fff;
@@ -735,29 +1290,40 @@ main:focus { outline: none; }
   border-radius: 0 0 8px 8px;
   transform: translateX(-50%);
 }
-
-@media (max-width: 479px) {
-  .chat-cuerpo { height: 400px; height: clamp(220px, calc(100svh - 200px), 400px); }
+.chat-enviar {
+  position: absolute;
+  inset: 0;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  color: #fff;
+  visibility: hidden;
 }
+.tecleando .chat-mic { background: var(--wa-boton); }
+.tecleando .chat-mic::before,
+.tecleando .chat-mic::after { visibility: hidden; }
+.tecleando .chat-enviar { visibility: visible; }
 
-/* En teléfonos (clase que pone js/opcion-b.js) el chat no se desplaza por
-   dentro: atrapaba el deslizamiento con que se recorre la página. Se ven los
-   últimos mensajes, arriba se esfuman y un botón despliega el hilo entero. */
+/* En teléfonos, fuera de la historia fija (clase que pone js/opcion-b.js),
+   el chat no se desplaza por dentro: atrapaba el deslizamiento con que se
+   recorre la página. Se ven los últimos mensajes, arriba se esfuman y un
+   botón despliega el hilo entero. */
 .chat-telefono .chat-cuerpo {
   overflow: hidden;
   -webkit-mask-image: linear-gradient(transparent, #000 72px);
   mask-image: linear-gradient(transparent, #000 72px);
 }
-.chat-telefono.chat-completo .chat-cuerpo {
-  height: auto;
+.ph-chat.chat-completo { height: auto; }
+.chat-completo .chat-cuerpo {
+  flex: none;
   -webkit-mask-image: none;
   mask-image: none;
 }
-/* 63 px = alto de la cabecera del chat. */
+/* 64 px ≈ alto de la cabecera del chat. */
 .chat-ver-todo {
   position: absolute;
   z-index: 2;
-  top: 73px;
+  top: 64px;
   left: 50%;
   min-height: 44px;
   padding: 0 18px;
@@ -774,6 +1340,764 @@ main:focus { outline: none; }
 }
 .chat-ver-todo[hidden] { display: none; }
 .chat-ver-todo:focus-visible { border-radius: var(--r-chip); }
+
+/* En la historia fija los chats se esfuman arriba, bajo la cabecera. Con el
+   dedo el chat del hero no se desplaza por dentro (atraparía la página)
+   hasta que se toca "Ver toda la conversación". */
+.historia-viva .chat-cuerpo {
+  -webkit-mask-image: linear-gradient(transparent, #000 28px);
+  mask-image: linear-gradient(transparent, #000 28px);
+}
+@media (pointer: coarse) {
+  .historia-viva .ph-chat .chat-cuerpo { overflow: hidden; }
+  .historia-viva .ph-chat.chat-libre .chat-cuerpo { overflow-y: auto; }
+}
+
+/* ============ Escenas de la historia ============ */
+
+/* --- Agenda: final del chat y evento --- */
+/* El último mensaje no queda debajo del borde de la hoja del evento. */
+.ph-agenda .chat-mensajes { padding-bottom: 26px; }
+.evento {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  margin-top: -14px;
+  padding: 20px 16px 16px;
+  border-radius: 20px 20px 0 0;
+  background: var(--superficie);
+  box-shadow: 0 -12px 28px -16px rgba(11, 28, 45, 0.4);
+  color: var(--tinta);
+}
+.evento::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 36px;
+  height: 4px;
+  margin-left: -18px;
+  border-radius: 2px;
+  background: #D5DDE6;
+}
+.evento-titulo { display: grid; gap: 2px; }
+.evento-k {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--teal-texto);
+  font-size: var(--t-xs);
+  font-weight: 800;
+}
+.evento-k .icono { width: 15px; height: 15px; }
+.evento-nombre {
+  font-family: var(--f-titulo);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.evento-cuando {
+  width: max-content;
+  margin-top: 8px;
+  padding: 3px 10px;
+  border-radius: 8px;
+  background: var(--teal-claro);
+  color: var(--teal-texto);
+  font-weight: 800;
+}
+.evento-datos { display: grid; gap: 7px; margin-top: 12px; }
+.evento-datos li { display: flex; align-items: flex-start; gap: 10px; }
+.evento-datos .icono { width: 18px; height: 18px; margin-top: 1px; color: var(--tinta-2); }
+.evento-datos p { display: grid; line-height: 1.35; }
+.evento-datos .evento-k { color: var(--tinta-2); font-weight: 700; }
+.evento-aviso {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--tinta);
+  color: #fff;
+  font-size: var(--t-xs);
+  font-weight: 700;
+  line-height: 1.35;
+}
+.evento-aviso .icono { width: 16px; height: 16px; color: #7FD8CE; }
+
+/* --- Bandeja --- */
+.ph-bandeja .ph-interior { background: #F4F6F9; }
+.bandeja-cabecera {
+  flex: none;
+  padding: 6px 14px 10px;
+  border-bottom: 1px solid var(--linea-pantalla);
+  background: var(--superficie);
+  color: var(--tinta);
+}
+.bandeja-titulo { display: grid; line-height: 1.25; }
+.bandeja-titulo b { font-size: 1.0625rem; font-weight: 800; }
+.bandeja-sub { color: var(--tinta-2); font-size: var(--t-xs); font-weight: 600; }
+.bandeja-filtros { display: flex; gap: 6px; margin-top: 9px; }
+.filtro {
+  padding: 3px 11px;
+  border-radius: var(--r-chip);
+  background: var(--gris-chip);
+  color: var(--tinta-2);
+  font-size: var(--t-xs);
+  font-weight: 700;
+}
+.filtro-activo { background: var(--tinta); color: #fff; }
+.bandeja-lista { display: grid; gap: 7px; padding: 10px; }
+.conv-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--superficie);
+  box-shadow: 0 1px 2px rgba(11, 28, 45, 0.07);
+  color: var(--tinta);
+}
+.conv-avatar { grid-row: 1 / span 2; }
+.conv-linea {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px 8px;
+  line-height: 1.35;
+}
+.conv-nombre { font-weight: 800; }
+.conv-texto { order: 3; flex-basis: 100%; color: var(--tinta-2); }
+.quien {
+  order: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  padding: 2px 9px 2px 3px;
+  border-radius: var(--r-chip);
+  background: var(--teal-claro);
+  color: var(--teal-texto);
+  font-size: var(--t-xs);
+  font-weight: 800;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.quien .mini-avatar { width: 18px; height: 18px; font-size: 9px; }
+.quien-auto { padding-left: 7px; background: var(--canal-fondo); color: var(--canal-texto); }
+.quien-auto .icono { width: 12px; height: 12px; }
+.nota-interna {
+  grid-column: 2;
+  margin-top: 8px;
+  padding: 6px 10px 7px;
+  border-left: 3px solid #E0A33A;
+  border-radius: 4px 10px 10px 4px;
+  background: var(--ambar-claro);
+  font-size: var(--t-xs);
+  line-height: 1.4;
+}
+.nota-k { display: block; color: var(--ambar-texto); font-weight: 800; }
+/* Barra al pie de la bandeja. */
+.bandeja-pie {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding: 10px 16px 12px;
+  border-top: 1px solid var(--linea-pantalla);
+  background: var(--superficie);
+  color: var(--tinta-2);
+  font-size: var(--t-xs);
+  font-weight: 700;
+}
+.bandeja-pie .icono { width: 15px; height: 15px; color: var(--teal-texto); }
+/* En un teléfono alto de escritorio las filas tienen más aire. */
+@media (min-width: 900px) and (min-height: 800px) {
+  .historia-viva .bandeja-lista { gap: 10px; padding: 12px 10px; }
+  .historia-viva .conv-item { padding: 12px 14px; }
+}
+
+/* --- Stock: el programa del local y la tienda online --- */
+.ph-stock .ph-interior { background: #F4F6F9; color: var(--tinta); }
+/* El registro arranca arriba; el estado de la sincronización va al pie. */
+.stock-lista { display: grid; gap: 8px; padding: 12px 10px 8px; }
+@media (min-width: 900px) and (min-height: 800px) {
+  .historia-viva .stock-lista { gap: 10px; padding-top: 16px; }
+}
+.st {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--superficie);
+  box-shadow: 0 1px 2px rgba(11, 28, 45, 0.07);
+}
+.st-icono {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--tinta);
+  color: #fff;
+}
+.st-icono svg { width: 19px; height: 19px; }
+.st-web .st-icono { background: var(--teal); }
+.st p {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1px 8px;
+  align-items: center;
+  line-height: 1.3;
+}
+.st-donde { color: var(--tinta-2); font-size: var(--t-xs); font-weight: 800; }
+.st-hora { justify-self: end; color: var(--tinta-2); font-size: var(--t-xs); font-weight: 600; font-variant-numeric: tabular-nums; }
+.st-prod { grid-column: 1; font-weight: 700; }
+.st-dato { grid-column: 2; justify-self: end; }
+/* Entre la venta y el descuento en el otro sistema, un tramo punteado. */
+.st-sigue::before {
+  content: "";
+  position: absolute;
+  left: 26px;
+  top: -9px;
+  width: 2px;
+  height: 10px;
+  background: repeating-linear-gradient(var(--teal) 0 3px, transparent 3px 5px);
+}
+.st-otra { margin-top: 6px; }
+.st-stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 5px 3px 9px;
+  border-radius: 10px;
+  background: var(--celeste);
+  color: var(--tinta-2);
+  font-size: var(--t-xs);
+  font-weight: 700;
+}
+.st-num {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--f-titulo);
+  line-height: 1;
+}
+.st-antes { color: var(--tinta-2); font-size: 0.9375rem; }
+/* Flecha dibujada (el "→" del texto queda para los lectores de pantalla). */
+.st-antes::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 1px 2px 6px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+.st-ahora {
+  display: inline-grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--superficie);
+  color: var(--tinta);
+  font-size: 1.1875rem;
+}
+.st-web .st-ahora { color: var(--ambar-texto); }
+
+.st-vista {
+  container-type: inline-size;
+  padding: 10px 12px 10px;
+  border: 1px solid var(--celeste-2);
+  border-radius: 14px;
+  background: var(--superficie);
+}
+.st-vista-producto {
+  display: grid;
+  grid-template-columns: 52px auto minmax(0, 1fr);
+  grid-template-areas:
+    "k k k"
+    "foto prod prod"
+    "foto agotado boton";
+  gap: 4px 10px;
+  align-items: center;
+  line-height: 1.3;
+}
+.st-vista-k { grid-area: k; margin-bottom: 4px; color: var(--tinta-2); font-size: var(--t-xs); font-weight: 800; }
+/* Enterito dibujado con CSS. */
+.st-foto {
+  position: relative;
+  grid-area: foto;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #FCE8EE;
+}
+.st-foto::before,
+.st-foto::after { content: ""; position: absolute; left: 50%; background: #EFA3B6; }
+.st-foto::before { top: 12px; width: 22px; height: 30px; margin-left: -11px; border-radius: 8px 8px 7px 7px; }
+.st-foto::after { top: 14px; width: 38px; height: 11px; margin-left: -19px; border-radius: 6px; }
+.st-vista .st-prod { grid-area: prod; }
+.st-agotado {
+  grid-area: agotado;
+  padding: 2px 9px;
+  border-radius: var(--r-chip);
+  background: var(--ambar-claro);
+  color: var(--ambar-texto);
+  font-size: var(--t-xs);
+  font-weight: 800;
+  white-space: nowrap;
+}
+.st-boton {
+  grid-area: boton;
+  justify-self: start;
+  padding: 3px 10px;
+  border: 1.5px solid var(--tinta);
+  border-radius: 8px;
+  font-size: 0.71875rem;
+  font-weight: 800;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+/* Si no entra en una línea, el botón pasa abajo, a lo ancho. */
+@container (max-width: 299px) {
+  .st-vista-producto {
+    grid-template-areas:
+      "k k k"
+      "foto prod prod"
+      "foto agotado agotado"
+      "boton boton boton";
+  }
+  .st-agotado { justify-self: start; }
+  .st-boton { justify-self: stretch; margin-top: 4px; text-align: center; }
+}
+.st-nota {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px solid var(--linea-pantalla);
+  color: var(--teal-texto);
+  font-size: var(--t-xs);
+  font-weight: 700;
+  line-height: 1.35;
+}
+.st-nota .icono { width: 15px; height: 15px; }
+.st-pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  margin: auto 10px 10px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: var(--teal-claro);
+  color: var(--teal-texto);
+  font-size: var(--t-xs);
+  font-weight: 800;
+}
+.st-pie .icono { width: 16px; height: 16px; }
+.st-pie-sub { margin-left: auto; font-weight: 600; }
+
+/* --- Avisos: chats apilados --- */
+.ph-avisos .ph-interior { background: linear-gradient(165deg, #C9DCEF 0%, #E6EEF7 58%, #DCEBE8 100%); }
+.avisos-feed {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: hidden;
+  padding: 8px 10px 12px;
+  -webkit-mask-image: linear-gradient(transparent, #000 22px);
+  mask-image: linear-gradient(transparent, #000 22px);
+}
+.avisos { display: grid; gap: 8px; }
+.aviso-chat {
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--wa-fondo);
+  box-shadow: 0 1px 2px rgba(11, 28, 45, 0.08), 0 12px 24px -18px rgba(11, 28, 45, 0.5);
+}
+.aviso-nombre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-bottom: 1px solid var(--linea-pantalla);
+  background: var(--superficie);
+  color: var(--tinta);
+  font-weight: 800;
+}
+.aviso-msgs { display: flex; flex-direction: column; gap: 3px; padding: 6px 8px 8px; }
+
+/* --- Panel --- */
+.ph-panel .ph-interior { background: #F4F6F9; color: var(--tinta); }
+.panel-cabecera {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 16px 12px;
+  background: var(--tinta);
+  color: #fff;
+}
+.panel-cabecera b { font-size: 1.0625rem; font-weight: 800; }
+.panel-periodo {
+  padding: 3px 10px;
+  border-radius: var(--r-chip);
+  background: rgba(255, 255, 255, 0.14);
+  font-size: var(--t-xs);
+  font-weight: 700;
+}
+.panel-cuerpo { display: grid; gap: 8px; padding: 10px; }
+.panel-tarjeta {
+  padding: 10px 12px 12px;
+  border-radius: 14px;
+  background: var(--superficie);
+  box-shadow: 0 1px 2px rgba(11, 28, 45, 0.07);
+}
+.panel-k { margin-bottom: 8px; color: var(--tinta-2); font-size: var(--t-xs); font-weight: 800; }
+.panel-barras { display: grid; gap: 7px; }
+.panel-barras li {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  font-size: var(--t-xs);
+  font-weight: 700;
+}
+.pb-barra { position: relative; height: 10px; border-radius: 5px; background: var(--gris-chip); }
+.pb-barra::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--v);
+  border-radius: inherit;
+  background: var(--teal);
+  transform-origin: 0 50%;
+}
+.panel-top { display: grid; gap: 5px; counter-reset: top; }
+.panel-top li { display: flex; align-items: center; gap: 8px; font-weight: 700; line-height: 1.3; counter-increment: top; }
+.panel-top li::before {
+  content: counter(top);
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--teal-claro);
+  color: var(--teal-texto);
+  font-size: 11px;
+  font-weight: 800;
+}
+.panel-fila { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+/* En un teléfono alto de escritorio sobra lugar: talles y reposición, uno
+   bajo otro. */
+@media (min-width: 900px) and (min-height: 800px) {
+  .historia-viva .panel-fila { grid-template-columns: minmax(0, 1fr); }
+}
+.panel-talles { color: var(--tinta-2); font-size: var(--t-xs); font-weight: 700; line-height: 1.5; }
+.panel-talles b { color: var(--tinta); font-family: var(--f-titulo); font-size: 1.25rem; }
+.panel-reponer { background: var(--ambar-claro); }
+.panel-reponer .panel-k { color: var(--ambar-texto); }
+.panel-reponer li { position: relative; padding-left: 12px; font-size: var(--t-xs); font-weight: 700; line-height: 1.35; }
+.panel-reponer li + li { margin-top: 4px; }
+.panel-reponer li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #D9962B;
+}
+/* "Resumen del lunes": tarjeta aparte, oscura, debajo del panel. */
+.panel-resumen {
+  margin: 0 10px 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--tinta);
+  color: #fff;
+  box-shadow: 0 16px 30px -14px rgba(11, 28, 45, 0.6);
+  line-height: 1.4;
+}
+.panel-resumen-k {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 3px;
+  color: #7FD8CE;
+  font-size: var(--t-xs);
+  font-weight: 800;
+}
+.panel-resumen-k .icono { width: 16px; height: 16px; }
+
+/* --- Resultados: pantalla bloqueada con el mensaje de Vero --- */
+.ph-resultados .ph-interior {
+  background:
+    radial-gradient(120% 55% at 18% 0%, rgba(96, 164, 196, 0.32), transparent 70%),
+    linear-gradient(172deg, #1B3752 0%, #15304A 48%, #0E5B55 100%);
+  color: #fff;
+}
+.ph-estado-bloqueo { background: transparent; color: #fff; }
+.ph-estado-bloqueo::before { background: #0A1623; }
+.bloqueo-reloj {
+  flex: none;
+  margin-top: 22px;
+  font-family: var(--f-titulo);
+  font-size: 3.5rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+/* El mensaje va antes que las tarjetas a la vista (en el DOM, después). */
+.notif-vero {
+  order: 1;
+  flex: none;
+  margin: 20px 10px 0;
+  padding: 11px 14px 13px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 36px -18px rgba(0, 0, 0, 0.6);
+  color: var(--tinta);
+}
+.notif-de { display: flex; align-items: center; gap: 9px; line-height: 1.2; }
+.notif-de b { font-weight: 800; }
+.notif-de time { margin-left: auto; color: var(--tinta-2); font-size: var(--t-xs); font-weight: 600; }
+.notif-texto { margin-top: 7px; font-size: 1rem; line-height: 1.4; }
+
+.resultados {
+  order: 2;
+  flex: none;
+  display: grid;
+  gap: 8px;
+  margin: 10px 10px 12px;
+}
+.res {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 9px 12px;
+  border-radius: 14px;
+  background: var(--superficie);
+  box-shadow: 0 1px 2px rgba(11, 28, 45, 0.08), 0 12px 24px -18px rgba(11, 28, 45, 0.45);
+  color: var(--tinta);
+}
+.res-icono {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--teal-claro);
+  color: var(--teal-texto);
+}
+.res-icono .icono { width: 18px; height: 18px; }
+.res p { display: grid; gap: 1px; line-height: 1.35; }
+.res-titulo { font-weight: 800; }
+.res-linea { color: var(--tinta-2); }
+
+/* En escritorio el mensaje queda grande en el medio y las tarjetas salen del
+   teléfono y lo rodean por la derecha (la columna de los pasos, que ya no se
+   usa): el interior no las recorta ni es su contenedor. */
+@media (min-width: 900px) {
+  .historia-viva .ph-resultados .ph-interior { position: static; overflow: visible; padding-bottom: 72px; }
+  .historia-viva .bloqueo-reloj { margin-top: 44px; font-size: 4.25rem; }
+  .historia-viva .notif-vero { margin: auto 14px; padding: 14px 16px 16px; }
+  .historia-viva .notif-texto { margin-top: 9px; font-size: 1.1875rem; }
+  .historia-viva .resultados {
+    --hueco-res: clamp(28px, 3.4vw, 56px);
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: calc(100% + var(--hueco-res));
+    width: 280px;
+    width: min(290px, (100cqw - var(--ancho-tel)) / 2 - var(--hueco-res) - 12px);
+    margin: 0;
+    gap: 12px;
+    transform: translateY(-50%);
+  }
+  .historia-viva .res { grid-template-columns: 34px minmax(0, 1fr); padding: 14px 16px; font-size: var(--t-m); }
+  .historia-viva .res-icono { width: 34px; height: 34px; border-radius: 10px; }
+  .historia-viva .res-titulo { font-size: 1rem; }
+  .historia-viva .saliente .resultados { opacity: 0; transition: opacity 0.25s; }
+}
+
+/* --- Cierre: invitación al diagnóstico --- */
+.ph-cierre .ph-interior { background: linear-gradient(170deg, var(--celeste) 0%, #F4F8FB 48%, var(--teal-claro) 100%); }
+.cierre-cuerpo {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px 22px 26px;
+  color: var(--tinta);
+  text-align: center;
+}
+.cierre-caras { display: flex; }
+.cierre-caras img {
+  width: 64px;
+  height: 64px;
+  border: 3px solid var(--superficie);
+  border-radius: 50%;
+  background: var(--celeste);
+  object-fit: cover;
+}
+.cierre-caras img + img { margin-left: -14px; }
+.cierre-titulo {
+  font-family: var(--f-titulo);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.cierre-datos { display: grid; gap: 10px; text-align: left; }
+.cierre-datos li { display: flex; align-items: flex-start; gap: 10px; color: var(--tinta-2); font-weight: 600; line-height: 1.4; }
+.cierre-datos .icono { width: 20px; height: 20px; color: var(--teal-texto); }
+.cierre-boton { width: 100%; margin-top: 6px; padding-inline: 14px; }
+
+/* En celular el teléfono es más bajo: las escenas se compactan. */
+@media (max-width: 899px) {
+  .chat-mini .chat-cabecera { padding: 4px 12px 6px 8px; }
+  .chat-mini .chat-avatar,
+  .chat-mini .chat-avatar-ini { width: 30px; height: 30px; }
+
+  .conv-item .conv-avatar { display: none; }
+  .conv-item { grid-template-columns: minmax(0, 1fr); padding: 8px 10px; }
+  .nota-interna { grid-column: 1; margin-top: 6px; }
+  .bandeja-lista { gap: 6px; padding: 8px; }
+  .bandeja-cabecera { padding-bottom: 8px; }
+  .bandeja-filtros { margin-top: 6px; }
+  .bandeja-pie { padding: 8px 14px 10px; }
+
+  .stock-lista { gap: 6px; padding: 8px 8px 6px; }
+  .st { grid-template-columns: 26px minmax(0, 1fr); gap: 8px; padding: 8px 10px; }
+  .st-icono { width: 26px; height: 26px; border-radius: 8px; }
+  .st-icono svg { width: 16px; height: 16px; }
+  .st-sigue::before { left: 22px; top: -7px; height: 8px; }
+  .st-otra { margin-top: 4px; }
+  .st-vista { padding: 8px 10px; }
+  .st-vista-producto { grid-template-columns: 44px auto minmax(0, 1fr); }
+  .st-foto { width: 44px; height: 44px; transform-origin: 0 0; }
+  .st-foto::before { top: 9px; width: 18px; height: 26px; margin-left: -9px; }
+  .st-foto::after { top: 11px; width: 32px; height: 10px; margin-left: -16px; }
+  .st-nota { margin-top: 7px; padding-top: 6px; }
+  .st-pie { margin-inline: 8px; padding: 7px 10px; }
+
+  .panel-cabecera { padding: 4px 14px 10px; }
+  .panel-cuerpo { gap: 6px; padding: 8px; }
+  .panel-tarjeta { padding: 8px 10px 10px; }
+  .panel-k { margin-bottom: 5px; }
+  .panel-barras { gap: 5px; }
+  .pb-barra { height: 8px; }
+  .panel-top { gap: 2px; }
+  .panel-top li::before { width: 18px; height: 18px; }
+  .panel-talles b { font-size: 1.125rem; }
+  .panel-resumen { margin: 0 8px 8px; padding: 9px 12px; }
+
+  .bloqueo-reloj { margin-top: 14px; font-size: 2.75rem; }
+  .notif-vero { margin: 14px 8px 0; padding: 10px 12px 11px; }
+  .notif-texto { margin-top: 5px; font-size: 0.9375rem; }
+  .resultados { gap: 6px; margin: 8px 8px 10px; }
+  .res { grid-template-columns: 26px minmax(0, 1fr); gap: 8px; padding: 7px 10px; }
+  .res-icono { width: 26px; height: 26px; border-radius: 8px; }
+  .res-icono .icono { width: 16px; height: 16px; }
+  .res p { line-height: 1.3; }
+
+  .cierre-caras img { width: 52px; height: 52px; }
+  .cierre-titulo { font-size: 1.5rem; }
+  .cierre-boton { min-height: 52px; font-size: 1rem; }
+}
+
+/* ============ Movimiento ============
+   Los elementos que esperan su turno quedan en el DOM: .pend los pliega sin
+   ocultarlos a los lectores de pantalla y .espera solo los transparenta.
+   Las pone js/opcion-b.js y solo en la historia fija; sin JS se ve todo. */
+.pend,
+.chat-previo #chat-hero .msg ~ .msg {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.espera { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Mensajes y bloques que llegan: fundido y un desplazamiento corto hacia
+     arriba, sin escala. */
+  .nuevo { animation: aparece 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+  .evento.nuevo { animation-name: hoja; animation-duration: 0.6s; }
+  .chat-escribiendo span { animation: punto 0.9s ease-in-out infinite; }
+  .chat-escribiendo span:nth-child(2) { animation-delay: 0.15s; }
+  .chat-escribiendo span:nth-child(3) { animation-delay: 0.3s; }
+
+  /* Cada escena termina en unos tres segundos: lo que dura, más o menos,
+     el paso por su capítulo. */
+  .aviso-chat.nuevo .msg { animation: aparece 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) calc(0.25s + var(--i) * 0.35s) both; }
+  .st.nuevo .st-ahora { animation: aparece 0.4s ease-out 0.5s both; }
+  .st-vista.nuevo .st-agotado { animation: aparece 0.4s ease-out 0.35s both; }
+  .st-vista.nuevo .st-nota { animation: aparece 0.4s ease-out 0.7s both; }
+
+  .anima .conv-item { animation: aparece 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) calc(0.2s + var(--i) * 0.14s) both; }
+  .anima .quien { animation: aparece 0.35s ease-out calc(0.75s + var(--i) * 0.14s) both; }
+  .anima .nota-interna { animation: aparece 0.4s ease-out 1.35s both; }
+  .anima .bandeja-pie { animation: aparece 0.4s ease-out 1.6s both; }
+
+  .anima .panel-tarjeta { animation: aparece 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) 0.2s both; }
+  .anima .panel-cuerpo > :nth-child(2) { animation-delay: 0.35s; }
+  .anima .panel-fila .panel-tarjeta { animation-delay: 0.5s; }
+  .anima .panel-fila .panel-reponer { animation-delay: 0.62s; }
+  .anima .pb-barra::after { animation: barra 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) calc(0.45s + var(--i) * 0.1s) both; }
+  .anima .panel-resumen { animation: hoja 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 1.4s both; }
+
+  /* Primero el mensaje de Vero; después, lo que ganó. */
+  .anima .bloqueo-reloj { animation: aparece 0.45s ease-out both; }
+  .anima .notif-vero { animation: aparece 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) 0.25s both; }
+  .anima .res { animation: aparece 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) calc(0.9s + var(--i) * 0.15s) both; }
+
+  .anima .cierre-cuerpo > * { animation: aparece 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) calc(0.2s + var(--i) * 0.12s) both; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 900px) {
+  .historia-viva .anima .res { animation-name: res-sale; animation-duration: 0.65s; }
+}
+
+@keyframes aparece {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hoja {
+  from { opacity: 0; transform: translateY(44px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes res-sale {
+  from { opacity: 0; transform: translateX(-80px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes barra {
+  from { transform: scaleX(0); }
+  to { transform: none; }
+}
+@keyframes punto {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+  30% { transform: translateY(-3px); opacity: 1; }
+}
 
 /* ============ Banda de verificación de Meta ============ */
 
@@ -2663,99 +3987,111 @@ main:focus { outline: none; }
 
 .equipo { background: var(--celeste); }
 
-.personas {
+/* Tres tarjetas blancas del mismo alto, con el enlace a LinkedIn al pie.
+   En celular la foto va junto al nombre; en tableta, en su propia columna;
+   en escritorio, arriba. */
+.personas { display: grid; gap: 20px; }
+.persona {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(36px, 4vw, 56px);
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 16px;
+  align-content: start;
+  padding: 22px 20px 0;
+  border-radius: 20px;
+  background: var(--superficie);
 }
-/* En tres columnas, cada fila (foto, nombre, rol, bio, aparte, enlace) se
-   alinea entre las tres personas. */
-@media (min-width: 860px) {
-  .personas { grid-template-rows: repeat(6, auto); row-gap: 0; }
-  .persona { display: grid; grid-row: span 6; grid-template-rows: subgrid; align-items: start; }
-}
+.persona h3 { grid-column: 2; align-self: end; }
+.persona-rol { grid-column: 2; align-self: start; }
+.persona-temas,
+.persona-bio,
+.persona-linkedin { grid-column: 1 / -1; }
 
-/* Marco común: aro blanco y filete celeste igualan los tres fondos. */
+/* El aro celeste de la foto pasa a teal al señalarla. */
 .persona-foto {
   position: relative;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
   display: block;
-  justify-self: start;
-  width: clamp(152px, 14vw, 184px);
+  width: 76px;
   aspect-ratio: 1;
-  margin-bottom: 24px;
-  padding: 9px;
+  padding: 4px;
   border-radius: 50%;
-  background: var(--superficie);
+  background: var(--celeste);
   -webkit-tap-highlight-color: transparent;
 }
 .persona-foto img {
   width: 100%;
   height: 100%;
-  border: 4px solid var(--celeste-2);
   border-radius: 50%;
   object-fit: cover;
 }
 .persona-foto-marca {
   position: absolute;
-  right: 6%;
-  bottom: 6%;
+  right: -4px;
+  bottom: -4px;
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: var(--teal);
   color: #fff;
-  box-shadow: 0 0 0 4px var(--superficie);
+  box-shadow: 0 0 0 3px var(--superficie);
   opacity: 0;
   transform: scale(0.6);
 }
-.persona-foto-marca svg { width: 18px; height: 18px; }
+.persona-foto-marca svg { width: 16px; height: 16px; }
 .persona-foto:focus-visible { outline-offset: 4px; border-radius: 50%; }
-.persona-foto:focus-visible { transform: translateY(-4px); box-shadow: 0 20px 32px -20px rgba(11, 28, 45, 0.5); }
-.persona-foto:focus-visible img { border-color: var(--teal); }
+.persona-foto:focus-visible { background: var(--teal); transform: translateY(-3px); }
 .persona-foto:focus-visible .persona-foto-marca { opacity: 1; transform: none; }
 @media (hover: hover) {
-  .persona-foto:hover { transform: translateY(-4px); box-shadow: 0 20px 32px -20px rgba(11, 28, 45, 0.5); }
-  .persona-foto:hover img { border-color: var(--teal); }
+  .persona-foto:hover { background: var(--teal); transform: translateY(-3px); }
   .persona-foto:hover .persona-foto-marca { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .persona-foto { transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s; }
-  .persona-foto img { transition: border-color 0.25s; }
+  .persona-foto { transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.25s; }
   .persona-foto-marca { transition: opacity 0.2s, transform 0.25s cubic-bezier(0.3, 1.5, 0.6, 1); }
 }
 
 .persona-rol {
-  margin-top: 6px;
+  margin-top: 4px;
   color: var(--teal-texto);
   font-size: var(--t-s);
   font-weight: 700;
-  line-height: 1.45;
+  line-height: 1.4;
 }
-.persona-bio { max-width: 38em; margin-top: 14px; color: var(--tinta-2); }
-/* Aparte personal: más chico, con su propio ícono, como una nota al margen. */
-.persona-fuera {
+.persona-temas {
   display: flex;
-  gap: 10px;
-  max-width: 38em;
-  margin-top: 20px;
-  padding: 12px 14px;
-  border-radius: var(--r-caja);
-  background: rgba(255, 255, 255, 0.72);
-  color: var(--tinta-2);
-  font-size: var(--t-s);
-  line-height: 1.55;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 6px;
+  margin-top: 18px;
 }
-.persona-fuera .icono { width: 18px; height: 18px; margin-top: 1px; color: #C98A14; }
+.persona-temas li {
+  padding: 3px 10px;
+  border-radius: var(--r-chip);
+  background: var(--celeste);
+  color: var(--tinta);
+  font-size: var(--t-xs);
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.persona-bio {
+  max-width: 40em;
+  margin-top: 14px;
+  color: var(--tinta-2);
+  font-size: var(--t-m);
+  line-height: 1.6;
+}
 .persona-linkedin {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-self: start;
-  align-self: start;
   gap: 8px;
-  margin-top: 8px;
-  padding-block: 10px;
+  margin-top: 20px;
+  padding-block: 14px 16px;
+  border-top: 1px solid var(--linea-pantalla);
   color: var(--teal-texto);
   font-size: var(--t-m);
   font-weight: 700;
@@ -2764,22 +4100,38 @@ main:focus { outline: none; }
 .persona-linkedin:hover { text-decoration: underline; }
 .persona-linkedin .icono { width: 20px; height: 20px; }
 
-@media (max-width: 859px) {
-  .personas { grid-template-columns: minmax(0, 1fr); gap: 52px; }
-  .persona {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    column-gap: 20px;
-    align-items: center;
+@media (min-width: 640px) and (max-width: 1079px) {
+  .persona { column-gap: 28px; padding: 28px 28px 0; }
+  .persona-foto { grid-row: 1 / span 4; align-self: start; width: 120px; padding: 5px; }
+  .persona h3,
+  .persona-rol,
+  .persona-temas,
+  .persona-bio { grid-column: 2; }
+  .persona h3 { align-self: start; }
+  .persona-foto-marca { width: 32px; height: 32px; right: 0; bottom: 0; }
+}
+
+/* En tres columnas las filas (foto, nombre, rol, temas, bio, enlace) son
+   compartidas: las bios arrancan a la misma altura y los enlaces quedan
+   alineados al pie. Sin subgrid, la bio se estira y el enlace igual baja. */
+@media (min-width: 1080px) {
+  .personas {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(6, auto);
+    gap: 0 clamp(20px, 2.2vw, 32px);
   }
-  .persona-foto { grid-row: 1 / span 2; width: 112px; margin-bottom: 0; padding: 7px; }
-  .persona-foto img { border-width: 3px; }
-  .persona-foto-marca { width: 30px; height: 30px; right: 0; bottom: 0; }
-  .persona h3 { align-self: end; }
-  .persona-rol { align-self: start; }
-  .persona-bio,
-  .persona-fuera,
-  .persona-linkedin { grid-column: 1 / -1; }
+  .persona {
+    grid-row: span 6;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto 1fr auto;
+    grid-template-rows: subgrid;
+    padding: 32px 30px 0;
+  }
+  .persona > *,
+  .persona h3 { grid-column: 1; }
+  .persona-foto { grid-row: auto; align-self: start; width: 112px; margin-bottom: 22px; padding: 5px; }
+  .persona h3 { align-self: start; }
+  .persona-foto-marca { width: 32px; height: 32px; right: 0; bottom: 0; }
 }
 
 /* ============ Clientes ============ */
@@ -2856,15 +4208,13 @@ main:focus { outline: none; }
 /* ============ Contacto ============ */
 
 /* Va directo sobre la banda celeste, sin panel: el panel blanco queda como
-   sello del diagnóstico. El formulario, secundario, va debajo de un filete. */
+   sello del diagnóstico. */
 .contacto-panel {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  grid-template-areas: "texto acciones" "form form";
   gap: clamp(36px, 4.5vw, 56px) clamp(28px, 5vw, 72px);
   align-items: center;
 }
-.contacto-texto { grid-area: texto; }
 .contacto-texto p {
   margin-top: 18px;
   max-width: 32em;
@@ -2873,7 +4223,7 @@ main:focus { outline: none; }
   line-height: 1.6;
 }
 
-.contacto-acciones { grid-area: acciones; display: grid; gap: 12px; }
+.contacto-acciones { display: grid; gap: 12px; }
 .contacto-acciones .boton { width: 100%; }
 .contacto-acciones .boton + .contacto-dato { margin-top: 8px; }
 /* 20 px entre renglones: las áreas táctiles de 46 px de los datos no se pisan. */
@@ -2904,89 +4254,11 @@ main:focus { outline: none; }
 .telefonos { display: grid; gap: 20px; }
 .telefono-pais { min-width: 5.6em; color: var(--tinta); font-weight: 600; }
 
-/* --- Formulario (secundario) --- */
-.contacto-form {
-  grid-area: form;
-  padding-top: clamp(28px, 3.5vw, 40px);
-  border-top: 1px solid #C9D8E8;
-}
-.form-cabecera {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 18px;
-  margin-bottom: 18px;
-}
-.form-cabecera h3 { font-size: var(--t-h3); }
-.form-cabecera p { color: var(--tinta-2); font-size: var(--t-m); }
-/* Dos columnas que respetan el orden del DOM: nombre | qué necesitas (ancho),
-   después ciudad | botón. */
-.form-campos {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-  gap: 14px 18px;
-  align-items: start;
-}
-.campo { display: grid; gap: 6px; }
-.campo label { font-size: var(--t-s); font-weight: 700; line-height: 1.65; }
-.campo input,
-.campo textarea {
-  width: 100%;
-  min-height: 50px;
-  padding: 12px 14px;
-  border: 1.5px solid var(--borde-campo);
-  border-radius: var(--r-control);
-  background: var(--superficie);
-  color: var(--tinta);
-  font: 500 var(--t-base)/1.4 var(--f-texto);
-}
-/* El textarea crece con lo que se escribe (donde se soporta) y, vacío, con
-   el ejemplo: en escritorio queda de una línea, alineado con el nombre. */
-.campo textarea {
-  display: block;
-  max-height: 180px;
-  resize: vertical;
-  field-sizing: content;
-}
-.campo input::placeholder,
-.campo textarea::placeholder { color: #627386; opacity: 1; }
-.campo input:focus-visible,
-.campo textarea:focus-visible { border-color: var(--teal); outline-offset: 1px; border-radius: var(--r-control); }
-.campo [aria-invalid="true"] { border-color: var(--error); }
-.campo-error {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--error);
-  font-size: var(--t-s);
-  font-weight: 700;
-  line-height: 1.4;
-}
-.campo-error[hidden] { display: none; }
-/* El signo va dibujado (no como texto): no se lee ni se copia con el error. */
-.campo-error::before {
-  content: "";
-  flex: none;
-  width: 17px;
-  height: 17px;
-  border-radius: 50%;
-  background: var(--error) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath fill='%23fff' d='M7.35 3.7h2.3l-.35 6.4H7.7zm1.15 7.6a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z'/%3E%3C/svg%3E") center / 17px 17px no-repeat;
-}
-/* Alineado con los campos: alto de la etiqueta (23 px) + separación (6 px). */
-.form-boton { justify-self: start; margin-top: 29px; min-height: 50px; }
-
 /* Por debajo de 1080 px la columna de acciones no alcanzaba para el botón
    grande en una línea: una sola columna, con las acciones a un ancho cómodo. */
 @media (max-width: 1079px) {
-  .contacto-panel {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "texto" "acciones" "form";
-  }
+  .contacto-panel { grid-template-columns: minmax(0, 1fr); }
   .contacto-acciones { max-width: 480px; }
-}
-@media (max-width: 639px) {
-  .form-campos { grid-template-columns: minmax(0, 1fr); }
-  .form-boton { margin-top: 4px; width: 100%; }
 }
 @media (max-width: 479px) {
   /* A 360 px el botón grande no entraba en una línea. */
@@ -3176,9 +4448,42 @@ main:focus { outline: none; }
 /* ============ Impresión ============ */
 
 @media print {
-  .barra, .flotante, .carrusel-controles, .saltar { display: none !important; }
-  .msg.msg-pendiente,
-  .chat-previo .chat-mensajes > .msg ~ .msg { position: static; width: auto; height: auto; clip-path: none; white-space: normal; }
-  .chat-cuerpo { height: auto; overflow: visible; -webkit-mask-image: none; mask-image: none; }
-  .chat-ver-todo { display: none; }
+  .barra, .flotante, .carrusel-controles, .saltar,
+  .historia-saltar, .historia-seguir, .hist-pasos, .telefono, .chat-ver-todo { display: none !important; }
+  .pend,
+  .chat-previo #chat-hero .msg ~ .msg { position: static !important; width: auto; height: auto; clip-path: none; white-space: normal; }
+  .espera { opacity: 1; }
+  .historia-viva .relato { display: block; }
+  .historia-viva .pantalla-h { position: relative; height: auto; margin: 16px auto; opacity: 1; transform: none; }
+  .historia-viva .cap-tarjeta { position: static; }
+  .historia-viva .cap-tarjeta > * { opacity: 1 !important; }
+  .historia-viva .pantalla-h.escalada .ph-interior { width: auto; height: auto; transform: none; }
+  .pantalla-h[data-ajuste] [data-opcional] { position: static !important; width: auto; height: auto; clip-path: none; white-space: normal; }
+  .historia-viva .resultados { position: relative; left: auto; top: auto; width: auto; margin: 10px; transform: none; }
+  .ph-chat { height: auto; }
+  .chat-cuerpo { overflow: visible; -webkit-mask-image: none; mask-image: none; }
 }
+
+
+/* ─── Íconos oficiales de canal ──────────────────────────────────────────────
+   WhatsApp va en su verde oficial: su guía de marca pide el logo en verde sobre
+   blanco (o blanco sobre verde), sin modificarlo. Todos los usos de esta página
+   están sobre fondo claro. Instagram y Messenger van en un solo color, la tinta
+   de la página: sus guías admiten el glifo monocromo y su color propio es un
+   degradé, no un plano. Van al final para ganarles por orden a las reglas de
+   .esquema-chip y .contacto-dato, que tienen la misma especificidad. */
+.icono.icono-wa { color: #25D366; }
+.icono.icono-marca { color: var(--tinta); }
+
+.canal-wa::before,
+.canal-ig::before,
+.canal-ms::before {
+  width: 12px;
+  height: 12px;
+  border-radius: 0;
+  -webkit-mask: var(--glifo) center / contain no-repeat;
+  mask: var(--glifo) center / contain no-repeat;
+}
+.canal-wa::before { --glifo: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M17.472%2014.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94%201.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198%200-.52.074-.792.372-.272.297-1.04%201.016-1.04%202.479%200%201.462%201.065%202.875%201.213%203.074.149.198%202.096%203.2%205.077%204.487.709.306%201.262.489%201.694.625.712.227%201.36.195%201.871.118.571-.085%201.758-.719%202.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421%207.403h-.004a9.87%209.87%200%2001-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86%209.86%200%2001-1.51-5.26c.001-5.45%204.436-9.884%209.888-9.884%202.64%200%205.122%201.03%206.988%202.898a9.825%209.825%200%20012.893%206.994c-.003%205.45-4.437%209.884-9.885%209.884m8.413-18.297A11.815%2011.815%200%200012.05%200C5.495%200%20.16%205.335.157%2011.892c0%202.096.547%204.142%201.588%205.945L.057%2024l6.305-1.654a11.882%2011.882%200%20005.683%201.448h.005c6.554%200%2011.89-5.335%2011.893-11.893a11.821%2011.821%200%2000-3.48-8.413Z%22%2F%3E%3C%2Fsvg%3E"); background: #25D366; }
+.canal-ig::before { --glifo: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228%201.3877-.6652.6677-1.075%201.3368-1.3802%202.127-.2954.7638-.4956%201.6365-.552%202.914-.0564%201.2775-.0689%201.6882-.0626%204.947.0062%203.2586.0206%203.6671.0825%204.9473.061%201.2765.264%202.1482.5635%202.9107.308.7889.72%201.4573%201.388%202.1228.6679.6655%201.3365%201.0743%202.1285%201.38.7632.295%201.6361.4961%202.9134.552%201.2773.056%201.6884.069%204.9462.0627%203.2578-.0062%203.668-.0207%204.9478-.0814%201.28-.0607%202.147-.2652%202.9098-.5633.7889-.3086%201.4578-.72%202.1228-1.3881.665-.6682%201.0745-1.3378%201.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982%201.33%2020.628.9208%2019.8378.6165%2019.074.321%2018.2017.1197%2016.9244.0645%2015.6471.0093%2015.236-.005%2011.977.0014%208.718.0076%208.31.0215%207.0301.0839m.1402%2021.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814%201.3783-.9003.423-.1651%201.0575-.3614%202.227-.4171%201.2655-.06%201.6447-.072%204.848-.079%203.2033-.007%203.5835.005%204.8495.0608%201.169.0508%201.8053.2445%202.228.408.5608.216.96.4754%201.3816.895.4217.4194.6816.8176.9005%201.3787.1653.4217.3617%201.056.4169%202.2263.0602%201.2655.0739%201.645.0796%204.848.0058%203.203-.0055%203.5834-.061%204.848-.051%201.17-.245%201.8055-.408%202.2294-.216.5604-.4763.96-.8954%201.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953%205.5864A1.44%201.44%200%201%200%2018.39%204.144a1.44%201.44%200%200%200-1.437%201.4424M5.8385%2012.012c.0067%203.4032%202.7706%206.1557%206.173%206.1493%203.4026-.0065%206.157-2.7701%206.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156%202.771-6.1496%206.1738M8%2012.0077a4%204%200%201%201%204.008%203.9921A3.9996%203.9996%200%200%201%208%2012.0077%22%2F%3E%3C%2Fsvg%3E"); background: var(--tinta); }
+.canal-ms::before { --glifo: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M.001%2011.639C.001%204.949%205.241%200%2012.001%200S24%204.95%2024%2011.639c0%206.689-5.24%2011.638-12%2011.638-1.21%200-2.38-.16-3.47-.46a.96.96%200%2000-.64.05l-2.39%201.05a.96.96%200%2001-1.35-.85l-.07-2.14a.97.97%200%2000-.32-.68A11.39%2011.389%200%2001.002%2011.64zm8.32-2.19l-3.52%205.6c-.35.53.32%201.139.82.75l3.79-2.87c.26-.2.6-.2.87%200l2.8%202.1c.84.63%202.04.4%202.6-.48l3.52-5.6c.35-.53-.32-1.13-.82-.75l-3.79%202.87c-.25.2-.6.2-.86%200l-2.8-2.1a1.8%201.8%200%2000-2.61.48z%22%2F%3E%3C%2Fsvg%3E"); background: var(--tinta); }
