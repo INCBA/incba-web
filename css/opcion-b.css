@@ -46,7 +46,10 @@
   --dulceria: #6B3E26;
 
   /* --- Tipografía --- */
-  --f-titulo: "Bricolage Grotesque", "Manrope", ui-sans-serif, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+  /* Títulos y texto en Manrope, la fuente de la marca y de la web anterior. Hubo una
+     Bricolage Grotesque en los títulos y se sacó: a la gente le sonaba a diseño hecho
+     con IA. El token queda por si algún día se vuelve a separar. */
+  --f-titulo: "Manrope", ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --f-texto: "Manrope", ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --t-xxs: 0.6875rem;  /* 11 · horas del chat */
   --t-xs: 0.75rem;     /* 12 · etiquetas y chips */
@@ -114,9 +117,9 @@ h1, h2, h3 {
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
-h1 { font-size: var(--t-h1); line-height: 1.04; letter-spacing: -0.03em; }
+h1 { font-size: var(--t-h1); font-weight: 800; line-height: 1.08; letter-spacing: -0.03em; }
 h2 { font-size: var(--t-h2); }
-h3 { font-size: var(--t-h3); font-weight: 600; line-height: 1.2; letter-spacing: -0.012em; }
+h3 { font-size: var(--t-h3); font-weight: 700; line-height: 1.22; letter-spacing: -0.015em; }
 p { text-wrap: pretty; }
 
 a { color: var(--teal-texto); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
@@ -405,7 +408,7 @@ main:focus { outline: none; }
    crece con la columna para quedar en dos líneas frente al chat. */
 .hero h1 {
   font-size: clamp(2.25rem, 0.2rem + 4.4vw, 3.75rem);
-  line-height: 1.02;
+  line-height: 1.06;
 }
 @media (max-width: 899px) {
   .hero h1 { font-size: clamp(2.25rem, 1.2rem + 4.2vw, 3.25rem); }
