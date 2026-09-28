@@ -998,52 +998,44 @@ main:focus { outline: none; }
   white-space: nowrap;
 }
 
-/* Barra de estado: la hora cambia según la escena. */
+/* Barra de estado: la hora cambia según la escena. Como en un teléfono real,
+   la hora y los íconos (el símbolo #i-estado) van centrados a cada lado de
+   la isla y a su misma altura. Todo se mide en em: en las escenas achicadas
+   (.escalada), --e deshace la escala y la barra no cambia de tamaño de una
+   pantalla a otra. */
 .ph-estado {
+  --e: 1;
+  --isla: clamp(5.4em, 26%, 6.8em);
   position: relative;
   flex: none;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--isla) minmax(0, 1fr);
+  grid-template-rows: 1.75em;
   align-items: center;
-  justify-content: space-between;
-  height: 30px;
-  padding: 3px 18px 0 26px;
+  height: 2.6em;
+  padding-top: 0.5em;
   background: var(--superficie);
   color: var(--tinta);
-  font-size: 12px;
-  font-weight: 700;
+  font-size: calc(15px * var(--e));
+  font-weight: 650;
   line-height: 1;
-  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
+.historia-viva .pantalla-h.escalada .ph-estado { --e: calc(1 / var(--k)); }
 .ph-estado::before {
   content: "";
   position: absolute;
-  top: 7px;
-  left: 50%;
-  width: 60px;
-  height: 17px;
-  margin-left: -30px;
-  border-radius: 9px;
+  top: 0.5em;
+  right: 0;
+  left: 0;
+  width: var(--isla);
+  height: 1.75em;
+  margin-inline: auto;
+  border-radius: 1em;
   background: var(--tel-marco);
 }
-.ph-iconos { display: flex; align-items: center; gap: 5px; }
-.ph-iconos::before {
-  content: "";
-  width: 15px;
-  height: 10px;
-  background:
-    linear-gradient(currentColor 0 0) 0 100% / 3px 35% no-repeat,
-    linear-gradient(currentColor 0 0) 4px 100% / 3px 55% no-repeat,
-    linear-gradient(currentColor 0 0) 8px 100% / 3px 78% no-repeat,
-    linear-gradient(currentColor 0 0) 12px 100% / 3px 100% no-repeat;
-}
-.ph-iconos::after {
-  content: "";
-  width: 20px;
-  height: 10px;
-  border: 1.5px solid currentColor;
-  border-radius: 3px;
-  background: linear-gradient(currentColor 0 0) 1px 1px / 11px 4px no-repeat;
-}
+.ph-hora { grid-column: 1; justify-self: center; }
+.ph-iconos { grid-column: 3; justify-self: center; width: 4.05em; height: 0.72em; }
 .ph-estado-oscuro { background: var(--tinta); color: #fff; }
 .ph-estado-oscuro::before { background: #000; }
 .ph-estado-claro { background: transparent; }
@@ -1741,7 +1733,12 @@ main:focus { outline: none; }
 .aviso-msgs { display: flex; flex-direction: column; gap: 3px; padding: 6px 8px 8px; }
 
 /* --- Panel --- */
-.ph-panel .ph-interior { background: #F4F6F9; color: var(--tinta); }
+/* Arriba el fondo también es oscuro: en las esquinas redondeadas el borde
+   suavizado de la barra de estado dejaba ver una línea clara. */
+.ph-panel .ph-interior {
+  background: linear-gradient(var(--tinta) calc(36px / var(--k, 1)), transparent 0) #F4F6F9;
+  color: var(--tinta);
+}
 .panel-cabecera {
   flex: none;
   display: flex;

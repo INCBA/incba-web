@@ -259,6 +259,22 @@
       <path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M6 27V6.5h13V27M19 12.5h7V27M3.5 27h25"/>
       <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M10 11h5M10 15.5h5M10 20h5M22.5 17h0M22.5 21h0"/>
     </symbol>
+    <!-- Barra de estado de los teléfonos de la historia: señal, wifi y
+         batería al 80 %, con las proporciones de un teléfono real. -->
+    <symbol id="i-estado" viewBox="0 0 67.5 12">
+      <g fill="currentColor">
+        <rect x="0" y="7.5" width="3" height="4" rx="1"/>
+        <rect x="4.67" y="5.17" width="3" height="6.33" rx="1"/>
+        <rect x="9.33" y="2.83" width="3" height="8.67" rx="1"/>
+        <rect x="14" y=".5" width="3" height="11" rx="1"/>
+        <path d="M29.8 11.6 27.04 8.84a3.9 3.9 0 0 1 5.52 0Z"/>
+        <path d="M26.02 7.82a5.35 5.35 0 0 1 7.56 0l1.59-1.59a7.6 7.6 0 0 0-10.74 0Z"/>
+        <path d="M23.4 5.2a9.05 9.05 0 0 1 12.8 0l1.59-1.59a11.3 11.3 0 0 0-15.98 0Z"/>
+        <rect x="44.8" y="2.33" width="14.4" height="7.34" rx="1.9"/>
+        <path opacity=".5" d="M65.8 4v4c.8-.2 1.33-.95 1.33-2s-.53-1.8-1.33-2Z"/>
+      </g>
+      <rect x="43.3" y=".83" width="21" height="10.34" rx="3.3" fill="none" stroke="currentColor" stroke-opacity=".5"/>
+    </symbol>
   </svg>
 
   <!-- ============ Barra de navegación ============ -->
@@ -368,7 +384,7 @@
              contenedor en column-reverse: arranca mostrando el final, como un
              WhatsApp real. -->
         <div class="ph-interior">
-          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">16:04</span><span class="ph-iconos"></span></div>
+          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">16:04</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <div class="chat" id="chat-hero">
             <div class="chat-cabecera" aria-hidden="true"><svg class="chat-atras"><use href="#i-atras"/></svg><span class="chat-avatar"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#0B1C2D"/><path fill="#fff" d="M11.2 29.6 17.6 10.4h4.8l6.4 19.2h-4.3L20 15.6l-4.5 14Z"/><path fill="#2BA59A" d="m7.6 24.4 24.6-4.1-.8 3.3-17.2 2.6Z"/></svg></span><span class="chat-contacto"><span class="chat-nombre">INCBA</span><span class="chat-estado">en línea</span></span><svg class="chat-accion"><use href="#i-video"/></svg><svg class="chat-accion"><use href="#i-llamada"/></svg></div>
             <!-- Con el dedo el chat no se desplaza por dentro (atrapaba el
@@ -424,7 +440,7 @@
 
       <figure class="pantalla-h ph-agenda" data-clave="diagnostico" style="--fila:4" aria-label="Chat con INCBA y evento en la agenda">
         <div class="ph-interior">
-          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">16:07</span><span class="ph-iconos"></span></div>
+          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">16:07</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <div class="chat chat-mini">
             <div class="chat-cabecera" aria-hidden="true"><svg class="chat-atras"><use href="#i-atras"/></svg><span class="chat-avatar"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#0B1C2D"/><path fill="#fff" d="M11.2 29.6 17.6 10.4h4.8l6.4 19.2h-4.3L20 15.6l-4.5 14Z"/><path fill="#2BA59A" d="m7.6 24.4 24.6-4.1-.8 3.3-17.2 2.6Z"/></svg></span><span class="chat-contacto"><span class="chat-nombre">INCBA</span><span class="chat-estado">en línea</span></span><svg class="chat-accion"><use href="#i-video"/></svg><svg class="chat-accion"><use href="#i-llamada"/></svg></div>
             <div class="chat-cuerpo ph-feed">
@@ -463,7 +479,7 @@
            en el teléfono; queda en el DOM para los lectores de pantalla. -->
       <figure class="pantalla-h ph-tienda" data-clave="respuestas" style="--fila:5" aria-label="WhatsApp de Pichón, chat con Martina">
         <div class="ph-interior">
-          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">23:14</span><span class="ph-iconos"></span></div>
+          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">23:14</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <div class="chat chat-mini">
             <div class="chat-cabecera" aria-hidden="true"><svg class="chat-atras"><use href="#i-atras"/></svg><span class="mini-avatar mini-avatar-grande chat-avatar-ini" data-inicial="M"></span><span class="chat-contacto"><span class="chat-nombre">Martina</span><span class="chat-estado">en línea</span></span><svg class="chat-accion"><use href="#i-video"/></svg><svg class="chat-accion"><use href="#i-llamada"/></svg></div>
             <div class="chat-cuerpo ph-feed">
@@ -496,7 +512,7 @@
 
       <figure class="pantalla-h ph-bandeja" data-clave="bandeja" style="--fila:6">
         <div class="ph-interior">
-          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">10:32</span><span class="ph-iconos"></span></div>
+          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">10:32</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <div class="bandeja-cabecera">
             <p class="bandeja-titulo"><b>Bandeja de Pichón</b><span class="sep"> · </span><span class="bandeja-sub">WhatsApp e Instagram</span></p>
             <p class="bandeja-filtros"><span class="sr">Filtros: </span><span class="filtro filtro-activo">Todas</span><span class="sep"> · </span><span class="filtro">Mías</span><span class="sep"> · </span><span class="filtro">De Caro</span></p>
@@ -535,7 +551,7 @@
 
       <figure class="pantalla-h ph-stock" data-clave="stock" style="--fila:7" aria-label="Stock de la tienda online y del local">
         <div class="ph-interior">
-          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">12:05</span><span class="ph-iconos"></span></div>
+          <div class="ph-estado" aria-hidden="true"><span class="ph-hora">12:05</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <ol class="stock-lista" role="list">
             <li class="st st-local sec sec-fijo" data-espera="250"><span class="st-icono" aria-hidden="true"><svg><use href="#i-local"/></svg></span><p><span class="st-donde">Venta en el local</span><span class="sep"> · </span><time class="st-hora" datetime="11:20">11:20</time><span class="sep"> · </span><span class="st-prod">Enterito de plush rosa <span class="nw">0-3 m</span></span><span class="sep"> · </span><span class="st-dato chip chip-lista">Facturado</span></p></li>
             <li class="st st-web st-sigue sec sec-fijo" data-espera="450"><span class="st-icono" aria-hidden="true"><svg><use href="#i-bolsa"/></svg></span><p><span class="st-donde">Tienda online</span><span class="sep"> · </span><span class="st-prod">Enterito de plush rosa <span class="nw">0-3 m</span></span><span class="sep"> · </span><span class="st-dato st-stock"><span class="st-stock-k">Stock </span><span class="st-num"><span class="st-antes">1</span><span class="sep"> → </span><span class="st-ahora">0</span></span></span></p></li>
@@ -561,7 +577,7 @@
 
       <figure class="pantalla-h ph-avisos" data-clave="avisos" style="--fila:8" aria-label="Avisos automáticos de Pichón">
         <div class="ph-interior">
-          <div class="ph-estado ph-estado-claro" aria-hidden="true"><span class="ph-hora">18:40</span><span class="ph-iconos"></span></div>
+          <div class="ph-estado ph-estado-claro" aria-hidden="true"><span class="ph-hora">18:40</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <div class="ph-feed avisos-feed">
             <ol class="ph-feed-lista avisos" role="list">
               <li class="aviso-chat sec" data-espera="250">
@@ -602,7 +618,7 @@
 
       <figure class="pantalla-h ph-panel" data-clave="panel" style="--fila:9">
         <div class="ph-interior">
-          <div class="ph-estado ph-estado-oscuro" aria-hidden="true"><span class="ph-hora">9:00</span><span class="ph-iconos"></span></div>
+          <div class="ph-estado ph-estado-oscuro" aria-hidden="true"><span class="ph-hora">9:00</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <p class="panel-cabecera"><b>Panel de Pichón</b><span class="sep"> · </span><span class="panel-periodo">Esta semana</span></p>
           <div class="panel-cuerpo">
             <div class="panel-tarjeta">
@@ -646,7 +662,7 @@
              mensaje queda arriba y, en escritorio, las tarjetas salen del
              teléfono hacia la derecha. -->
         <div class="ph-interior">
-          <div class="ph-estado ph-estado-bloqueo" aria-hidden="true"><span class="ph-hora"></span><span class="ph-iconos"></span></div>
+          <div class="ph-estado ph-estado-bloqueo" aria-hidden="true"><span class="ph-hora"></span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <p class="bloqueo-reloj" aria-hidden="true" data-opcional="1">21:18</p>
           <ul class="resultados" role="list">
             <li class="res" style="--i:0"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-reloj"/></svg></span><p><span class="res-titulo">Tiempo para lo importante</span><span class="sep">: </span><span class="res-linea">Vero dedica las mañanas a elegir la próxima colección.</span></p></li>
@@ -672,7 +688,7 @@
 
       <figure class="pantalla-h ph-cierre" data-clave="cierre" style="--fila:11">
         <div class="ph-interior">
-          <div class="ph-estado ph-estado-claro" aria-hidden="true"><span class="ph-hora">9:30</span><span class="ph-iconos"></span></div>
+          <div class="ph-estado ph-estado-claro" aria-hidden="true"><span class="ph-hora">9:30</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <div class="cierre-cuerpo">
             <span class="cierre-caras" aria-hidden="true" style="--i:0" data-opcional="1">
               <img src="img/equipo/felipe-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
