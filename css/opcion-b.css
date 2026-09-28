@@ -4161,10 +4161,13 @@ main:focus { outline: none; }
 
 /* ============ Clientes ============ */
 
+/* 20 logos: 5 columnas en escritorio y 4 en tableta y celular, así todas las
+   filas quedan completas (una celda vacía se vería como un hueco gris). Si se
+   suma o se saca un logo, revisar que la cuenta siga cerrando. */
 .logos {
   --escala-logo: 1;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1px;
   overflow: hidden;
   border: 1px solid var(--celeste-2);
@@ -4200,13 +4203,13 @@ main:focus { outline: none; }
 }
 
 @media (max-width: 859px) {
-  .logos { --escala-logo: 0.8; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .logos li { min-height: 92px; padding: 12px 10px; }
+  .logos { --escala-logo: 0.66; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .logos li { min-height: 76px; padding: 10px 7px; }
 }
 /* En tableta las celdas son anchas: los logos pueden crecer. */
 @media (min-width: 640px) and (max-width: 859px) {
-  .logos { --escala-logo: 1.15; }
-  .logos li { min-height: 104px; }
+  .logos { --escala-logo: 1; }
+  .logos li { min-height: 100px; }
 }
 
 /* ============ Agencias ============ */
