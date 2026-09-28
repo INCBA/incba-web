@@ -275,14 +275,14 @@
     // El <head> ocultó los mensajes antes del primer pintado; desde acá manda .pend.
     raiz.classList.remove('chat-previo');
 
-    // Con el dedo el chat no se desplaza por dentro (atrapaba el scroll de la
-    // página). En teléfonos, fuera de la historia fija, muestra los últimos
+    // El chat no siempre se desplaza por dentro: con el dedo atrapaba el
+    // scroll de la página y, en la historia fija, la rueda sobre el teléfono
+    // también. En teléfonos, fuera de la historia fija, muestra los últimos
     // mensajes y un botón lo despliega entero; con el teléfono fijo, mientras
     // se lee el primer capítulo, el mismo botón deja subir por el chat.
     const verTodo = document.getElementById('chat-ver-todo');
     if (verTodo) {
       const telefono = window.matchMedia('(pointer: coarse) and (max-width: 599px), (pointer: coarse) and (max-height: 500px)');
-      const tactil = window.matchMedia('(pointer: coarse)');
       modoChat = () => {
         const viva = raiz.classList.contains('historia-viva');
         const plegado = telefono.matches && !viva;
@@ -292,7 +292,7 @@
         const abierto = pantallaChat.classList.contains('chat-completo') || pantallaChat.classList.contains('chat-libre');
         // En la historia, recién cuando hay mensajes que ya no se ven.
         const tapados = cuerpo.scrollHeight - cuerpo.clientHeight > 24;
-        verTodo.hidden = abierto || !(plegado || (viva && tactil.matches && capituloUno && tapados));
+        verTodo.hidden = abierto || !(plegado || (viva && capituloUno && tapados));
       };
       verTodo.addEventListener('click', () => {
         terminarChat();
@@ -308,7 +308,6 @@
       });
       modoChat();
       alCambiarMedia(telefono, modoChat);
-      alCambiarMedia(tactil, modoChat);
     }
   }
 

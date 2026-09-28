@@ -1345,17 +1345,18 @@ main:focus { outline: none; }
 .chat-ver-todo[hidden] { display: none; }
 .chat-ver-todo:focus-visible { border-radius: var(--r-chip); }
 
-/* En la historia fija los chats se esfuman arriba, bajo la cabecera. Con el
-   dedo el chat del hero no se desplaza por dentro (atraparía la página)
-   hasta que se toca "Ver toda la conversación". */
+/* En la historia fija los chats se esfuman arriba, bajo la cabecera. El chat
+   del hero no se desplaza por dentro hasta que se toca "Ver toda la
+   conversación": con el dedo o con la rueda sobre el teléfono atraparía la
+   página, y subir por él adelantaría la conversación de golpe. Con el
+   teclado sí se puede recorrer. */
 .historia-viva .chat-cuerpo {
   -webkit-mask-image: linear-gradient(transparent, #000 28px);
   mask-image: linear-gradient(transparent, #000 28px);
 }
-@media (pointer: coarse) {
-  .historia-viva .ph-chat .chat-cuerpo { overflow: hidden; }
-  .historia-viva .ph-chat.chat-libre .chat-cuerpo { overflow-y: auto; }
-}
+.historia-viva .ph-chat .chat-cuerpo { overflow: hidden; }
+.historia-viva .ph-chat.chat-libre .chat-cuerpo,
+.historia-viva .ph-chat .chat-cuerpo:focus-visible { overflow-y: auto; }
 
 /* ============ Escenas de la historia ============ */
 
@@ -1743,9 +1744,11 @@ main:focus { outline: none; }
 
 /* --- Panel --- */
 /* Arriba el fondo también es oscuro: en las esquinas redondeadas el borde
-   suavizado de la barra de estado dejaba ver una línea clara. */
+   suavizado de la barra de estado dejaba ver una línea clara, y con escalas
+   de pantalla como 125 % o 150 % también entre la barra y la cabecera. Por
+   eso llega más abajo que la barra (39 px), hasta dentro de la cabecera. */
 .ph-panel .ph-interior {
-  background: linear-gradient(var(--tinta) calc(36px / var(--k, 1)), transparent 0) #F4F6F9;
+  background: linear-gradient(var(--tinta) calc(48px / var(--k, 1)), transparent 0) #F4F6F9;
   color: var(--tinta);
 }
 .panel-cabecera {
@@ -2984,6 +2987,7 @@ main:focus { outline: none; }
    alta, así que las más cortas completan el hueco con filas esqueleto que
    ocupan solo el alto que sobra (flex-basis 0) y se esfuman hacia abajo. */
 .relleno {
+  container-type: size;
   flex: 1 1 0;
   min-height: 0;
   display: flex;
@@ -2994,6 +2998,11 @@ main:focus { outline: none; }
   mask-image: linear-gradient(#000 35%, transparent 95%);
 }
 .relleno i { position: relative; flex: none; display: block; }
+/* Si el hueco es tan chico que de la primera fila asomaría solo una raya,
+   queda vacío. */
+@container (max-height: 32px) {
+  .relleno i { display: none; }
+}
 .relleno i::before,
 .relleno i::after { content: ""; position: absolute; border-radius: 4px; background: var(--gris-chip); }
 
@@ -4477,7 +4486,8 @@ main:focus { outline: none; }
   .pantalla-h[data-ajuste] [data-opcional] { position: static !important; width: auto; height: auto; clip-path: none; white-space: normal; }
   .historia-viva .resultados { position: relative; left: auto; top: auto; width: auto; margin: 10px; transform: none; }
   .ph-chat { height: auto; }
-  .chat-cuerpo { overflow: visible; -webkit-mask-image: none; mask-image: none; }
+  .chat-cuerpo,
+  .historia-viva .ph-chat .chat-cuerpo { overflow: visible; -webkit-mask-image: none; mask-image: none; }
 }
 
 
