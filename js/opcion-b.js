@@ -85,10 +85,18 @@
   // Al sumar un mensaje, lo de arriba sube de golpe lo que mide el nuevo: se
   // compensa con un transform y se lo deja volver a cero, así el chat se
   // desplaza suave (técnica FLIP: solo transform, sin tocar el scroll).
+  // Si la lista todavía venía subiendo por el mensaje anterior, se parte de
+  // donde está: con mensajes muy seguidos no pega saltos.
+  const enCamino = (lista) => {
+    const t = getComputedStyle(lista).transform;
+    if (!t || t === 'none' || !window.DOMMatrixReadOnly) return 0;
+    try { return new DOMMatrixReadOnly(t).m42; } catch (e) { return 0; }
+  };
   const deslizar = (lista, cambio) => {
+    const resto = sinMovimiento.matches ? 0 : enCamino(lista);
     const antes = lista.offsetHeight;
     cambio();
-    const delta = lista.offsetHeight - antes;
+    const delta = lista.offsetHeight - antes + resto;
     if (!delta || sinMovimiento.matches) return;
     lista.style.transition = 'none';
     lista.style.transform = `translateY(${delta}px)`;
@@ -106,6 +114,7 @@
   let terminarChat = () => {};
   let modoChat = () => {};
   let acelerarChat = () => {};
+  let seguirChat = () => {};
   let capituloUno = true; // lo actualiza la historia
   const chat = document.getElementById('chat-hero');
   if (chat) {
@@ -129,17 +138,40 @@
     // corta entre mensajes del mismo autor y más larga cuando cambia. Sin JS
     // o con movimiento reducido se ve completa; los mensajes que faltan
     // quedan en el DOM, plegados solo a la vista.
+    // En la historia, además, bajar por el primer capítulo pide mensajes
+    // (seguirChat) y el chat va por lo que esté más adelante: el reloj o el
+    // scroll. Lo que pide el scroll sale de a uno, con una pausa que se
+    // acorta cuanto más atrasado está el chat: nunca aparece un montón de
+    // golpe mientras se ve el capítulo.
     if (!sinMovimiento.matches && hayObservador) {
       let siguiente = 1;
       let reloj = null;
       let terminado = false;
+      let arrancado = false; // el reloj corre desde que el chat se ve
+      let tecleando = null; // el mensaje que se está escribiendo
+      let pedidos = 1; // los mensajes que pide el scroll
+      let ultimo = 0; // cuándo apareció el último
       // Con el teléfono ya en el centro (empezó la historia) va al doble de rápido.
       let ritmo = 1;
       acelerarChat = (rapido) => { ritmo = rapido ? 0.5 : 1; };
       const deFelipe = (msg) => msg.classList.contains('msg-entra');
       const tecleo = (msg) => Math.min(1900, Math.max(650, 380 + msg.textContent.length * 14)) * ritmo;
+      // Pausa mínima entre dos mensajes pedidos por el scroll, según cuántos
+      // faltan: 1, 2, 3, 4, 5, 6 o más.
+      const PAUSAS = [340, 220, 160, 120, 100, 90];
+
+      // Dónde aparece cada mensaje en el tramo del capítulo (0 → 1): el
+      // espacio después de cada uno va según lo que tarda en leerse.
+      const umbrales = [];
+      let suma = 0;
+      mensajes.forEach((msg, i) => {
+        umbrales.push(suma);
+        if (i < mensajes.length - 1) suma += 1 + msg.textContent.length / 90;
+      });
+      umbrales.forEach((u, i) => { umbrales[i] = u / (suma || 1); });
 
       const teclear = (msg, ms) => {
+        tecleando = msg;
         if (deFelipe(msg)) {
           deslizar(hilo, () => { escribiendo.hidden = false; });
           if (estado) estado.textContent = 'escribiendo…';
@@ -149,6 +181,7 @@
         }
       };
       const dejarDeTeclear = () => {
+        tecleando = null;
         pie.classList.remove('tecleando');
         if (estado) estado.textContent = estadoEnLinea;
       };
@@ -160,6 +193,8 @@
           msg.classList.add('nuevo');
         });
         ponerHora(msg);
+        siguiente += 1;
+        ultimo = performance.now();
         modoChat();
       };
       terminarChat = () => {
@@ -174,17 +209,47 @@
         cuerpo.scrollTop = cuerpo.scrollHeight; // en column-reverse, el final
         modoChat();
       };
-      const avanzar = () => {
+      // El paso que sigue: si el scroll pidió más de lo que se ve, el próximo
+      // sale después de la pausa mínima (con poco atraso, antes se ve un
+      // momento quién escribe); si no, a ritmo de conversación.
+      const programar = () => {
+        clearTimeout(reloj);
+        if (terminado) return;
         if (siguiente >= mensajes.length) { terminado = true; return; }
         const msg = mensajes[siguiente];
-        const mismoAutor = deFelipe(msg) === deFelipe(mensajes[siguiente - 1]);
-        const ms = tecleo(msg);
-        reloj = setTimeout(() => {
-          teclear(msg, ms);
-          reloj = setTimeout(() => { mostrar(msg); siguiente += 1; avanzar(); }, ms);
-        }, (mismoAutor ? 280 : 850) * ritmo);
+        const faltan = pedidos - siguiente;
+        if (faltan > 0) {
+          let espera = Math.max(0, ultimo + PAUSAS[Math.min(faltan, PAUSAS.length) - 1] - performance.now());
+          if (faltan <= 2 && tecleando !== msg) {
+            espera = Math.max(espera, 180);
+            teclear(msg, espera);
+          }
+          reloj = setTimeout(() => { mostrar(msg); programar(); }, espera);
+        } else if (arrancado) {
+          const mismoAutor = deFelipe(msg) === deFelipe(mensajes[siguiente - 1]);
+          const ms = tecleo(msg);
+          reloj = setTimeout(() => {
+            teclear(msg, ms);
+            reloj = setTimeout(() => { mostrar(msg); programar(); }, ms);
+          }, (mismoAutor ? 280 : 850) * ritmo);
+        }
       };
-      const empezar = () => { if (!terminado) reloj = setTimeout(avanzar, 600); };
+      // La historia avisa cuánto se bajó por el primer capítulo (0 → 1).
+      seguirChat = (avance) => {
+        if (terminado) return;
+        let n = pedidos;
+        while (n < mensajes.length && umbrales[n] <= avance) n += 1;
+        if (n === pedidos) return;
+        pedidos = n;
+        if (pedidos > siguiente) programar();
+      };
+      const empezar = () => {
+        setTimeout(() => {
+          arrancado = true;
+          // Si el scroll ya tiene mensajes en fila, el reloj sigue después.
+          if (pedidos <= siguiente) programar();
+        }, 600);
+      };
 
       mensajes.forEach((msg, i) => { if (i > 0) msg.classList.add('pend'); });
       ponerHora(mensajes[0]);
@@ -266,9 +331,15 @@
     const escritorio = window.matchMedia('(min-width: 900px)');
     // La misma consulta que en el <head>.
     const altoSuficiente = window.matchMedia('(min-width: 900px) and (min-height: 520px), (max-width: 899px) and (min-height: 600px)');
-    const conP = [relato.querySelector('.hero'), relato.querySelector('.telefono'), ...pantallas].filter(Boolean);
+    const hero = relato.querySelector('.hero');
+    const conP = [relato.querySelector('.telefono'), ...pantallas].filter(Boolean);
     const ajustables = pantallas.filter((p) => !p.classList.contains('ph-chat'));
     const secuencias = new Map();
+    // En escritorio, el viaje del hero al centro dura el 65 % del alto de la ventana.
+    const RECORRIDO = 0.65;
+    // El primer capítulo es tan largo como la conversación (ver el CSS); el
+    // HTML trae la cantidad para el primer pintado y acá se confirma.
+    if (chat) caps[0].style.setProperty('--mensajes', String(chat.querySelectorAll('.msg').length));
     let viva = false;
     let activo = -1;
     let m = null;
@@ -412,6 +483,12 @@
       m.soltar = m.fin - m.topeTel - pantallas[0].offsetHeight - 1;
       // Línea de lectura: un capítulo manda cuando su texto llega cerca de su lugar.
       m.linea = (parseFloat(getComputedStyle(tarjetas[0]).top) || 0) + (m.esc ? Math.min(m.alto * 0.14, 110) : 40);
+      // Tramo en que bajar hace avanzar el chat: desde que el texto del hero
+      // se fue (en celular, desde que el teléfono se ve entero) hasta un poco
+      // antes del segundo capítulo, para que el último mensaje se alcance a leer.
+      m.recorrido = m.alto * RECORRIDO;
+      m.chatDesde = m.esc ? m.recorrido * 0.6 : m.primero - Math.max(m.topeTel, m.alto - pantallas[0].offsetHeight);
+      m.chatHasta = Math.max(m.chatDesde + 1, m.inicios[1] - m.linea - m.alto * 0.2);
       // El ajuste de las escenas cambia con el tamaño del teléfono o con las
       // fuentes, no con las barras del navegador del celular que van y vienen.
       const tamano = `${pantallas[1].offsetWidth}x${pantallas[1].offsetHeight}`;
@@ -428,9 +505,8 @@
       let p;
       let fija;
       if (m.esc) {
-        const recorrido = m.alto * 0.55;
-        p = y / recorrido;
-        fija = y > recorrido * 0.3;
+        p = y / m.recorrido;
+        fija = y > m.recorrido * 0.3;
       } else {
         // En celular el teléfono sube desde abajo hasta quedar fijo.
         const arriba = m.primero - y;
@@ -438,10 +514,14 @@
         fija = arriba <= m.topeTel + 2;
       }
       p = Math.min(1, Math.max(0, p));
-      const texto = p.toFixed(4);
-      if (texto !== ultimaP) {
-        ultimaP = texto;
-        conP.forEach((el) => el.style.setProperty('--p', texto));
+      // En escritorio el teléfono arranca y llega al centro despacio (no
+      // frena en seco); el texto del hero se va al ritmo del scroll.
+      const pHero = p.toFixed(4);
+      const pTel = (m.esc ? p * p * (3 - 2 * p) : p).toFixed(4);
+      if (`${pHero} ${pTel}` !== ultimaP) {
+        ultimaP = `${pHero} ${pTel}`;
+        if (hero) hero.style.setProperty('--p', pHero);
+        conP.forEach((el) => el.style.setProperty('--p', pTel));
       }
       // "Saltar la historia" se va en cuanto el teléfono empieza a soltarse.
       fija = fija && y < m.soltar;
@@ -450,6 +530,7 @@
       let i = 0;
       m.inicios.forEach((inicio, j) => { if (inicio <= y + m.linea) i = j; });
       cambiar(i);
+      if (i === 0) seguirChat((y - m.chatDesde) / (m.chatHasta - m.chatDesde));
 
       raiz.classList.toggle('hist-fija', fija);
       raiz.classList.toggle('hist-inicio', m.esc ? i === 0 && p < 0.4 : !fija && p < 0.5);
@@ -496,7 +577,7 @@
       caps.forEach((cap) => cap.classList.remove('activo'));
       pantallas.forEach(completar);
       ajustables.forEach(desajustar);
-      conP.forEach((el) => el.style.removeProperty('--p'));
+      [hero, ...conP].forEach((el) => { if (el) el.style.removeProperty('--p'); });
       ultimaP = '';
       ultimoTamano = '';
       acelerarChat(false);
@@ -534,6 +615,26 @@
         destino.focus({ preventScroll: true });
       });
     }
+
+    // Un salto que pasa de largo el primer capítulo (un ancla, la tecla Fin)
+    // completa el chat de una vez: con el scroll suave de la página el viaje
+    // cruzaría el capítulo pidiendo mensajes por el camino.
+    const pasaDeLargo = (id) => {
+      let el = null;
+      try { el = id && document.getElementById(decodeURIComponent(id)); } catch (e) { return false; }
+      return !!el && !caps[0].contains(el) && !!(caps[0].compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING);
+    };
+    const alSaltar = (id) => { if (viva && pasaDeLargo(id)) terminarChat(); };
+    document.addEventListener('click', (e) => {
+      const enlace = e.target.closest && e.target.closest('a[href^="#"]');
+      if (enlace) alSaltar(enlace.getAttribute('href').slice(1));
+    });
+    window.addEventListener('hashchange', () => alSaltar(location.hash.slice(1)));
+    alSaltar(location.hash.slice(1));
+    document.addEventListener('keydown', (e) => {
+      const t = e.target;
+      if (e.key === 'End' && viva && !(t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) terminarChat();
+    });
   }
 
   // --- Flujo del pedido: los pasos se activan la primera vez que se ve ---
