@@ -2935,12 +2935,14 @@ main:focus { outline: none; }
 .carrusel-pausa .icono-seguir,
 .carrusel-pausa.en-pausa .icono-pausa { display: none; }
 .carrusel-pausa.en-pausa .icono-seguir { display: block; }
-.carrusel-puntos { display: flex; align-items: center; }
-/* Cada punto es un blanco de 36 × 44 (el punto visible sigue siendo chico). */
+.carrusel-puntos { display: flex; align-items: center; min-width: 0; }
+/* Cada punto es un blanco de 36 × 44 (el punto visible sigue siendo chico).
+   Si no entran todos en la fila, se angostan parejo hasta 24 px. */
 .carrusel-punto {
   display: grid;
   place-items: center;
   width: 36px;
+  min-width: 24px;
   height: 44px;
   padding: 0;
   border: 0;
@@ -2961,7 +2963,8 @@ main:focus { outline: none; }
   .carrusel-punto::before { transition: width 0.25s, background-color 0.25s; }
 }
 /* Pausa, flechas y puntos entran en una fila aunque la escena sea angosta
-   (320 px de pantalla, o la columna de 330 px de una tableta). */
+   (320 px de pantalla, o la columna de 330 px de una tableta), también con
+   seis puntos. */
 .escena-carrusel { container-type: inline-size; }
 @container (max-width: 349px) {
   .carrusel-controles { gap: 8px; }
@@ -2971,6 +2974,10 @@ main:focus { outline: none; }
   .carrusel-controles { gap: 6px; }
   .carrusel-punto { width: 26px; }
   .carrusel-pausa { margin-right: 4px; }
+}
+@container (max-width: 297px) {
+  .carrusel-controles { gap: 4px; }
+  .carrusel-pausa { margin-right: 0; }
 }
 
 /* Relleno de las mini pantallas: la pista mide lo que la diapositiva más
@@ -3247,7 +3254,7 @@ main:focus { outline: none; }
 .barras > span::before { height: var(--antes); background: var(--celeste-2); }
 .barras > span::after { height: var(--ahora); background: var(--teal); }
 
-/* --- App del taller --- */
+/* --- App con barra y filas (plataforma de cursos y llegada de camiones) --- */
 .app { padding-bottom: 16px; border-radius: 26px; background: #F4F6F9; }
 .app-barra {
   padding: 18px 18px 16px;

@@ -243,10 +243,6 @@
     <symbol id="i-divisas" viewBox="0 0 24 24">
       <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 8.5h14.5m0 0L15 5m3.5 3.5L15 12M20 15.5H5.5m0 0L9 12m-3.5 3.5L9 19"/>
     </symbol>
-    <symbol id="i-llave" viewBox="0 0 24 24">
-      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M14.5 4.5a5 5 0 0 0-4.7 6.7L4 17v3h3l5.8-5.8a5 5 0 1 0 1.7-9.7Z"/>
-      <circle cx="15" cy="9" r="1.3" fill="currentColor"/>
-    </symbol>
     <symbol id="i-persona" viewBox="0 0 32 32">
       <circle cx="16" cy="10.5" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
       <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6.5 26.5c.9-5 4.8-8 9.5-8s8.6 3 9.5 8"/>
@@ -1096,32 +1092,33 @@
                     <button class="carrusel-punto" type="button" aria-label="Diapositiva 3" aria-current="false" aria-controls="pista-medida"></button>
                     <button class="carrusel-punto" type="button" aria-label="Diapositiva 4" aria-current="false" aria-controls="pista-medida"></button>
                     <button class="carrusel-punto" type="button" aria-label="Diapositiva 5" aria-current="false" aria-controls="pista-medida"></button>
+                    <button class="carrusel-punto" type="button" aria-label="Diapositiva 6" aria-current="false" aria-controls="pista-medida"></button>
                   </div>
                   <button class="carrusel-flecha" type="button" data-paso="1" aria-label="Siguiente" aria-controls="pista-medida"><svg class="icono" aria-hidden="true"><use href="#i-der"/></svg></button>
                 </div>
                 <div class="carrusel-pista" id="pista-medida" aria-live="off">
 
-                  <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="1 de 5">
-                    <p class="diapo-titulo">Órdenes de trabajo</p>
-                    <p class="diapo-para">Para un taller mecánico</p>
+                  <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="1 de 6">
+                    <p class="diapo-titulo">Plataforma de cursos</p>
+                    <p class="diapo-para">Para una escuela que vende cursos online</p>
                     <div class="pantalla mini app">
-                      <p class="app-barra"><span class="app-titulo">Taller Los Aromos</span></p>
+                      <p class="app-barra"><span class="app-titulo">Escuela Colibrí</span></p>
                       <ul class="ordenes" role="list">
                         <li class="orden">
-                          <span class="orden-icono" aria-hidden="true"><svg class="icono"><use href="#i-llave"/></svg></span>
-                          <p><span class="orden-n">#215</span><span class="sep"> · </span><span class="orden-trabajo">Cambio de embrague</span><span class="sep"> · </span><span class="orden-estado"><span class="mini-avatar" data-inicial="R" aria-hidden="true"></span>a cargo de Rubén</span></p>
+                          <span class="orden-icono" aria-hidden="true"><svg class="icono"><use href="#i-bolsa"/></svg></span>
+                          <p><span class="orden-n">Compra de Camila</span><span class="sep"> · </span><span class="orden-trabajo">Acuarela para principiantes</span><span class="sep"> · </span><span class="orden-estado"><span class="chip chip-lista">curso habilitado</span></span></p>
                         </li>
                         <li class="orden">
-                          <span class="orden-icono" aria-hidden="true"><svg class="icono"><use href="#i-llave"/></svg></span>
-                          <p><span class="orden-n">#216</span><span class="sep"> · </span><span class="orden-trabajo">Revisión general</span><span class="sep"> · </span><span class="orden-estado"><span class="chip chip-revision">esperando repuesto</span></span></p>
+                          <span class="orden-icono" aria-hidden="true"><svg class="icono"><use href="#i-video"/></svg></span>
+                          <p><span class="orden-n">Lección 4 de 12</span><span class="sep"> · </span><span class="orden-trabajo">Lettering desde cero</span><span class="sep"> · </span><span class="orden-estado"><span class="mini-avatar" data-inicial="J" aria-hidden="true"></span>la está viendo Julieta</span></p>
                         </li>
                       </ul>
                       <span class="relleno relleno-tarjetas" aria-hidden="true"><i></i><i></i></span>
-                      <p class="aviso"><span class="aviso-icono" aria-hidden="true"><svg><use href="#i-check"/></svg></span><span>Aviso enviado al cliente: “Tu auto ya está listo para retirar”</span></p>
+                      <p class="aviso"><span class="aviso-icono" aria-hidden="true"><svg><use href="#i-check"/></svg></span><span>Factura enviada a Camila por correo</span></p>
                     </div>
                   </div>
 
-                  <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="2 de 5">
+                  <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="2 de 6">
                     <p class="diapo-titulo">Costos y pedidos en el celular</p>
                     <p class="diapo-para">Para emprendedoras que hacen y venden sus productos</p>
                     <div class="pantalla mini emprende">
@@ -1135,7 +1132,7 @@
                     </div>
                   </div>
 
-                  <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="3 de 5">
+                  <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="3 de 6">
                     <p class="diapo-titulo">Cotizador de precios</p>
                     <p class="diapo-para">Para una distribuidora mayorista</p>
                     <div class="pantalla mini ventana">
@@ -1147,7 +1144,7 @@
                     </div>
                   </div>
 
-                  <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="4 de 5">
+                  <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="4 de 6">
                     <p class="diapo-titulo">Producción y pallets</p>
                     <p class="diapo-para">Para una planta que fracciona y envasa productos</p>
                     <div class="pantalla mini produccion">
@@ -1161,7 +1158,7 @@
                     </div>
                   </div>
 
-                  <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="5 de 5">
+                  <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="5 de 6">
                     <p class="diapo-titulo">Pagos y conciliación bancaria</p>
                     <p class="diapo-para">Para el equipo de finanzas de una empresa agroalimentaria</p>
                     <div class="pantalla mini ventana">
@@ -1175,6 +1172,26 @@
                         <p><span>Movimientos del banco que coinciden con lo registrado</span><span class="sep">: </span><b class="fin-cifra">118 de 120</b><span class="sep"> · </span><span class="chip chip-revision">2 para revisar</span></p>
                         <span class="avance" style="--avance:98.3%" aria-hidden="true"></span>
                       </div>
+                    </div>
+                  </div>
+
+                  <div class="diapo" role="group" aria-roledescription="diapositiva" aria-label="6 de 6">
+                    <p class="diapo-titulo">Llegada de camiones</p>
+                    <p class="diapo-para">Para una distribuidora que recibe mercadería en camiones</p>
+                    <div class="pantalla mini app">
+                      <p class="app-barra"><span class="app-titulo">Llegadas de mercadería</span></p>
+                      <ul class="ordenes" role="list">
+                        <li class="orden">
+                          <span class="orden-icono" aria-hidden="true"><svg class="icono"><use href="#i-reloj"/></svg></span>
+                          <p><span class="orden-n">Camión AB 123 CD</span><span class="sep"> · </span><span class="orden-trabajo">Llega el jueves</span><span class="sep"> · </span><span class="orden-estado"><span class="chip chip-revision">en viaje</span></span></p>
+                        </li>
+                        <li class="orden">
+                          <span class="orden-icono" aria-hidden="true"><svg class="icono"><use href="#i-bolsa"/></svg></span>
+                          <p><span class="orden-n">Carga del camión</span><span class="sep"> · </span><span class="orden-trabajo">38 bultos asignados a 6 pedidos</span><span class="sep"> · </span><span class="orden-estado">4 quedan en depósito</span></p>
+                        </li>
+                      </ul>
+                      <span class="relleno relleno-tarjetas" aria-hidden="true"><i></i><i></i></span>
+                      <p class="aviso"><span class="aviso-icono" aria-hidden="true"><svg><use href="#i-check"/></svg></span><span>Aviso enviado a 6 clientes por WhatsApp: “Tu&nbsp;mercadería está en camino”</span></p>
                     </div>
                   </div>
 
