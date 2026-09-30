@@ -726,119 +726,10 @@
     <!-- incluir:verificacion -->
 
     <!-- ============ Situaciones ============ -->
-    <section class="seccion situaciones" id="situaciones" aria-labelledby="titulo-situaciones">
-      <div class="contenedor">
-        <header class="encabezado">
-          <h2 id="titulo-situaciones">¿Te pasa algo de esto?</h2>
-          <p>Si alguna te suena, la vemos juntos en el <a href="#diagnostico">diagnóstico gratuito</a>.</p>
-        </header>
-
-        <!-- Van de lo chico a lo grande, como la historia: arriba, lo que le pasa
-             a una tienda o un comercio; abajo, lo de una empresa con más gente.
-             Cada una la resuelve alguno de los servicios de "Lo que hacemos". -->
-        <ul class="hilo" role="list">
-          <li class="situacion">
-            <h3 class="burbuja">Contesto lo mismo veinte veces al día</h3>
-            <p>Que cuánto cuesta, que si hacen envíos. Cuando te das cuenta, se te fue la mañana con el celular en la mano.</p>
-          </li>
-          <li class="situacion">
-            <h3 class="burbuja">Mi página tarda una eternidad en cargar</h3>
-            <p>Desde el celular la gente se cansa de esperar y se va antes de ver lo que vendes.</p>
-          </li>
-          <li class="situacion">
-            <h3 class="burbuja">Cambiar los precios me lleva una tarde entera</h3>
-            <p>Cada vez que suben los costos, entras a la tienda online y corriges los productos uno por uno.</p>
-          </li>
-          <li class="situacion">
-            <h3 class="burbuja">Vendí algo que ya no tenía</h3>
-            <p>La tienda online decía que había stock y en el local ya no quedaba. O al revés, la web lo mostraba agotado y lo tenías en el estante.</p>
-          </li>
-          <li class="situacion">
-            <h3 class="burbuja">Facturo cada venta a mano</h3>
-            <p>Copias cada pedido de la tienda online en el sistema de facturación y después mandas la factura por correo.</p>
-          </li>
-          <li class="situacion">
-            <h3 class="burbuja">Me preguntan todo el día si ya llegó el pedido</h3>
-            <p>Alguien del equipo deja lo que está haciendo, lo busca y contesta. Al rato llama otro por lo mismo.</p>
-          </li>
-          <li class="situacion">
-            <h3 class="burbuja">Nuestra planilla ya tiene más de cuarenta hojas</h3>
-            <p>Una persona pasa el día actualizándola y otra la revisa. Aun así se escapan errores.</p>
-          </li>
-          <li class="situacion">
-            <h3 class="burbuja">Nadie se anima a tocar el sistema</h3>
-            <p>Lo hizo alguien que ya no está en la empresa. Funciona más o menos, y cada cambio da un poco de miedo.</p>
-          </li>
-        </ul>
-      </div>
-    </section>
+    <!-- incluir:situaciones -->
 
     <!-- ============ Diagnóstico gratuito ============ -->
-    <section class="seccion diagnostico" id="diagnostico" aria-labelledby="titulo-diagnostico">
-      <div class="contenedor">
-        <div class="diag-panel">
-          <div class="diag-intro">
-            <h2 id="titulo-diagnostico">El primer paso es un <span class="resalte">diagnóstico gratuito</span></h2>
-            <p class="diag-bajada">Antes de hablar de propuestas o de presupuestos, nos sentamos a entender tu negocio.</p>
-            <p class="diag-que-es">La reunión dura de 30 minutos a una hora. Conversamos sobre cómo trabajas y lo que te gustaría resolver, y al final te decimos lo que vemos y por dónde conviene empezar.</p>
-          </div>
-
-          <ul class="modalidades" role="list">
-            <li class="modalidad">
-              <div class="modalidad-cabecera">
-                <span class="modalidad-icono" aria-hidden="true"><svg><use href="#i-video"/></svg></span>
-                <h3>Por videollamada</h3>
-              </div>
-              <p>Eliges el día y el horario en nuestra agenda online y nos conectamos desde donde estés.</p>
-              <a class="boton boton-principal boton-grande" href="https://calendly.com/felipe-incba" target="_blank" rel="noopener" data-fb-event="Schedule" data-fb-name="diagnostico-videollamada">
-                <svg class="icono" aria-hidden="true"><use href="#i-calendario"/></svg>
-                Agendar videollamada
-              </a>
-            </li>
-            <li class="modalidad">
-              <div class="modalidad-cabecera">
-                <span class="modalidad-icono" aria-hidden="true"><svg><use href="#i-pin"/></svg></span>
-                <h3>En persona</h3>
-                <span class="modalidad-caras" aria-hidden="true">
-                  <img src="img/equipo/felipe-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
-                  <img src="img/equipo/benjamin-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
-                  <img src="img/equipo/camilo-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
-                </span>
-              </div>
-              <p>Si estás en Córdoba Capital, Santiago, Temuco o alrededores, parte del equipo puede ir a verte.</p>
-              <a class="boton boton-secundario boton-grande" href="https://wa.me/56957400433?text=Hola%2C%20quiero%20coordinar%20un%20diagn%C3%B3stico%20en%20persona" target="_blank" rel="noopener" data-fb-name="diagnostico-en-persona">
-                <svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>
-                Coordinar visita por WhatsApp
-              </a>
-            </li>
-          </ul>
-
-          <div class="cercania">
-            <p class="cercania-texto">Nos gusta visitar a los clientes en su negocio. Ahí se ve mejor cómo funciona todo, por ejemplo quién contesta los mensajes o dónde se anotan los pedidos. Y conversando cara a cara es más fácil explicar cada cosa sin tecnicismos.</p>
-            <figure class="mapa">
-              <div class="mapa-lienzo">
-                <svg class="mapa-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-95 4 340 504" width="340" height="504" role="img" aria-labelledby="mapa-t" focusable="false">
-<!-- Cada punto del mapa es un trazo de largo cero con punta redonda: un
-     path por país en lugar de mil círculos sueltos. -->
-<title id="mapa-t">Mapa de Argentina y Chile con Córdoba, Santiago y Temuco marcadas</title>
-<path class="mapa-ar" d="M107.2 71.5h0M114.4 71.5h0M121.5 71.5h0M128.7 71.5h0M135.8 71.5h0M143.0 71.5h0M100.1 78.7h0M107.2 78.7h0M114.4 78.7h0M121.5 78.7h0M128.7 78.7h0M135.8 78.7h0M143.0 78.7h0M150.1 78.7h0M100.1 85.8h0M107.2 85.8h0M114.4 85.8h0M121.5 85.8h0M128.7 85.8h0M135.8 85.8h0M143.0 85.8h0M150.1 85.8h0M157.3 85.8h0M92.9 93.0h0M100.1 93.0h0M107.2 93.0h0M114.4 93.0h0M121.5 93.0h0M128.7 93.0h0M135.8 93.0h0M143.0 93.0h0M150.1 93.0h0M157.3 93.0h0M164.4 93.0h0M85.8 100.1h0M92.9 100.1h0M100.1 100.1h0M107.2 100.1h0M114.4 100.1h0M121.5 100.1h0M128.7 100.1h0M135.8 100.1h0M143.0 100.1h0M150.1 100.1h0M157.3 100.1h0M164.4 100.1h0M171.6 100.1h0M178.7 100.1h0M85.8 107.3h0M92.9 107.3h0M100.1 107.3h0M107.2 107.3h0M114.4 107.3h0M121.5 107.3h0M128.7 107.3h0M135.8 107.3h0M143.0 107.3h0M150.1 107.3h0M157.3 107.3h0M164.4 107.3h0M171.6 107.3h0M178.7 107.3h0M185.9 107.3h0M193.0 107.3h0M85.8 114.4h0M92.9 114.4h0M100.1 114.4h0M107.2 114.4h0M114.4 114.4h0M121.5 114.4h0M128.7 114.4h0M135.8 114.4h0M143.0 114.4h0M150.1 114.4h0M157.3 114.4h0M164.4 114.4h0M171.6 114.4h0M178.7 114.4h0M185.9 114.4h0M193.0 114.4h0M228.8 114.4h0M85.8 121.6h0M92.9 121.6h0M100.1 121.6h0M107.2 121.6h0M114.4 121.6h0M121.5 121.6h0M128.7 121.6h0M135.8 121.6h0M143.0 121.6h0M150.1 121.6h0M157.3 121.6h0M164.4 121.6h0M171.6 121.6h0M178.7 121.6h0M185.9 121.6h0M193.0 121.6h0M228.8 121.6h0M235.9 121.6h0M85.8 128.7h0M92.9 128.7h0M100.1 128.7h0M107.2 128.7h0M114.4 128.7h0M121.5 128.7h0M128.7 128.7h0M135.8 128.7h0M143.0 128.7h0M150.1 128.7h0M157.3 128.7h0M164.4 128.7h0M171.6 128.7h0M178.7 128.7h0M185.9 128.7h0M193.0 128.7h0M200.2 128.7h0M221.6 128.7h0M228.8 128.7h0M235.9 128.7h0M78.6 135.9h0M85.8 135.9h0M92.9 135.9h0M100.1 135.9h0M107.2 135.9h0M114.4 135.9h0M121.5 135.9h0M128.7 135.9h0M135.8 135.9h0M143.0 135.9h0M150.1 135.9h0M157.3 135.9h0M164.4 135.9h0M171.6 135.9h0M178.7 135.9h0M185.9 135.9h0M193.0 135.9h0M200.2 135.9h0M207.3 135.9h0M214.5 135.9h0M221.6 135.9h0M228.8 135.9h0M78.6 143.0h0M85.8 143.0h0M92.9 143.0h0M100.1 143.0h0M107.2 143.0h0M114.4 143.0h0M121.5 143.0h0M128.7 143.0h0M135.8 143.0h0M143.0 143.0h0M150.1 143.0h0M157.3 143.0h0M164.4 143.0h0M171.6 143.0h0M178.7 143.0h0M185.9 143.0h0M193.0 143.0h0M200.2 143.0h0M207.3 143.0h0M214.5 143.0h0M221.6 143.0h0M71.5 150.2h0M78.6 150.2h0M85.8 150.2h0M92.9 150.2h0M100.1 150.2h0M107.2 150.2h0M114.4 150.2h0M121.5 150.2h0M128.7 150.2h0M135.8 150.2h0M143.0 150.2h0M150.1 150.2h0M157.3 150.2h0M164.4 150.2h0M171.6 150.2h0M178.7 150.2h0M185.9 150.2h0M193.0 150.2h0M200.2 150.2h0M207.3 150.2h0M71.5 157.3h0M78.6 157.3h0M85.8 157.3h0M92.9 157.3h0M100.1 157.3h0M107.2 157.3h0M114.4 157.3h0M121.5 157.3h0M128.7 157.3h0M135.8 157.3h0M143.0 157.3h0M150.1 157.3h0M157.3 157.3h0M164.4 157.3h0M171.6 157.3h0M178.7 157.3h0M185.9 157.3h0M193.0 157.3h0M200.2 157.3h0M207.3 157.3h0M71.5 164.5h0M78.6 164.5h0M85.8 164.5h0M92.9 164.5h0M100.1 164.5h0M107.2 164.5h0M114.4 164.5h0M121.5 164.5h0M128.7 164.5h0M135.8 164.5h0M143.0 164.5h0M150.1 164.5h0M157.3 164.5h0M164.4 164.5h0M171.6 164.5h0M178.7 164.5h0M185.9 164.5h0M193.0 164.5h0M200.2 164.5h0M71.5 171.6h0M78.6 171.6h0M85.8 171.6h0M92.9 171.6h0M100.1 171.6h0M107.2 171.6h0M114.4 171.6h0M121.5 171.6h0M128.7 171.6h0M135.8 171.6h0M143.0 171.6h0M150.1 171.6h0M157.3 171.6h0M164.4 171.6h0M171.6 171.6h0M178.7 171.6h0M185.9 171.6h0M193.0 171.6h0M64.3 178.8h0M71.5 178.8h0M78.6 178.8h0M85.8 178.8h0M92.9 178.8h0M100.1 178.8h0M107.2 178.8h0M114.4 178.8h0M121.5 178.8h0M128.7 178.8h0M135.8 178.8h0M143.0 178.8h0M150.1 178.8h0M157.3 178.8h0M164.4 178.8h0M171.6 178.8h0M178.7 178.8h0M185.9 178.8h0M193.0 178.8h0M64.3 185.9h0M71.5 185.9h0M78.6 185.9h0M85.8 185.9h0M92.9 185.9h0M100.1 185.9h0M107.2 185.9h0M114.4 185.9h0M121.5 185.9h0M128.7 185.9h0M135.8 185.9h0M143.0 185.9h0M150.1 185.9h0M157.3 185.9h0M164.4 185.9h0M171.6 185.9h0M178.7 185.9h0M185.9 185.9h0M64.3 193.1h0M71.5 193.1h0M78.6 193.1h0M85.8 193.1h0M92.9 193.1h0M100.1 193.1h0M107.2 193.1h0M114.4 193.1h0M121.5 193.1h0M128.7 193.1h0M135.8 193.1h0M143.0 193.1h0M150.1 193.1h0M157.3 193.1h0M164.4 193.1h0M171.6 193.1h0M178.7 193.1h0M185.9 193.1h0M64.3 200.2h0M71.5 200.2h0M78.6 200.2h0M85.8 200.2h0M92.9 200.2h0M100.1 200.2h0M107.2 200.2h0M114.4 200.2h0M121.5 200.2h0M128.7 200.2h0M135.8 200.2h0M143.0 200.2h0M150.1 200.2h0M157.3 200.2h0M164.4 200.2h0M171.6 200.2h0M178.7 200.2h0M185.9 200.2h0M64.3 207.4h0M71.5 207.4h0M78.6 207.4h0M85.8 207.4h0M92.9 207.4h0M100.1 207.4h0M107.2 207.4h0M114.4 207.4h0M121.5 207.4h0M128.7 207.4h0M135.8 207.4h0M143.0 207.4h0M150.1 207.4h0M157.3 207.4h0M164.4 207.4h0M171.6 207.4h0M178.7 207.4h0M185.9 207.4h0M71.5 214.5h0M78.6 214.5h0M85.8 214.5h0M92.9 214.5h0M100.1 214.5h0M107.2 214.5h0M114.4 214.5h0M121.5 214.5h0M128.7 214.5h0M135.8 214.5h0M143.0 214.5h0M150.1 214.5h0M157.3 214.5h0M164.4 214.5h0M171.6 214.5h0M178.7 214.5h0M185.9 214.5h0M71.5 221.7h0M78.6 221.7h0M85.8 221.7h0M92.9 221.7h0M100.1 221.7h0M107.2 221.7h0M114.4 221.7h0M121.5 221.7h0M128.7 221.7h0M135.8 221.7h0M143.0 221.7h0M150.1 221.7h0M157.3 221.7h0M164.4 221.7h0M171.6 221.7h0M178.7 221.7h0M185.9 221.7h0M64.3 228.8h0M71.5 228.8h0M78.6 228.8h0M85.8 228.8h0M92.9 228.8h0M100.1 228.8h0M107.2 228.8h0M114.4 228.8h0M121.5 228.8h0M128.7 228.8h0M135.8 228.8h0M143.0 228.8h0M150.1 228.8h0M157.3 228.8h0M164.4 228.8h0M171.6 228.8h0M178.7 228.8h0M185.9 228.8h0M64.3 236.0h0M71.5 236.0h0M78.6 236.0h0M85.8 236.0h0M92.9 236.0h0M100.1 236.0h0M107.2 236.0h0M114.4 236.0h0M121.5 236.0h0M128.7 236.0h0M135.8 236.0h0M143.0 236.0h0M150.1 236.0h0M157.3 236.0h0M164.4 236.0h0M171.6 236.0h0M178.7 236.0h0M185.9 236.0h0M193.0 236.0h0M64.3 243.1h0M71.5 243.1h0M78.6 243.1h0M85.8 243.1h0M92.9 243.1h0M100.1 243.1h0M107.2 243.1h0M114.4 243.1h0M121.5 243.1h0M128.7 243.1h0M135.8 243.1h0M143.0 243.1h0M150.1 243.1h0M157.3 243.1h0M164.4 243.1h0M171.6 243.1h0M178.7 243.1h0M185.9 243.1h0M193.0 243.1h0M200.2 243.1h0M57.2 250.2h0M64.3 250.2h0M71.5 250.2h0M78.6 250.2h0M85.8 250.2h0M92.9 250.2h0M100.1 250.2h0M107.2 250.2h0M114.4 250.2h0M121.5 250.2h0M128.7 250.2h0M135.8 250.2h0M143.0 250.2h0M150.1 250.2h0M157.3 250.2h0M164.4 250.2h0M171.6 250.2h0M178.7 250.2h0M185.9 250.2h0M193.0 250.2h0M200.2 250.2h0M57.2 257.4h0M64.3 257.4h0M71.5 257.4h0M78.6 257.4h0M85.8 257.4h0M92.9 257.4h0M100.1 257.4h0M107.2 257.4h0M114.4 257.4h0M121.5 257.4h0M128.7 257.4h0M135.8 257.4h0M143.0 257.4h0M150.1 257.4h0M157.3 257.4h0M164.4 257.4h0M171.6 257.4h0M178.7 257.4h0M185.9 257.4h0M193.0 257.4h0M200.2 257.4h0M57.2 264.5h0M64.3 264.5h0M71.5 264.5h0M78.6 264.5h0M85.8 264.5h0M92.9 264.5h0M100.1 264.5h0M107.2 264.5h0M114.4 264.5h0M121.5 264.5h0M128.7 264.5h0M135.8 264.5h0M143.0 264.5h0M150.1 264.5h0M157.3 264.5h0M164.4 264.5h0M171.6 264.5h0M178.7 264.5h0M185.9 264.5h0M193.0 264.5h0M200.2 264.5h0M57.2 271.7h0M64.3 271.7h0M71.5 271.7h0M78.6 271.7h0M85.8 271.7h0M92.9 271.7h0M100.1 271.7h0M107.2 271.7h0M114.4 271.7h0M121.5 271.7h0M128.7 271.7h0M135.8 271.7h0M143.0 271.7h0M150.1 271.7h0M157.3 271.7h0M164.4 271.7h0M171.6 271.7h0M178.7 271.7h0M185.9 271.7h0M193.0 271.7h0M57.2 278.8h0M64.3 278.8h0M71.5 278.8h0M78.6 278.8h0M85.8 278.8h0M92.9 278.8h0M100.1 278.8h0M107.2 278.8h0M114.4 278.8h0M121.5 278.8h0M128.7 278.8h0M135.8 278.8h0M143.0 278.8h0M150.1 278.8h0M157.3 278.8h0M164.4 278.8h0M171.6 278.8h0M178.7 278.8h0M185.9 278.8h0M57.2 286.0h0M64.3 286.0h0M71.5 286.0h0M78.6 286.0h0M85.8 286.0h0M92.9 286.0h0M100.1 286.0h0M107.2 286.0h0M114.4 286.0h0M121.5 286.0h0M128.7 286.0h0M135.8 286.0h0M143.0 286.0h0M50.0 293.1h0M57.2 293.1h0M64.3 293.1h0M71.5 293.1h0M78.6 293.1h0M85.8 293.1h0M92.9 293.1h0M100.1 293.1h0M107.2 293.1h0M114.4 293.1h0M121.5 293.1h0M128.7 293.1h0M135.8 293.1h0M143.0 293.1h0M50.0 300.3h0M57.2 300.3h0M64.3 300.3h0M71.5 300.3h0M78.6 300.3h0M85.8 300.3h0M92.9 300.3h0M100.1 300.3h0M107.2 300.3h0M114.4 300.3h0M121.5 300.3h0M128.7 300.3h0M135.8 300.3h0M143.0 300.3h0M50.0 307.4h0M57.2 307.4h0M64.3 307.4h0M71.5 307.4h0M78.6 307.4h0M85.8 307.4h0M92.9 307.4h0M100.1 307.4h0M107.2 307.4h0M114.4 307.4h0M121.5 307.4h0M128.7 307.4h0M135.8 307.4h0M50.0 314.6h0M57.2 314.6h0M64.3 314.6h0M71.5 314.6h0M78.6 314.6h0M85.8 314.6h0M92.9 314.6h0M100.1 314.6h0M107.2 314.6h0M114.4 314.6h0M121.5 314.6h0M128.7 314.6h0M50.0 321.7h0M57.2 321.7h0M64.3 321.7h0M71.5 321.7h0M78.6 321.7h0M85.8 321.7h0M92.9 321.7h0M100.1 321.7h0M107.2 321.7h0M114.4 321.7h0M121.5 321.7h0M128.7 321.7h0M50.0 328.9h0M57.2 328.9h0M64.3 328.9h0M71.5 328.9h0M78.6 328.9h0M85.8 328.9h0M92.9 328.9h0M100.1 328.9h0M107.2 328.9h0M114.4 328.9h0M121.5 328.9h0M128.7 328.9h0M50.0 336.0h0M57.2 336.0h0M64.3 336.0h0M71.5 336.0h0M78.6 336.0h0M85.8 336.0h0M92.9 336.0h0M100.1 336.0h0M107.2 336.0h0M114.4 336.0h0M121.5 336.0h0M50.0 343.2h0M57.2 343.2h0M64.3 343.2h0M71.5 343.2h0M78.6 343.2h0M85.8 343.2h0M92.9 343.2h0M100.1 343.2h0M107.2 343.2h0M114.4 343.2h0M50.0 350.3h0M57.2 350.3h0M64.3 350.3h0M71.5 350.3h0M78.6 350.3h0M85.8 350.3h0M92.9 350.3h0M100.1 350.3h0M107.2 350.3h0M50.0 357.5h0M57.2 357.5h0M64.3 357.5h0M71.5 357.5h0M78.6 357.5h0M85.8 357.5h0M92.9 357.5h0M100.1 357.5h0M107.2 357.5h0M50.0 364.6h0M57.2 364.6h0M64.3 364.6h0M71.5 364.6h0M78.6 364.6h0M85.8 364.6h0M92.9 364.6h0M100.1 364.6h0M50.0 371.8h0M57.2 371.8h0M64.3 371.8h0M71.5 371.8h0M78.6 371.8h0M85.8 371.8h0M92.9 371.8h0M50.0 378.9h0M57.2 378.9h0M64.3 378.9h0M71.5 378.9h0M78.6 378.9h0M85.8 378.9h0M50.0 386.1h0M57.2 386.1h0M64.3 386.1h0M71.5 386.1h0M78.6 386.1h0M85.8 386.1h0M92.9 386.1h0M42.9 393.2h0M50.0 393.2h0M57.2 393.2h0M64.3 393.2h0M71.5 393.2h0M78.6 393.2h0M85.8 393.2h0M92.9 393.2h0M100.1 393.2h0M42.9 400.4h0M50.0 400.4h0M57.2 400.4h0M64.3 400.4h0M71.5 400.4h0M78.6 400.4h0M85.8 400.4h0M92.9 400.4h0M100.1 400.4h0M35.7 407.5h0M42.9 407.5h0M50.0 407.5h0M57.2 407.5h0M64.3 407.5h0M71.5 407.5h0M78.6 407.5h0M85.8 407.5h0M92.9 407.5h0M100.1 407.5h0M35.7 414.7h0M42.9 414.7h0M50.0 414.7h0M57.2 414.7h0M64.3 414.7h0M71.5 414.7h0M78.6 414.7h0M85.8 414.7h0M92.9 414.7h0M35.7 421.8h0M42.9 421.8h0M50.0 421.8h0M57.2 421.8h0M64.3 421.8h0M71.5 421.8h0M78.6 421.8h0M85.8 421.8h0M35.7 429.0h0M42.9 429.0h0M50.0 429.0h0M57.2 429.0h0M64.3 429.0h0M71.5 429.0h0M78.6 429.0h0M35.7 436.1h0M42.9 436.1h0M50.0 436.1h0M57.2 436.1h0M64.3 436.1h0M71.5 436.1h0M78.6 436.1h0M42.9 443.3h0M50.0 443.3h0M57.2 443.3h0M64.3 443.3h0M71.5 443.3h0M42.9 450.4h0M50.0 450.4h0M57.2 450.4h0M64.3 450.4h0M71.5 450.4h0M71.5 457.6h0M78.6 457.6h0M85.8 479.0h0M85.8 486.2h0M92.9 486.2h0M100.1 486.2h0"/>
-<path class="mapa-cl" d="M64.3 14.3h0M71.5 14.3h0M64.3 21.5h0M71.5 21.5h0M64.3 28.6h0M71.5 28.6h0M64.3 35.8h0M71.5 35.8h0M64.3 42.9h0M71.5 42.9h0M64.3 50.1h0M71.5 50.1h0M78.6 50.1h0M64.3 57.2h0M71.5 57.2h0M78.6 57.2h0M64.3 64.4h0M71.5 64.4h0M78.6 64.4h0M85.8 64.4h0M64.3 71.5h0M71.5 71.5h0M78.6 71.5h0M85.8 71.5h0M64.3 78.7h0M71.5 78.7h0M78.6 78.7h0M85.8 78.7h0M92.9 78.7h0M64.3 85.8h0M71.5 85.8h0M78.6 85.8h0M85.8 85.8h0M92.9 85.8h0M64.3 93.0h0M71.5 93.0h0M78.6 93.0h0M85.8 93.0h0M64.3 100.1h0M71.5 100.1h0M78.6 100.1h0M64.3 107.3h0M71.5 107.3h0M78.6 107.3h0M64.3 114.4h0M71.5 114.4h0M78.6 114.4h0M57.2 121.6h0M64.3 121.6h0M71.5 121.6h0M78.6 121.6h0M57.2 128.7h0M64.3 128.7h0M71.5 128.7h0M78.6 128.7h0M57.2 135.9h0M64.3 135.9h0M71.5 135.9h0M57.2 143.0h0M64.3 143.0h0M71.5 143.0h0M57.2 150.2h0M64.3 150.2h0M57.2 157.3h0M64.3 157.3h0M57.2 164.5h0M64.3 164.5h0M50.0 171.6h0M57.2 171.6h0M64.3 171.6h0M50.0 178.8h0M57.2 178.8h0M50.0 185.9h0M57.2 185.9h0M50.0 193.1h0M57.2 193.1h0M50.0 200.2h0M57.2 200.2h0M50.0 207.4h0M57.2 207.4h0M50.0 214.5h0M57.2 214.5h0M64.3 214.5h0M50.0 221.7h0M57.2 221.7h0M64.3 221.7h0M42.9 228.8h0M50.0 228.8h0M57.2 228.8h0M42.9 236.0h0M50.0 236.0h0M57.2 236.0h0M42.9 243.1h0M50.0 243.1h0M57.2 243.1h0M35.7 250.2h0M42.9 250.2h0M50.0 250.2h0M35.7 257.4h0M42.9 257.4h0M50.0 257.4h0M28.6 264.5h0M35.7 264.5h0M42.9 264.5h0M50.0 264.5h0M28.6 271.7h0M35.7 271.7h0M42.9 271.7h0M50.0 271.7h0M28.6 278.8h0M35.7 278.8h0M42.9 278.8h0M50.0 278.8h0M28.6 286.0h0M35.7 286.0h0M42.9 286.0h0M50.0 286.0h0M28.6 293.1h0M35.7 293.1h0M42.9 293.1h0M28.6 300.3h0M35.7 300.3h0M42.9 300.3h0M28.6 307.4h0M35.7 307.4h0M42.9 307.4h0M28.6 314.6h0M35.7 314.6h0M42.9 314.6h0M28.6 321.7h0M35.7 321.7h0M42.9 321.7h0M21.4 328.9h0M28.6 328.9h0M35.7 328.9h0M42.9 328.9h0M21.4 336.0h0M28.6 336.0h0M35.7 336.0h0M42.9 336.0h0M21.4 343.2h0M28.6 343.2h0M35.7 343.2h0M42.9 343.2h0M21.4 350.3h0M28.6 350.3h0M35.7 350.3h0M42.9 350.3h0M21.4 357.5h0M28.6 357.5h0M35.7 357.5h0M42.9 357.5h0M14.3 364.6h0M21.4 364.6h0M28.6 364.6h0M35.7 364.6h0M42.9 364.6h0M14.3 371.8h0M21.4 371.8h0M28.6 371.8h0M35.7 371.8h0M42.9 371.8h0M7.1 378.9h0M14.3 378.9h0M21.4 378.9h0M28.6 378.9h0M35.7 378.9h0M42.9 378.9h0M14.3 386.1h0M21.4 386.1h0M28.6 386.1h0M35.7 386.1h0M42.9 386.1h0M14.3 393.2h0M21.4 393.2h0M28.6 393.2h0M35.7 393.2h0M14.3 400.4h0M21.4 400.4h0M28.6 400.4h0M35.7 400.4h0M14.3 407.5h0M21.4 407.5h0M28.6 407.5h0M7.1 414.7h0M14.3 414.7h0M21.4 414.7h0M28.6 414.7h0M7.1 421.8h0M14.3 421.8h0M21.4 421.8h0M28.6 421.8h0M7.1 429.0h0M14.3 429.0h0M21.4 429.0h0M28.6 429.0h0M14.3 436.1h0M21.4 436.1h0M28.6 436.1h0M14.3 443.3h0M21.4 443.3h0M28.6 443.3h0M35.7 443.3h0M14.3 450.4h0M21.4 450.4h0M28.6 450.4h0M35.7 450.4h0M14.3 457.6h0M21.4 457.6h0M28.6 457.6h0M35.7 457.6h0M42.9 457.6h0M50.0 457.6h0M57.2 457.6h0M64.3 457.6h0M21.4 464.7h0M28.6 464.7h0M35.7 464.7h0M42.9 464.7h0M50.0 464.7h0M57.2 464.7h0M64.3 464.7h0M71.5 464.7h0M78.6 464.7h0M28.6 471.9h0M35.7 471.9h0M42.9 471.9h0M50.0 471.9h0M57.2 471.9h0M64.3 471.9h0M71.5 471.9h0M78.6 471.9h0M35.7 479.0h0M42.9 479.0h0M50.0 479.0h0M57.2 479.0h0M64.3 479.0h0M71.5 479.0h0M78.6 479.0h0M50.0 486.2h0M57.2 486.2h0M64.3 486.2h0M71.5 486.2h0M78.6 486.2h0M64.3 493.3h0M71.5 493.3h0M78.6 493.3h0M85.8 493.3h0M85.8 500.5h0M92.9 500.5h0"/>
-<g class="mapa-ciudad" data-ciudad="Córdoba"><circle class="mapa-halo" cx="125.9" cy="187.5" r="17.6"/><circle class="mapa-pin" cx="125.9" cy="187.5" r="6"/></g>
-<g class="mapa-ciudad" data-ciudad="Santiago"><circle class="mapa-halo" cx="56.8" cy="213.9" r="17.6"/><circle class="mapa-pin" cx="56.8" cy="213.9" r="6"/></g>
-<g class="mapa-ciudad" data-ciudad="Temuco"><circle class="mapa-halo" cx="36.2" cy="282.6" r="17.6"/><circle class="mapa-pin" cx="36.2" cy="282.6" r="6"/></g>
-</svg>
-                <ul class="mapa-rotulos" role="list">
-                  <li class="mapa-rotulo rotulo-cordoba"><b>Córdoba</b><span class="sep">, </span><span>Argentina</span></li>
-                  <li class="mapa-rotulo rotulo-santiago"><b>Santiago</b><span class="sep">, </span><span>Chile</span></li>
-                  <li class="mapa-rotulo rotulo-temuco"><b>Temuco</b><span class="sep">, </span><span>Chile</span></li>
-                </ul>
-              </div>
-              <figcaption class="mapa-leyenda"><span class="mapa-simbolo" aria-hidden="true"></span>Aquí está el equipo. Si estás cerca, podemos visitarte.</figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- incluir:diagnostico -->
 
     <!-- ============ Servicios ============ -->
     <!-- incluir:servicios -->
@@ -853,41 +744,7 @@
     <!-- incluir:equipo -->
 
     <!-- ============ Clientes ============ -->
-    <section class="seccion clientes" id="clientes" aria-labelledby="titulo-clientes">
-      <div class="contenedor">
-        <header class="encabezado">
-          <h2 id="titulo-clientes">Nuestros clientes</h2>
-        </header>
-
-        <!-- --w es el ancho de cada logo calculado para que todos ocupen un área
-             parecida (tamaño óptico parejo) y --o, su opacidad, para emparejar el
-             peso: los macizos bajan y los de trazo fino suben. "es-oscuro" = logo
-             blanco, se invierte para verse sobre claro; "es-claro" = logo de
-             tono muy claro, se oscurece. -->
-        <ul class="logos" role="list">
-          <li><img src="img/clientes-web/betamotor.webp" alt="Betamotor" width="646" height="616" style="--w:58px; --o:.45" loading="lazy" decoding="async"></li>
-          <li class="es-oscuro"><img src="img/clientes-web/norviguet.webp" alt="Norviguet" width="2010" height="523" style="--w:112px" loading="lazy" decoding="async"></li>
-          <li><img src="img/clientes-web/btob.webp" alt="BtoB" width="830" height="392" style="--w:86px" loading="lazy" decoding="async"></li>
-          <li class="es-claro"><img src="img/clientes-web/xinu.webp" alt="Xinu Perfumería" width="575" height="230" style="--w:116px; --o:.8" loading="lazy" decoding="async"></li>
-          <li class="es-oscuro"><img src="img/clientes-web/clinica-creare.webp" alt="Clínica Creare" width="1024" height="264" style="--w:120px" loading="lazy" decoding="async"></li>
-          <li><img src="img/clientes-web/ingav.png" alt="INGAV" width="445" height="194" style="--w:116px; --o:.45" loading="lazy" decoding="async"></li>
-          <li class="es-claro"><img src="img/clientes-web/docesoles.webp" alt="Doce Soles" width="403" height="443" style="--w:64px; --o:.8" loading="lazy" decoding="async"></li>
-          <li><img src="img/clientes-web/norpan.webp" alt="NOR-PAN" width="240" height="86" style="--w:106px" loading="lazy" decoding="async"></li>
-          <li class="es-claro"><img src="img/clientes-web/emacof.webp" alt="EMACOF" width="432" height="118" style="--w:112px; --o:.8" loading="lazy" decoding="async"></li>
-          <li class="es-oscuro"><img src="img/clientes-web/jaque-content.webp" alt="Jaque Content" width="84" height="49" style="--w:70px" loading="lazy" decoding="async"></li>
-          <li><img src="img/clientes-web/preciowow.webp" alt="Precio WOW" width="802" height="470" style="--w:82px" loading="lazy" decoding="async"></li>
-          <li class="es-oscuro"><img src="img/clientes-web/silexis.webp" alt="Silexis" width="700" height="150" style="--w:128px" loading="lazy" decoding="async"></li>
-          <li><img src="img/clientes-web/fullerton.png" alt="Fullerton" width="300" height="78" style="--w:124px" loading="lazy" decoding="async"></li>
-          <li><img src="img/clientes-web/kuyen.webp" alt="Kuyen Climbing" width="256" height="256" style="--w:60px; --o:.45" loading="lazy" decoding="async"></li>
-          <li><img src="img/clientes-web/rc-ingenieria.webp" alt="RC Ingeniería" width="200" height="123" style="--w:62px; --o:.5" loading="lazy" decoding="async"></li>
-          <li class="es-oscuro"><img src="img/clientes-web/onalulu-deco.webp" alt="Onalulú Deco" width="191" height="54" style="--w:110px; --o:.8" loading="lazy" decoding="async"></li>
-          <li><img src="img/clientes-web/camino-estrellas.webp" alt="Camino de las Estrellas" width="1744" height="490" style="--w:108px; --o:.45" loading="lazy" decoding="async"></li>
-          <li class="es-claro"><img src="img/clientes-web/rincon-de-ideas.webp" alt="Rincón de Ideas" width="3334" height="975" style="--w:138px; --o:.8" loading="lazy" decoding="async"></li>
-          <li class="es-oscuro"><img src="img/clientes-web/dietetica-almendra.webp" alt="Dietética Almendra" width="504" height="432" style="--w:60px" loading="lazy" decoding="async"></li>
-          <li><img src="img/clientes-web/ipone.webp" alt="IPONE" width="157" height="41" style="--w:94px; --o:.45" loading="lazy" decoding="async"></li>
-        </ul>
-      </div>
-    </section>
+    <!-- incluir:clientes -->
 
     <!-- ============ Agencias ============ -->
     <!-- incluir:agencias -->
