@@ -606,7 +606,8 @@ main:focus { outline: none; }
 .historia-viva .cap { grid-row: var(--fila); min-height: var(--largo-cap); }
 /* En el primer capítulo el chat avanza con el scroll: el capítulo suma un
    tramo por mensaje, así la conversación no se saltea al bajar. El HTML
-   trae --mensajes para el primer pintado; js/opcion-b.js lo lleva con
+   trae --mensajes para el primer pintado (al recargar, el <head> pone el
+   largo que había, --mensajes-guardado); js/opcion-b.js lo lleva con
    decimales y descuenta los mensajes que el chat ya mostró solo, así quien
    esperó no baja por una cinta vacía. El JS mide el tramo comparando este
    mínimo (sin el padding de arriba) con el del segundo capítulo. */

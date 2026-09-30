@@ -90,8 +90,21 @@
     // pantallas bajas o con movimiento reducido queda la secuencia vertical
     // (en celular el teléfono y la tarjeta del capítulo piden más alto).
     // La misma consulta está en js/opcion-b.js.
+    // Al recargar o volver con Atrás, el navegador devuelve el scroll que se
+    // midió con el primer capítulo de ese momento. Si el chat ya había
+    // terminado, opcion-b.js guardó en la pestaña cuánto medía (su cinta) y
+    // acá se pinta igual desde el principio, con el chat completo.
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
-      document.documentElement.classList.add('chat-previo');
+      (function (raiz) {
+        var cinta = NaN;
+        try {
+          var nav = performance.getEntriesByType('navigation')[0];
+          var tipo = nav ? nav.type : ['', 'reload', 'back_forward'][performance.navigation.type];
+          if (tipo === 'reload' || tipo === 'back_forward') cinta = parseFloat(sessionStorage.getItem('incba-cinta:' + location.pathname));
+        } catch (e) {}
+        if (cinta >= 0 && cinta < 1000) raiz.style.setProperty('--mensajes-guardado', (1 + cinta).toFixed(3));
+        else raiz.classList.add('chat-previo');
+      })(document.documentElement);
       addEventListener('load', function () { document.documentElement.classList.remove('chat-previo'); });
       if (matchMedia('(min-width: 900px) and (min-height: 520px), (max-width: 899px) and (min-height: 600px)').matches) document.documentElement.classList.add('historia-viva');
     }
@@ -368,7 +381,7 @@
 
       <!-- 1 · La consulta -->
 
-      <div class="cap" id="cap-consulta" data-clave="consulta" style="--fila:3; --mensajes:26">
+      <div class="cap" id="cap-consulta" data-clave="consulta" style="--fila:3; --mensajes:var(--mensajes-guardado, 26)">
         <div class="cap-tarjeta">
           <h3>La consulta</h3>
           <p>Vero vende ropa de bebé en Córdoba y no da abasto con los mensajes.</p>

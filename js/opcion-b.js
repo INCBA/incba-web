@@ -122,6 +122,9 @@
   // lo que se ve, y qué hacer cuando la cinta cambia.
   let margenCinta = () => Infinity;
   let cambioCinta = () => {};
+  // Con el chat terminado, lo que sobra de la cinta se quita por abajo al
+  // subir (lo llama la historia).
+  let recortarCinta = () => {};
   let capituloUno = true; // lo actualiza la historia
   const chat = document.getElementById('chat-hero');
   if (chat) {
@@ -188,6 +191,27 @@
       let consumido = 0; // dónde se pidió el último, en tramos desde el comienzo
       const faltante = () => tramos.reduce((suma, t, i) => (i >= enCinta ? suma + t : suma), 0);
       largoCinta = () => largo;
+      // Al recargar o volver con Atrás, el navegador devuelve el scroll que
+      // se midió con la cinta de ese momento. Si el chat ya había terminado,
+      // el largo queda guardado en la pestaña y el <head> lo pinta desde el
+      // principio (--mensajes-guardado); acá se sigue con el chat completo.
+      const CLAVE_CINTA = `incba-cinta:${location.pathname}`;
+      const guardado = parseFloat(raiz.style.getPropertyValue('--mensajes-guardado')) - 1;
+      const recuperada = guardado >= 0 && guardado <= largo;
+      const guardar = () => {
+        if (!terminado) return;
+        try { sessionStorage.setItem(CLAVE_CINTA, largo.toFixed(3)); } catch (e) { /* sin almacenamiento */ }
+      };
+      // Achica la cinta hasta `quitar` tramos, sin pasar lo que se puede
+      // quitar sin mover nada de lo que se ve. Con tres decimales, lo mismo
+      // que se pinta y se guarda.
+      const achicar = (quitar) => {
+        const nuevo = Math.max(0, Math.round((largo - Math.min(quitar, Math.max(0, margenCinta()))) * 1000) / 1000);
+        if (nuevo === largo) return;
+        largo = nuevo;
+        cambioCinta();
+        guardar();
+      };
       // Saca de la cinta los mensajes que faltan hasta `hasta`. Lo que no se
       // puede achicar sin mover lo que se ve (la persona ya está cerca del
       // final del capítulo, o más abajo) queda: el largo se congela antes
@@ -195,9 +219,19 @@
       const descontar = (hasta, congelar) => {
         let quitar = 0;
         for (; enCinta < hasta; enCinta += 1) quitar += tramos[enCinta];
-        if (!quitar || congelar) return;
-        largo -= Math.min(quitar, Math.max(0, margenCinta()));
-        cambioCinta();
+        if (quitar && !congelar) achicar(quitar);
+      };
+      // Con el chat terminado, lo que quedó (congelado al llegar por un
+      // ancla, o ya recorrido) no pide nada: al subir, lo que queda debajo de
+      // la pantalla se quita, y al volver a bajar el capítulo mide lo de los
+      // demás. Sólo al subir: un salto hacia abajo que el navegador ya
+      // calculó (un ancla) no puede ver moverse su destino. De a trozos de
+      // unos tres tramos (o lo que quede): cada cambio de largo rehace la
+      // grilla de la historia, y con uno por cuadro subir se trababa en un
+      // teléfono lento.
+      recortarCinta = () => {
+        if (!terminado || largo <= 0) return;
+        if (Math.max(0, margenCinta()) >= Math.min(largo, 3)) achicar(largo);
       };
 
       const teclear = (msg, ms) => {
@@ -241,6 +275,7 @@
         ponerHora(mensajes[mensajes.length - 1]);
         cuerpo.scrollTop = cuerpo.scrollHeight; // en column-reverse, el final
         descontar(mensajes.length, congelar === true);
+        guardar();
         modoChat();
       };
       // El paso que sigue: si el scroll pidió más de lo que se ve, el próximo
@@ -249,7 +284,7 @@
       const programar = () => {
         clearTimeout(reloj);
         if (terminado) return;
-        if (siguiente >= mensajes.length) { terminado = true; return; }
+        if (siguiente >= mensajes.length) { terminado = true; guardar(); return; }
         const msg = mensajes[siguiente];
         const faltan = pedidos - siguiente;
         if (faltan > 0) {
@@ -292,8 +327,21 @@
         }, 600);
       };
 
-      mensajes.forEach((msg, i) => { if (i > 0) msg.classList.add('pend'); });
-      ponerHora(mensajes[0]);
+      if (recuperada) {
+        // Ya se había visto entera: completa y con la cinta que tenía.
+        largo = Math.round(guardado * 1000) / 1000;
+        enCinta = mensajes.length;
+        siguiente = mensajes.length;
+        pedidos = mensajes.length;
+        terminado = true;
+        ponerHora(mensajes[mensajes.length - 1]);
+      } else {
+        // Una visita nueva, o una recarga con el chat a medias: arranca de
+        // cero, y el largo guardado (de otra carga) ya no corresponde.
+        try { sessionStorage.removeItem(CLAVE_CINTA); } catch (e) { /* sin almacenamiento */ }
+        mensajes.forEach((msg, i) => { if (i > 0) msg.classList.add('pend'); });
+        ponerHora(mensajes[0]);
+      }
 
       // Subir por el chat para leer desde el principio (o usar el teclado en
       // él) corta la reproducción y muestra todo.
@@ -301,7 +349,9 @@
       cuerpo.addEventListener('keydown', terminarChat);
 
       const caja = chat.getBoundingClientRect();
-      if (caja.top < window.innerHeight * 0.8 && caja.bottom > 0) {
+      if (terminado) {
+        // Recuperada: no hay nada que reproducir.
+      } else if (caja.top < window.innerHeight * 0.8 && caja.bottom > 0) {
         empezar();
       } else {
         // Fuera de la pantalla al cargar: arranca cuando el chat se ve.
@@ -379,7 +429,8 @@
     const RECORRIDO = 0.65;
     // El primer capítulo se alarga con la cinta del chat (ver el CSS):
     // --mensajes es 1 más su largo en tramos, con decimales. El HTML trae la
-    // cinta entera para el primer pintado; acá se confirma y se sigue.
+    // cinta entera para el primer pintado (o la guardada, al recargar); acá
+    // se confirma y se sigue.
     let cintaPuesta = '';
     const ponerCinta = () => {
       const valor = (1 + largoCinta()).toFixed(3);
@@ -396,6 +447,19 @@
     let pedidoMedida = false;
     let ultimaP = '';
     let ultimoTamano = '';
+    let yAntes = null; // para saber si se sube
+    // Mientras el navegador va hacia un destino que ya calculó más abajo del
+    // primer capítulo (un ancla, la tecla Fin), la cinta no se recorta: el
+    // destino se correría. Hacia arriba (el logo, Inicio) no hace falta: lo
+    // que se quita queda debajo del destino. El viaje termina cuando el
+    // scroll queda quieto un momento.
+    let enSalto = false;
+    let finSalto = null;
+    const quietud = () => {
+      clearTimeout(finSalto);
+      finSalto = setTimeout(() => { enSalto = false; }, 250);
+    };
+    const marcarSalto = () => { enSalto = true; quietud(); };
 
     // Escenas con mensajes o bloques que llegan de a uno (.sec): se disparan
     // al llegar al capítulo y, si la persona sigue de largo, se completan.
@@ -561,6 +625,12 @@
       pedido = false;
       if (!viva || !m) return;
       const y = window.scrollY;
+      let i = 0;
+      m.inicios.forEach((inicio, j) => { if (inicio <= y + m.linea) i = j; });
+      // Antes de escribir estilos: la medida de la cinta sale sin forzar un
+      // cálculo nuevo de la página.
+      if (i === 0 && !enSalto && yAntes !== null && y < yAntes) recortarCinta();
+      yAntes = y;
       let p;
       let fija;
       if (m.esc) {
@@ -586,8 +656,6 @@
       fija = fija && y < m.soltar;
       acelerarChat(p >= 1);
 
-      let i = 0;
-      m.inicios.forEach((inicio, j) => { if (inicio <= y + m.linea) i = j; });
       cambiar(i);
       if (i === 0) seguirChat((y - m.chatDesde) / m.paso, m.baseChat + largoCinta());
 
@@ -598,6 +666,7 @@
     };
 
     const pedir = () => {
+      if (enSalto) quietud();
       if (pedido) return;
       pedido = true;
       requestAnimationFrame(actualizar);
@@ -619,11 +688,15 @@
     const remedirTodo = () => remedir(true);
 
     // La cinta se achica sólo por debajo de la pantalla: lo que queda del
-    // primer capítulo abajo de la ventana (con un margen por las barras del
-    // navegador del celular), en tramos. Desde más abajo del capítulo, nada.
+    // primer capítulo abajo de la ventana, en tramos. Desde más abajo del
+    // capítulo, nada. El margen cubre las barras del navegador del celular
+    // (en iPhone cambian el alto en unos 100 px, más que un 10 % en
+    // pantallas bajas) y el cuadro que el deslizamiento con el dedo puede
+    // llevar de ventaja al leer la posición.
     margenCinta = () => {
       if (!viva || !m) return Infinity;
-      return (caps[0].getBoundingClientRect().bottom - window.innerHeight * 1.1) / m.paso;
+      const alto = window.innerHeight;
+      return (caps[0].getBoundingClientRect().bottom - Math.max(alto * 1.1, alto + 150)) / m.paso;
     };
     // Un cambio de largo sólo mueve lo que viene después: se vuelven a medir
     // las posiciones, sin rehacer el ajuste de las escenas. Lo pide el
@@ -640,6 +713,7 @@
         p.querySelectorAll('.sec').forEach((item) => item.classList.add(item.classList.contains('sec-fijo') ? 'espera' : 'pend'));
       });
       activo = -1;
+      yAntes = null;
       medir(true);
       actualizar();
     };
@@ -707,13 +781,18 @@
     // cruzaría el capítulo pidiendo mensajes por el camino. Con un clic o la
     // tecla, la cinta que sobra se quita antes de que el navegador calcule
     // el destino; cuando llega hashchange, o al cargar con un ancla, el
-    // navegador ya puede ir en camino y se congela.
+    // navegador ya puede ir en camino y se congela. Mientras dura el viaje,
+    // tampoco se recorta al subir (ver marcarSalto).
     const pasaDeLargo = (id) => {
       let el = null;
       try { el = id && document.getElementById(decodeURIComponent(id)); } catch (e) { return false; }
       return !!el && !caps[0].contains(el) && !!(caps[0].compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING);
     };
-    const alSaltar = (id, congelar) => { if (viva && pasaDeLargo(id)) terminarChat(congelar === true); };
+    const alSaltar = (id, congelar) => {
+      if (!viva || !pasaDeLargo(id)) return;
+      marcarSalto();
+      terminarChat(congelar === true);
+    };
     document.addEventListener('click', (e) => {
       const enlace = e.target.closest && e.target.closest('a[href^="#"]');
       if (enlace) alSaltar(enlace.getAttribute('href').slice(1));
@@ -722,7 +801,10 @@
     alSaltar(location.hash.slice(1), true);
     document.addEventListener('keydown', (e) => {
       const t = e.target;
-      if (e.key === 'End' && viva && !(t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) terminarChat();
+      if (e.key === 'End' && viva && !(t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) {
+        marcarSalto();
+        terminarChat();
+      }
     });
   }
 
