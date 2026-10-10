@@ -4,7 +4,11 @@
  * La portada chilena vive en _cl/index.html: tiene su propio <head>, su hero y
  * su historia. Las secciones que comparte con incba.com.ar no se copian a mano:
  * _cl/index.html lleva un marcador <!-- incluir:id --> y el build pone ahí la
- * <section id="id"> de index.html, con los CTA de WhatsApp y el correo de Chile.
+ * <section id="id"> de index.html, con los CTA de WhatsApp y el correo de Chile
+ * y con los textos de REEMPLAZOS_CL (boleta, bodega, Webpay...).
+ *
+ * Las secciones que _cl/index.html trae escritas (hero, historia, diagnóstico,
+ * equipo, clientes y contacto) son propias: no reciben los cambios de index.html.
  *
  * Antes de escribir nada, la salida pasa por invariantes (SEO, Meta, píxel,
  * historia). Si alguna falla, el build sale con error y dist-cl/ no se toca.
@@ -14,10 +18,10 @@
  * Uso:  node tools/build-cl.mjs   ->  genera dist-cl/
  */
 
-import { readFileSync, writeFileSync, rmSync, mkdirSync, cpSync, existsSync } from 'node:fs'
+import { readFileSync, writeFileSync, rmSync, mkdirSync, cpSync, existsSync, realpathSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { execFileSync } from 'node:child_process'
-import { fileURLToPath, pathToFileURL } from 'node:url'
+import { fileURLToPath } from 'node:url'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const OUT = join(ROOT, 'dist-cl')
@@ -25,6 +29,53 @@ const OUT = join(ROOT, 'dist-cl')
 const AR = 'https://incba.com.ar'
 const CL = 'https://incba.cl'
 const FB = 'dakeik5ldma7s0z9idjeu1b3v4fso3'
+
+// El Calendly de Chile reemplaza al de AR en toda la salida. Vacío = se usa el de AR.
+const CALENDLY_AR = 'https://calendly.com/felipe-incba'
+const CALENDLY_CL = 'https://calendly.com/benjamin-incba'
+
+// Textos argentinos de las secciones comunes y su versión chilena:
+// [id de la sección, de, a, cantidad]. Cada frase tiene que aparecer exactamente
+// `cantidad` veces en esa sección de index.html; si no, el build falla y dice
+// cuál. Así nos enteramos al armar cuando una de estas frases cambia en AR.
+export const REEMPLAZOS_CL = [
+  ['situaciones', 'Facturo cada venta a mano', 'Hago cada boleta a mano', 1],
+  ['situaciones', 'en el sistema de facturación y después mandas la factura por correo', 'en el sistema de boletas y después mandas la boleta por correo', 1],
+
+  // Paula es la protagonista de la historia chilena: la clienta del recordatorio pasa a ser Carolina.
+  ['servicios', 'Recordatorio de turnos por WhatsApp', 'Recordatorio de horas por WhatsApp', 1],
+  ['servicios', 'Hola, Paula. Te recordamos el turno de Simón', 'Hola, Carolina. Te recordamos la hora de Simón', 1],
+  ['servicios', '<span class="mc-autor">Paula</span>', '<span class="mc-autor">Carolina</span>', 1],
+  ['servicios', 'Turno confirmado en la agenda', 'Hora confirmada en la agenda', 1],
+  ['servicios', 'Parte del turno por correo', 'Reporte del turno por correo', 1],
+  ['servicios', 'Parte del turno tarde', 'Reporte del turno tarde', 1],
+  ['servicios', 'Se emite la factura', 'Se emite la boleta', 1],
+  ['servicios', 'Cobro mensual con Mercado Pago', 'Cobro mensual con Webpay', 1],
+  ['servicios', 'Factura enviada a Camila por correo', 'Boleta enviada a Camila por correo', 1],
+  ['servicios', 'seña cobrada', 'adelanto pagado', 1],
+  ['servicios', 'Aceite de girasol 1,5 L × 12', 'Aceite de maravilla 1 L × 12', 1],
+  ['servicios', 'Camión AB 123 CD', 'Camión PHJL-27', 1],
+  ['servicios', '4 quedan en depósito', '4 quedan en bodega', 1],
+  ['servicios', 'Distribuidora Santa Rita', 'Distribuidora del Maule', 1],
+  ['servicios', 'Caja de 12 alfajores de maicena', 'Miel de ulmo 500 g', 1],
+
+  ['para-quien', 'los comercios, las dietéticas, las clínicas', 'los comercios, las tiendas naturistas, las clínicas', 1],
+  ['para-quien', 'en la tienda online de una dietética', 'en la tienda online de una tienda a granel', 1],
+]
+
+// Lo que no puede llegar a incba.cl. «seña» va como palabra suelta: «diseñamos» la contiene.
+const PROHIBIDAS = [
+  ['Mercado Pago', /Mercado Pago/i],
+  ['seña', /(?<!\p{L})señas?(?!\p{L})/iu],
+  ['AB 123 CD', /AB 123 CD/],
+  ['alfajores', /alfajores/i],
+  ['dietétic', /dietétic/i],
+  ['girasol', /girasol/i],
+  ['Santa Rita', /Santa Rita/i],
+  ['depósito', /depósito/i],
+  ['Pichón', /Pichón/i],
+  ['Güemes', /Güemes/i],
+]
 
 // Todo a LF: con core.autocrlf=true la copia local queda en CRLF y el CI en LF.
 const lf = (s) => s.replace(/\r\n/g, '\n')
@@ -47,12 +98,40 @@ export const aChile = (s) =>
   s.split('https://wa.me/5493517422702?text=').join('https://wa.me/56957400433?text=')
     .split('contacto@incba.com.ar').join('contacto@incba.cl')
 
-export function resolver(fuente, ar) {
-  return fuente.replace(/<!-- incluir:([\w-]+) -->/g, (_, id) => aChile(seccion(ar, id)))
+/** Aplica REEMPLAZOS_CL a una sección ya incluida. Devuelve [sección, reglas que fallaron]. */
+export function reemplazar(s, id, reglas = REEMPLAZOS_CL) {
+  const fallas = []
+  for (const [sec, de, a, cantidad] of reglas) {
+    if (sec !== id) continue
+    const hay = cuenta(s, de)
+    if (hay !== cantidad) fallas.push(`  ${id}: «${de}» aparece ${hay} ${hay === 1 ? 'vez' : 'veces'} y se esperaba ${cantidad}`)
+    else s = s.split(de).join(a)
+  }
+  return [s, fallas]
+}
+
+export function resolver(fuente, ar, reglas = REEMPLAZOS_CL, calendly = CALENDLY_CL) {
+  const fallas = []
+  const incluidas = new Set()
+  let html = fuente.replace(/<!-- incluir:([\w-]+) -->/g, (_, id) => {
+    incluidas.add(id)
+    const [s, f] = reemplazar(aChile(seccion(ar, id)), id, reglas)
+    fallas.push(...f)
+    return s
+  })
+  // Una regla sobre una sección que _cl/index.html no incluye no se aplicaría nunca.
+  for (const id of new Set(reglas.map((r) => r[0]))) {
+    if (!incluidas.has(id)) fallas.push(`  ${id}: tiene reglas en REEMPLAZOS_CL y _cl/index.html no la incluye`)
+  }
+  if (fallas.length) {
+    throw new Error(`Estas reglas de REEMPLAZOS_CL no calzan con index.html (dist-cl/ no se tocó):\n\n${fallas.join('\n')}\n\n¿Cambió la frase en AR? Actualiza la regla en tools/build-cl.mjs.`)
+  }
+  if (calendly) html = html.split(CALENDLY_AR).join(calendly)
+  return html
 }
 
 /** Devuelve { nombre: bool } con cada invariante de la salida. */
-export function invariantes(html, ar) {
+export function invariantes(html, ar, calendly = CALENDLY_CL) {
   const hreflang = (s) => (s.match(/<link rel="alternate" hreflang="[^"]+" href="[^"]+">/g) || []).join('\n')
   // Los <script> del <head> tienen que ser los de AR: ahí están la media query
   // de la historia y la guarda del píxel.
@@ -63,6 +142,9 @@ export function invariantes(html, ar) {
   const pasos = [...html.matchAll(/<li data-paso="([^"]+)"/g)].map((m) => m[1])
   const assets = [...html.matchAll(/(?:src|href)="((?:css|js|img)\/[^"#?]+)"/g)].map((m) => m[1])
   const faltantes = assets.filter((a) => !existsSync(join(ROOT, decodeURIComponent(a))))
+  // «Dietética Almendra» es el nombre de un cliente, en el alt de su logo: ese se queda.
+  const sinClientes = html.split('alt="Dietética Almendra"').join('')
+  const prohibidas = PROHIBIDAS.filter(([, re]) => re.test(sinClientes)).map(([nombre]) => nombre)
 
   return {
     'lang es-CL': cuenta(html, '<html lang="es-CL">') === 1,
@@ -81,7 +163,9 @@ export function invariantes(html, ar) {
     'consulta primero y cierre último': caps[0]?.[0] === 'consulta' && caps.at(-1)?.[0] === 'cierre',
     'la primera pantalla es el chat': /<figure class="pantalla-h ph-chat[^"]*" data-clave="consulta"/.test(html),
     '5 pasos y cada uno es un capítulo': pasos.length === 5 && pasos.every((p) => caps.some(([c]) => c === p)),
-    'ningún marcador sin resolver': !/<!-- incluir:/.test(html),
+    'ningún marcador sin resolver': !/<!--\s*incluir\s*:/.test(html),
+    [`ningún texto argentino de la lista${prohibidas.length ? ` (aparece: ${prohibidas.join(', ')})` : ''}`]: prohibidas.length === 0,
+    'el Calendly es el de Chile (ningún felipe-incba)': calendly ? !html.includes('felipe-incba') && html.includes(calendly) : html.includes(CALENDLY_AR),
     [`assets relativos existentes (${assets.length}${faltantes.length ? `; faltan ${faltantes.join(', ')}` : ''})`]: faltantes.length === 0,
   }
 }
@@ -150,4 +234,4 @@ function build() {
 }
 
 // La forma con `file://${process.argv[1]}` no funciona en Windows.
-if (import.meta.url === pathToFileURL(process.argv[1]).href) build()
+if (process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))) build()

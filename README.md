@@ -24,7 +24,8 @@ sólo se publica con push a `dev`, así que hoy muestra ese sitio anterior.
 ## incba.cl
 
 La portada chilena es `_cl/index.html`. Tiene su propio `<head>`, su hero y su
-historia. Las secciones que comparte con incba.com.ar llevan un marcador:
+historia (Cachupín, una tienda de mascotas de Santiago). Las secciones que
+comparte con incba.com.ar llevan un marcador:
 
 ```html
 <!-- incluir:servicios -->
@@ -35,6 +36,29 @@ sólo en lo incluido, cambia los CTA de WhatsApp y el correo por los de Chile.
 Así, lo que se edita en `index.html` dentro de una sección común llega solo a
 incba.cl en el próximo deploy. La barra, el pie y el flotante no son `<section>`:
 se mantienen a mano en los dos archivos.
+
+| Sección | En incba.cl |
+|---|---|
+| Hero e historia, `diagnostico`, `equipo`, `clientes`, `contacto` | **Propia**, escrita en `_cl/index.html` |
+| `servicios`, `situaciones`, `para-quien` | Común, con los reemplazos de `REEMPLAZOS_CL` |
+| `verificacion`, `como-trabajamos`, `agencias` | Común, tal cual (sólo cambian el WhatsApp y el correo) |
+
+**Las secciones propias no reciben los cambios de `index.html`.** Si cambias en
+AR el diagnóstico, el equipo, los clientes o el contacto (un logo nuevo, una
+bio, un teléfono), repite el cambio a mano en `_cl/index.html`. En incba.cl van
+con Chile primero: las ciudades, las caras, las fichas, los logos y el teléfono.
+
+### Textos chilenos en las secciones comunes
+
+`REEMPLAZOS_CL`, en `tools/build-cl.mjs`, cambia frases puntuales de las
+secciones comunes («factura» por «boleta», «depósito» por «bodega», Mercado Pago
+por Webpay...). Cada regla es `[sección, de, a, cantidad]` y la frase tiene que
+aparecer exactamente esa cantidad de veces en la sección de `index.html`. Si
+alguien cambia una de esas frases en AR, el build falla y dice qué regla hay que
+actualizar.
+
+El Calendly de Chile es la constante `CALENDLY_CL` del mismo archivo: reemplaza
+al de AR en toda la salida. `_cl/index.html` se escribe con el de AR.
 
 La carpeta empieza con `_` porque Jekyll excluye esas carpetas: así
 `incba.com.ar/_cl/index.html` da 404.
@@ -50,8 +74,10 @@ Antes de escribir `dist-cl/`, el build valida la salida: `lang="es-CL"`, canóni
 propia, hreflang idéntico al de `index.html`, la metaetiqueta de Meta, ningún
 WhatsApp ni correo argentino, JSON-LD de Chile, la guarda del píxel, los scripts
 del `<head>` iguales a los de AR, la estructura de la historia (9 capítulos,
-5 pasos, el chat primero) y que existan los assets. Si algo falla, sale con
-error, dice qué invariante se rompió y no toca `dist-cl/`.
+5 pasos, el chat primero), que existan los assets, que no quede ningún texto
+argentino de la lista `PROHIBIDAS` (Mercado Pago, «seña», «depósito»...) y que
+el Calendly sea el de Chile. Si algo falla, sale con error, dice qué invariante
+se rompió y no toca `dist-cl/`.
 
 Si cambias `css/opcion-b.css`, `js/opcion-b.js` o el `<head>` de `index.html`,
 corre también el build de incba.cl: los dos sitios comparten esos archivos.

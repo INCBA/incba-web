@@ -85,13 +85,26 @@
     // El chat del hero se reproduce: desde antes del primer pintado se ve solo
     // el primer mensaje, para que no aparezca completo y después se pliegue.
     // opcion-b.js toma la posta; si fallara, al terminar la carga se muestra entero.
-    // La historia de Pichón con el teléfono fijo (historia-viva) también se
+    // La historia con el teléfono fijo (historia-viva) también se
     // decide acá, para que la grilla no cambie después del primer pintado. En
     // pantallas bajas o con movimiento reducido queda la secuencia vertical
     // (en celular el teléfono y la tarjeta del capítulo piden más alto).
     // La misma consulta está en js/opcion-b.js.
+    // Al recargar o volver con Atrás, el navegador devuelve el scroll que se
+    // midió con el primer capítulo de ese momento. Si el chat ya había
+    // terminado, opcion-b.js guardó en la pestaña cuánto medía (su cinta) y
+    // acá se pinta igual desde el principio, con el chat completo.
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
-      document.documentElement.classList.add('chat-previo');
+      (function (raiz) {
+        var cinta = NaN;
+        try {
+          var nav = performance.getEntriesByType('navigation')[0];
+          var tipo = nav ? nav.type : ['', 'reload', 'back_forward'][performance.navigation.type];
+          if (tipo === 'reload' || tipo === 'back_forward') cinta = parseFloat(sessionStorage.getItem('incba-cinta:' + location.pathname));
+        } catch (e) {}
+        if (cinta >= 0 && cinta < 1000) raiz.style.setProperty('--mensajes-guardado', (1 + cinta).toFixed(3));
+        else raiz.classList.add('chat-previo');
+      })(document.documentElement);
       addEventListener('load', function () { document.documentElement.classList.remove('chat-previo'); });
       if (matchMedia('(min-width: 900px) and (min-height: 520px), (max-width: 899px) and (min-height: 600px)').matches) document.documentElement.classList.add('historia-viva');
     }
@@ -307,7 +320,7 @@
 
   <main id="contenido" tabindex="-1">
 
-    <!-- ============ Hero e historia de Pichón ============
+    <!-- ============ Hero e historia de Cachupín ============
          El hero y la historia comparten la grilla .relato: el teléfono del hero
          es el mismo que después queda fijo en el centro mientras se cuentan los
          capítulos. Cada capítulo va en el DOM en orden (título, texto y su
@@ -320,7 +333,7 @@
         <div class="hero-texto">
           <p class="eyebrow">Consultora tecnológica</p>
           <h1 id="titulo-inicio">Desarrollo de sistemas y automatización</h1>
-          <p class="hero-bajada">Trabajamos con personas, negocios y empresas de Argentina y Chile.</p>
+          <p class="hero-bajada">Trabajamos con personas, negocios y empresas de Chile y Argentina.</p>
 
           <div class="hero-acciones">
             <a class="boton boton-principal" href="https://calendly.com/felipe-incba" target="_blank" rel="noopener" data-fb-event="Schedule" data-fb-name="hero">
@@ -336,12 +349,6 @@
           <div class="hero-nota">
             <ul class="caras" role="list">
               <li>
-                <a class="cara" href="https://www.linkedin.com/in/felipe-rebolledo-5ba018200/" target="_blank" rel="noopener" aria-label="LinkedIn de Felipe Rebolledo">
-                  <img src="img/equipo/felipe-144.jpg" alt="" width="144" height="144" decoding="async" fetchpriority="low">
-                  <span class="cara-globo" aria-hidden="true">Felipe</span>
-                </a>
-              </li>
-              <li>
                 <a class="cara" href="https://www.linkedin.com/in/bnavarreteo/" target="_blank" rel="noopener" aria-label="LinkedIn de Benjamín Navarrete">
                   <img src="img/equipo/benjamin-144.jpg" alt="" width="144" height="144" decoding="async" fetchpriority="low">
                   <span class="cara-globo" aria-hidden="true">Benjamín</span>
@@ -353,13 +360,19 @@
                   <span class="cara-globo" aria-hidden="true">Camilo</span>
                 </a>
               </li>
+              <li>
+                <a class="cara" href="https://www.linkedin.com/in/felipe-rebolledo-5ba018200/" target="_blank" rel="noopener" aria-label="LinkedIn de Felipe Rebolledo">
+                  <img src="img/equipo/felipe-144.jpg" alt="" width="144" height="144" decoding="async" fetchpriority="low">
+                  <span class="cara-globo" aria-hidden="true">Felipe</span>
+                </a>
+              </li>
             </ul>
-            <p>En Córdoba, Santiago, Temuco y alrededores, el diagnóstico también puede ser en persona.</p>
+            <p>En Santiago, Temuco, Córdoba y alrededores, el diagnóstico también puede ser en persona.</p>
           </div>
         </div>
       </section>
 
-      <h2 class="sr" id="titulo-historia">La historia de Pichón</h2>
+      <h2 class="sr" id="titulo-historia">La historia de Cachupín</h2>
       <a class="historia-saltar" href="#verificacion"><svg class="icono" aria-hidden="true"><use href="#i-abajo"/></svg>Saltar la historia</a>
       <p class="historia-seguir" aria-hidden="true">Sigue bajando<svg class="icono"><use href="#i-abajo"/></svg></p>
 
@@ -368,15 +381,16 @@
 
       <!-- 1 · La consulta -->
 
-      <div class="cap" id="cap-consulta" data-clave="consulta" style="--fila:3; --mensajes:26">
+      <!-- --mensajes es la cantidad de .msg del chat (26). -->
+      <div class="cap" id="cap-consulta" data-clave="consulta" style="--fila:3; --mensajes:var(--mensajes-guardado, 26)">
         <div class="cap-tarjeta">
           <h3>La consulta</h3>
-          <p>Vero vende ropa de bebé en Córdoba y no da abasto con los mensajes.</p>
+          <p>Paula tiene una tienda de mascotas con dos locales en Santiago y no da abasto con los mensajes.</p>
         </div>
       </div>
 
       <figure class="pantalla-h ph-chat activa" data-clave="consulta" style="--fila:3">
-        <!-- El chat se ve desde el teléfono de Vero. La lista va dentro de un
+        <!-- El chat se ve desde el teléfono de Paula. La lista va dentro de un
              contenedor en column-reverse: arranca mostrando el final, como un
              WhatsApp real. -->
         <div class="ph-interior">
@@ -387,35 +401,35 @@
                  scroll de la página): este botón lo despliega entero o, con
                  el teléfono fijo de la historia, deja subir por él. -->
             <button class="chat-ver-todo" id="chat-ver-todo" type="button" aria-controls="chat-cuerpo" hidden>Ver toda la conversación</button>
-            <div class="chat-cuerpo" id="chat-cuerpo" tabindex="0" role="region" aria-label="Conversación de WhatsApp entre Vero e INCBA">
+            <div class="chat-cuerpo" id="chat-cuerpo" tabindex="0" role="region" aria-label="Conversación de WhatsApp entre Paula e INCBA">
               <div class="chat-hilo">
                 <ol class="chat-mensajes" role="list">
-                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>hola buenas tardes! me pasó su número una amiga</p><span class="msg-meta"><time datetime="15:42">15:42</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>tengo una tienda de ropa de bebé acá en córdoba, vendemos en el local, en la web y por instagram y whatsapp</p><span class="msg-meta"><time datetime="15:42">15:42</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>y la verdad estoy desbordada jaja me paso el día contestando lo mismo. talles, envíos, si hay en otro color</p><span class="msg-meta"><time datetime="15:43">15:43</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>¡Hola, Vero! ¿Cómo andás? Soy Felipe, de INCBA&nbsp;🙂</p><span class="msg-meta"><time datetime="15:46">15:46</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Uh, te re entiendo</p><span class="msg-meta"><time datetime="15:46">15:46</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Contame, ¿los mensajes los contestás vos sola?</p><span class="msg-meta"><time datetime="15:46">15:46</time></span></div></li>
-                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>somos dos, mi socia y yo, cada una con su celu. y los pedidos en un cuaderno jaja ya sé</p><span class="msg-meta"><time datetime="15:48">15:48</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>ah y la semana pasada vendimos por la web un enterito que en el local ya no estaba. le tuve que devolver la plata a la chica, un papelón</p><span class="msg-meta"><time datetime="15:49">15:49</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Jaja tranqui, el cuaderno es un clásico</p><span class="msg-meta"><time datetime="15:50">15:50</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Uf, lo del enterito es un garrón</p><span class="msg-meta"><time datetime="15:50">15:50</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>¿En el local usan algún programa para vender o facturar?</p><span class="msg-meta"><time datetime="15:51">15:51</time></span></div></li>
-                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>tenemos uno para facturar pero la web va por otro lado. lo que vendemos en el local lo tengo que descontar a mano, cuando me acuerdo</p><span class="msg-meta"><time datetime="15:53">15:53</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Listo, ya me hago una idea</p><span class="msg-meta"><time datetime="15:55">15:55</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Podemos hacer que en WhatsApp las preguntas de talles y envíos se contesten solas. Cuando alguien ya quiere comprar, ahí le escriben ustedes</p><span class="msg-meta"><time datetime="15:55">15:55</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Más adelante se pueden juntar WhatsApp e Instagram en un solo lugar, así las dos ven todo y no se pisan</p><span class="msg-meta"><time datetime="15:56">15:56</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Y lo del enterito se arregla conectando la web con el programa del local</p><span class="msg-meta"><time datetime="15:57">15:57</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Vendés en uno y en el otro se descuenta solo, sin que te tengas que acordar</p><span class="msg-meta"><time datetime="15:57">15:57</time></span></div></li>
-                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>ay eso me salvaría la vida</p><span class="msg-meta"><time datetime="15:58">15:58</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>y cuánto sale algo así?</p><span class="msg-meta"><time datetime="15:58">15:58</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Mirá, se puede ir de a poco</p><span class="msg-meta"><time datetime="16:00">16:00</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Podemos empezar por algo chico, como las respuestas automáticas</p><span class="msg-meta"><time datetime="16:00">16:00</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Sale económico y ya te saca un montón de mensajes de encima</p><span class="msg-meta"><time datetime="16:00">16:00</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Y si ves que te sirve, después sumamos lo demás</p><span class="msg-meta"><time datetime="16:01">16:01</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>Si querés lo charlamos, es gratis. Media hora, una hora como mucho, y vemos bien por dónde arrancar</p><span class="msg-meta"><time datetime="16:01">16:01</time></span></div></li>
-                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>¿Te queda mejor una videollamada o paso por el local? Estoy acá en Córdoba también</p><span class="msg-meta"><time datetime="16:02">16:02</time></span></div></li>
-                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Vero: </span>pasá por el local! así ves el caos en vivo jaja</p><span class="msg-meta"><time datetime="16:04">16:04</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Paula: </span>hola buenas tardes! me pasaron tu número en un grupo de emprendedores</p><span class="msg-meta"><time datetime="15:42">15:42</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Paula: </span>tenemos una tienda de mascotas con dos locales, en ñuñoa y providencia. vendemos ahí y por instagram y whatsapp</p><span class="msg-meta"><time datetime="15:42">15:42</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Paula: </span>y estamos colapsados jaja todo el día respondiendo lo mismo. qué alimento para cachorro, si despachamos a tal comuna, a qué hora cerramos</p><span class="msg-meta"><time datetime="15:43">15:43</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>¡Hola, Paula! ¿Cómo estás? Soy Benjamín, de INCBA&nbsp;🙂</p><span class="msg-meta"><time datetime="15:46">15:46</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Te entiendo perfecto</p><span class="msg-meta"><time datetime="15:46">15:46</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Cuéntame, ¿los mensajes los respondes tú sola?</p><span class="msg-meta"><time datetime="15:46">15:46</time></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Paula: </span>cada local tiene su celular, yo tengo uno y mi hermano el otro. y a veces el mismo cliente nos escribe a los dos jaja</p><span class="msg-meta"><time datetime="15:48">15:48</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Paula: </span>el stock lo llevamos en un excel, una hoja por local. la semana pasada vendimos por instagram un saco de 15 kg que según el excel estaba en providencia y no estaba. tuve que devolverle la plata, qué vergüenza</p><span class="msg-meta"><time datetime="15:49">15:49</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Jaja tranquila, el Excel es un clásico</p><span class="msg-meta"><time datetime="15:50">15:50</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Lo del saco pasa harto cuando el stock vive en una planilla</p><span class="msg-meta"><time datetime="15:50">15:50</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>¿Y los despachos cómo los llevan?</p><span class="msg-meta"><time datetime="15:51">15:51</time></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Paula: </span>en otra hoja del mismo excel. y la gente escribe todo el día preguntando si ya salió su pedido</p><span class="msg-meta"><time datetime="15:53">15:53</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Listo, ya me hago una idea</p><span class="msg-meta"><time datetime="15:55">15:55</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Podemos hacer que en WhatsApp las preguntas de alimentos, comunas y horarios se respondan solas. Cuando alguien ya quiere comprar, ahí le escriben ustedes</p><span class="msg-meta"><time datetime="15:55">15:55</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Más adelante se pueden juntar los dos WhatsApp y el Instagram en un solo lugar, así ven todo y no se pisan</p><span class="msg-meta"><time datetime="15:56">15:56</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Y lo del saco se arregla con un solo stock para los dos locales, conectado a una tienda web</p><span class="msg-meta"><time datetime="15:57">15:57</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Vendes en un lado y se descuenta solo, sin tener que actualizar el Excel</p><span class="msg-meta"><time datetime="15:57">15:57</time></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Paula: </span>ya, eso me salvaría la vida</p><span class="msg-meta"><time datetime="15:58">15:58</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Paula: </span>y cuánto sale algo así?</p><span class="msg-meta"><time datetime="15:58">15:58</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Mira, se puede ir de a poco</p><span class="msg-meta"><time datetime="16:00">16:00</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Podemos partir por algo chico, como las respuestas automáticas</p><span class="msg-meta"><time datetime="16:00">16:00</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Sale económico y al tiro te saca harto mensaje de encima</p><span class="msg-meta"><time datetime="16:00">16:00</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Y si ves que te sirve, después sumamos lo demás</p><span class="msg-meta"><time datetime="16:01">16:01</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>Si quieres lo conversamos, es gratis. Media hora, una hora como mucho, y vemos bien por dónde partir</p><span class="msg-meta"><time datetime="16:01">16:01</time></span></div></li>
+                <li class="msg msg-entra"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>¿Te acomoda más una videollamada o paso por el local? Estoy en Santiago</p><span class="msg-meta"><time datetime="16:02">16:02</time></span></div></li>
+                <li class="msg msg-sale"><div class="msg-burbuja"><p><span class="sr">Paula: </span>pasa por el de ñuñoa! así ves el desorden en vivo jaja</p><span class="msg-meta"><time datetime="16:04">16:04</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
                   <li class="chat-escribiendo" aria-hidden="true" hidden><span></span><span></span><span></span></li>
                 </ol>
               </div>
@@ -430,7 +444,7 @@
       <div class="cap" id="cap-diagnostico" data-clave="diagnostico" style="--fila:4">
         <div class="cap-tarjeta">
           <h3>El diagnóstico</h3>
-          <p>Felipe pasa por el local a ver cómo trabajan. No tiene costo.</p>
+          <p>Benjamín pasa por el local a ver cómo trabajan. No tiene costo.</p>
         </div>
       </div>
 
@@ -442,22 +456,22 @@
             <div class="chat-cuerpo ph-feed">
               <div class="chat-hilo ph-feed-lista">
                 <ol class="chat-mensajes" role="list">
-                  <li class="msg msg-sale msg-contexto" aria-hidden="true" data-opcional="1"><div class="msg-burbuja"><p><span class="sr">Vero: </span>pasá por el local! así ves el caos en vivo jaja</p><span class="msg-meta"><time datetime="16:04">16:04</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-entra sec" data-espera="350"><div class="msg-burbuja"><p><span class="sr">Felipe: </span>¡Dale! ¿El jueves a las cinco te va?</p><span class="msg-meta"><time datetime="16:05">16:05</time></span></div></li>
-                  <li class="msg msg-sale sec" data-espera="700"><div class="msg-burbuja"><p><span class="sr">Vero: </span>perfecto! te espero</p><span class="msg-meta"><time datetime="16:06">16:06</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                  <li class="msg msg-sale msg-contexto" aria-hidden="true" data-opcional="1"><div class="msg-burbuja"><p><span class="sr">Paula: </span>pasa por el de ñuñoa! así ves el desorden en vivo jaja</p><span class="msg-meta"><time datetime="16:04">16:04</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                  <li class="msg msg-entra sec" data-espera="350"><div class="msg-burbuja"><p><span class="sr">Benjamín: </span>¡Buenísimo! ¿El jueves a las cinco te sirve?</p><span class="msg-meta"><time datetime="16:05">16:05</time></span></div></li>
+                  <li class="msg msg-sale sec" data-espera="700"><div class="msg-burbuja"><p><span class="sr">Paula: </span>perfecto, te espero</p><span class="msg-meta"><time datetime="16:06">16:06</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
                 </ol>
               </div>
             </div>
           </div>
           <div class="evento sec sec-fijo" data-espera="550">
-            <p class="evento-titulo"><span class="evento-k"><svg class="icono" aria-hidden="true"><use href="#i-calendario"/></svg>Evento<span class="sep">: </span></span><span class="evento-nombre">Diagnóstico INCBA · Pichón</span></p>
+            <p class="evento-titulo"><span class="evento-k"><svg class="icono" aria-hidden="true"><use href="#i-calendario"/></svg>Evento<span class="sep">: </span></span><span class="evento-nombre">Diagnóstico INCBA · Cachupín</span></p>
             <p class="evento-cuando">Jueves · 17:00 a 18:00</p>
             <ul class="evento-datos" role="list">
-              <li><svg class="icono" aria-hidden="true"><use href="#i-pin"/></svg><p><span class="evento-k">Lugar<span class="sep">: </span></span><span>local de Pichón, barrio Güemes, Córdoba</span></p></li>
-              <li><svg class="icono" aria-hidden="true"><use href="#i-equipo"/></svg><p><span class="evento-k">Participan<span class="sep">: </span></span><span>Vero y Caro (Pichón) · Felipe (INCBA)</span></p></li>
-              <li data-opcional="2"><svg class="icono" aria-hidden="true"><use href="#i-doc"/></svg><p><span class="evento-k">Después<span class="sep">: </span></span><span>Felipe manda la propuesta por escrito</span></p></li>
+              <li><svg class="icono" aria-hidden="true"><use href="#i-pin"/></svg><p><span class="evento-k">Lugar<span class="sep">: </span></span><span>local de Cachupín, Ñuñoa</span></p></li>
+              <li><svg class="icono" aria-hidden="true"><use href="#i-equipo"/></svg><p><span class="evento-k">Participan<span class="sep">: </span></span><span>Paula y Tomás (Cachupín) · Benjamín (INCBA)</span></p></li>
+              <li data-opcional="2"><svg class="icono" aria-hidden="true"><use href="#i-doc"/></svg><p><span class="evento-k">Después<span class="sep">: </span></span><span>Benjamín manda la propuesta por escrito</span></p></li>
             </ul>
-            <p class="evento-aviso" data-opcional="2"><svg class="icono" aria-hidden="true"><use href="#i-check"/></svg>Recordatorio enviado a Vero por WhatsApp</p>
+            <p class="evento-aviso" data-opcional="2"><svg class="icono" aria-hidden="true"><use href="#i-check"/></svg>Recordatorio enviado a Paula por WhatsApp</p>
           </div>
         </div>
       </figure>
@@ -467,29 +481,29 @@
       <div class="cap" id="cap-respuestas" data-clave="respuestas" style="--fila:5">
         <div class="cap-tarjeta">
           <h3>Primero, lo&nbsp;más&nbsp;chico</h3>
-          <p>Respuestas automáticas para las preguntas de talles y envíos.</p>
+          <p>Respuestas automáticas para las preguntas de alimentos, comunas y horarios.</p>
         </div>
       </div>
 
       <!-- data-opcional: lo que se pliega (1 antes que 2) si la escena no entra
            en el teléfono; queda en el DOM para los lectores de pantalla. -->
-      <figure class="pantalla-h ph-tienda" data-clave="respuestas" style="--fila:5" aria-label="WhatsApp de Pichón, chat con Martina">
+      <figure class="pantalla-h ph-tienda" data-clave="respuestas" style="--fila:5" aria-label="WhatsApp de Cachupín, chat con Javiera">
         <div class="ph-interior">
           <div class="ph-estado" aria-hidden="true"><span class="ph-hora">23:14</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <div class="chat chat-mini">
-            <div class="chat-cabecera" aria-hidden="true"><svg class="chat-atras"><use href="#i-atras"/></svg><span class="mini-avatar mini-avatar-grande chat-avatar-ini" data-inicial="M"></span><span class="chat-contacto"><span class="chat-nombre">Martina</span><span class="chat-estado">en línea</span></span><svg class="chat-accion"><use href="#i-video"/></svg><svg class="chat-accion"><use href="#i-llamada"/></svg></div>
+            <div class="chat-cabecera" aria-hidden="true"><svg class="chat-atras"><use href="#i-atras"/></svg><span class="mini-avatar mini-avatar-grande chat-avatar-ini" data-inicial="J"></span><span class="chat-contacto"><span class="chat-nombre">Javiera</span><span class="chat-estado">en línea</span></span><svg class="chat-accion"><use href="#i-video"/></svg><svg class="chat-accion"><use href="#i-llamada"/></svg></div>
             <div class="chat-cuerpo ph-feed">
               <div class="chat-hilo ph-feed-lista">
                 <ol class="chat-mensajes" role="list">
-                  <li class="msg msg-entra sec" data-espera="250"><div class="msg-burbuja"><p><span class="sr">Martina: </span>hola! es para regalar, qué talle le va a un bebé de 4 meses?</p><span class="msg-meta"><time datetime="23:12">23:12</time></span></div></li>
-                  <li class="msg msg-sale msg-autom sec" data-espera="400" data-opcional="2"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Hola, Martina! Gracias por escribirnos&nbsp;💛</p><span class="msg-meta"><time datetime="23:12">23:12</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-sale msg-autom sec" data-espera="250"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>Para 4 meses te recomendamos talle <span class="nw">3-6</span>. Si es para regalo, el <span class="nw">6-9</span> le va a durar más</p><span class="msg-meta"><time datetime="23:12">23:12</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-sale msg-autom sec" data-espera="250" data-opcional="1"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>Te dejo la guía de talles&nbsp;👇</p><span class="msg-meta"><time datetime="23:12">23:12</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-sale msg-autom msg-sin-hora msg-tarjeta sec" data-espera="250" data-opcional="1"><div class="msg-burbuja"><p class="talles-titulo">Guía de talles<span class="sep">: </span></p><ul class="talles" role="list"><li><span class="talle">0-3 meses</span><span class="sep">, </span><span class="talle-medida">hasta 61 cm</span></li><li><span class="talle">3-6 meses</span><span class="sep">, </span><span class="talle-medida">hasta 67 cm</span></li><li><span class="talle">6-9 meses</span><span class="sep">, </span><span class="talle-medida">hasta 72 cm</span></li></ul></div></li>
-                  <li class="msg msg-entra sec" data-espera="550"><div class="msg-burbuja"><p><span class="sr">Martina: </span>y hacen envíos a carlos paz?</p><span class="msg-meta"><time datetime="23:13">23:13</time></span></div></li>
-                  <li class="msg msg-sale msg-autom sec" data-espera="350"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Sí! Enviamos a todo el país. A Carlos Paz llega en 24 a 48&nbsp;h hábiles</p><span class="msg-meta"><time datetime="23:13">23:13</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
-                  <li class="msg msg-entra sec" data-espera="550"><div class="msg-burbuja"><p><span class="sr">Martina: </span>buenísimo, mañana compro</p><span class="msg-meta"><time datetime="23:14">23:14</time></span></div></li>
-                  <li class="msg msg-sale msg-autom sec" data-espera="350"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Genial! Mañana desde las 9 te escribe Vero o Caro para ayudarte a elegir</p><span class="msg-meta"><time datetime="23:14">23:14</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                  <li class="msg msg-entra sec" data-espera="250"><div class="msg-burbuja"><p><span class="sr">Javiera: </span>hola! qué alimento me recomiendan para un cachorro de raza pequeña?</p><span class="msg-meta"><time datetime="23:12">23:12</time></span></div></li>
+                  <li class="msg msg-sale msg-autom sec" data-espera="400"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Cachupín (automático): </span>¡Hola! Te dejamos nuestra guía por edad y tamaño&nbsp;🐶</p><span class="msg-meta"><time datetime="23:12">23:12</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                  <!-- La guía reutiliza la tarjeta de talles de AR, que va en tres
+                       columnas: acá son cuatro alimentos, de a dos por fila. -->
+                  <li class="msg msg-sale msg-autom msg-sin-hora msg-tarjeta sec" data-espera="250" data-opcional="1"><div class="msg-burbuja"><p class="talles-titulo">Guía de alimentos<span class="sep">: </span></p><ul class="talles" role="list" style="grid-template-columns:repeat(2, minmax(0, 1fr))"><li><span class="talle">Cachorro</span><span class="sep">, </span><span class="talle-medida">raza pequeña</span></li><li><span class="talle">Cachorro</span><span class="sep">, </span><span class="talle-medida">mediana y grande</span></li><li style="padding-left:0; border-left:0"><span class="talle">Adulto</span></li><li><span class="talle">Senior</span></li></ul></div></li>
+                  <li class="msg msg-entra sec" data-espera="550"><div class="msg-burbuja"><p><span class="sr">Javiera: </span>y despachan a la florida?</p><span class="msg-meta"><time datetime="23:13">23:13</time></span></div></li>
+                  <li class="msg msg-sale msg-autom sec" data-espera="350"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Cachupín (automático): </span>¡Sí! Despachamos a La Florida de lunes a sábado. Si compras antes de las 14:00, te llega el mismo día</p><span class="msg-meta"><time datetime="23:13">23:13</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
+                  <li class="msg msg-entra sec" data-espera="550"><div class="msg-burbuja"><p><span class="sr">Javiera: </span>ya, mañana compro</p><span class="msg-meta"><time datetime="23:14">23:14</time></span></div></li>
+                  <li class="msg msg-sale msg-autom sec" data-espera="350" data-opcional="2"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Cachupín (automático): </span>¡Te esperamos! Puedes comprar por aquí o en la web&nbsp;👉</p><span class="msg-meta"><time datetime="23:14">23:14</time><svg class="msg-leido" aria-hidden="true"><use href="#i-leido"/></svg></span></div></li>
                 </ol>
               </div>
             </div>
@@ -502,7 +516,7 @@
       <div class="cap" id="cap-bandeja" data-clave="bandeja" style="--fila:6">
         <div class="cap-tarjeta">
           <h3>Una sola bandeja</h3>
-          <p>Vero y Caro ven WhatsApp e Instagram juntos y se reparten las charlas.</p>
+          <p>Paula y Tomás ven los dos WhatsApp y el Instagram juntos y se reparten las conversaciones.</p>
         </div>
       </div>
 
@@ -510,53 +524,55 @@
         <div class="ph-interior">
           <div class="ph-estado" aria-hidden="true"><span class="ph-hora">10:32</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <div class="bandeja-cabecera">
-            <p class="bandeja-titulo"><b>Bandeja de Pichón</b><span class="sep"> · </span><span class="bandeja-sub">WhatsApp e Instagram</span></p>
-            <p class="bandeja-filtros"><span class="sr">Filtros: </span><span class="filtro filtro-activo">Todas</span><span class="sep"> · </span><span class="filtro">Mías</span><span class="sep"> · </span><span class="filtro">De Caro</span></p>
+            <p class="bandeja-titulo"><b>Bandeja de Cachupín</b><span class="sep"> · </span><span class="bandeja-sub">WhatsApp e Instagram</span></p>
+            <p class="bandeja-filtros"><span class="sr">Filtros: </span><span class="filtro filtro-activo">Todas</span><span class="sep"> · </span><span class="filtro">Mías</span><span class="sep"> · </span><span class="filtro">De Tomás</span></p>
           </div>
           <ul class="bandeja-lista" role="list">
             <li class="conv-item" style="--i:0">
-              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="M" aria-hidden="true"></span>
-              <p class="conv-linea"><span class="canal canal-wa">WhatsApp</span><span class="sep"> · </span><b class="conv-nombre">Martina G.</b><span class="sep">: </span><span class="conv-texto">quiero el body rayado en <span class="nw">6-9</span>, es para mandar a Carlos Paz</span><span class="sep"> · </span><span class="quien"><span class="mini-avatar" data-inicial="V" aria-hidden="true"></span>Vero</span></p>
+              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="J" aria-hidden="true"></span>
+              <p class="conv-linea"><span class="canal canal-wa">WhatsApp</span><span class="sep"> · </span><b class="conv-nombre">Javiera R.</b><span class="sep">: </span><span class="conv-texto">quiero el saco de cachorro raza pequeña de <span class="nw">3 kg</span>, me lo despachan a La Florida?</span><span class="sep"> · </span><span class="quien"><span class="mini-avatar" data-inicial="P" aria-hidden="true"></span>Paula</span></p>
             </li>
             <li class="conv-item" style="--i:1">
-              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="L" aria-hidden="true"></span>
-              <p class="conv-linea"><span class="canal canal-ig">Instagram</span><span class="sep"> · </span><b class="conv-nombre">Luciana P.</b><span class="sep">: </span><span class="conv-texto">tienen el enterito de plush en rosa?</span><span class="sep"> · </span><span class="quien"><span class="mini-avatar mini-avatar-teal" data-inicial="C" aria-hidden="true"></span>Caro</span></p>
-              <p class="nota-interna"><span class="nota-k">Nota interna de Caro<span class="sep">: </span></span><span>esta la atiendo yo, ayer me preguntó por el mismo enterito</span></p>
+              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="I" aria-hidden="true"></span>
+              <p class="conv-linea"><span class="canal canal-ig">Instagram</span><span class="sep"> · </span><b class="conv-nombre">Ignacio P.</b><span class="sep">: </span><span class="conv-texto">tienen el saco de cordero de <span class="nw">15 kg</span>?</span><span class="sep"> · </span><span class="quien"><span class="mini-avatar mini-avatar-teal" data-inicial="T" aria-hidden="true"></span>Tomás</span></p>
+              <p class="nota-interna"><span class="nota-k">Nota interna de Tomás<span class="sep">: </span></span><span>este lo veo yo, es el del saco de la otra vez</span></p>
             </li>
             <li class="conv-item" style="--i:2" data-opcional="1">
-              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="S" aria-hidden="true"></span>
-              <p class="conv-linea"><span class="canal canal-wa">WhatsApp</span><span class="sep"> · </span><b class="conv-nombre">Sofía R.</b><span class="sep">: </span><span class="conv-texto">me lo envuelven para regalo? lo paso a buscar el viernes</span><span class="sep"> · </span><span class="quien"><span class="mini-avatar mini-avatar-teal" data-inicial="C" aria-hidden="true"></span>Caro</span></p>
+              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="C" aria-hidden="true"></span>
+              <p class="conv-linea"><span class="canal canal-wa">WhatsApp</span><span class="sep"> · </span><b class="conv-nombre">Camila S.</b><span class="sep">: </span><span class="conv-texto">lo retiro mañana en Providencia, a qué hora abren?</span><span class="sep"> · </span><span class="quien"><span class="mini-avatar mini-avatar-teal" data-inicial="T" aria-hidden="true"></span>Tomás</span></p>
             </li>
             <li class="conv-item" style="--i:3">
-              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="R" aria-hidden="true"></span>
-              <p class="conv-linea"><span class="canal canal-ig">Instagram</span><span class="sep"> · </span><b class="conv-nombre">Romina B.</b><span class="sep">: </span><span class="conv-texto">hacen envíos a Río Cuarto?</span><span class="sep"> · </span><span class="quien quien-auto"><svg class="icono" aria-hidden="true"><use href="#i-rayo"/></svg>Respondida automáticamente</span></p>
+              <span class="mini-avatar mini-avatar-grande conv-avatar" data-inicial="D" aria-hidden="true"></span>
+              <p class="conv-linea"><span class="canal canal-ig">Instagram</span><span class="sep"> · </span><b class="conv-nombre">Diego M.</b><span class="sep">: </span><span class="conv-texto">despachan a Maipú?</span><span class="sep"> · </span><span class="quien quien-auto"><svg class="icono" aria-hidden="true"><use href="#i-rayo"/></svg>Respondida automáticamente</span></p>
             </li>
           </ul>
           <p class="bandeja-pie"><svg class="icono" aria-hidden="true"><use href="#i-check"/></svg>Sin asignar: ninguna</p>
         </div>
       </figure>
 
-      <!-- 5 · La web y el local, conectados -->
+      <!-- 5 · Los locales y la web, con un solo stock -->
 
       <div class="cap" id="cap-stock" data-clave="stock" style="--fila:7">
         <div class="cap-tarjeta">
-          <h3>La web y el&nbsp;local, conectados</h3>
-          <p>Lo que se vende en un lado se descuenta en el otro, al momento.</p>
+          <h3>Los locales y la&nbsp;web, conectados</h3>
+          <p>Lo que se vende en un local, en el otro o en la web se descuenta al momento.</p>
         </div>
       </div>
 
-      <figure class="pantalla-h ph-stock" data-clave="stock" style="--fila:7" aria-label="Stock de la tienda online y del local">
+      <figure class="pantalla-h ph-stock" data-clave="stock" style="--fila:7" aria-label="Stock de los locales y de la tienda online">
         <div class="ph-interior">
           <div class="ph-estado" aria-hidden="true"><span class="ph-hora">12:05</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <ol class="stock-lista" role="list">
-            <li class="st st-local sec sec-fijo" data-espera="250"><span class="st-icono" aria-hidden="true"><svg><use href="#i-local"/></svg></span><p><span class="st-donde">Venta en el local</span><span class="sep"> · </span><time class="st-hora" datetime="11:20">11:20</time><span class="sep"> · </span><span class="st-prod">Enterito de plush rosa <span class="nw">0-3 m</span></span><span class="sep"> · </span><span class="st-dato chip chip-lista">Facturado</span></p></li>
-            <li class="st st-web st-sigue sec sec-fijo" data-espera="450"><span class="st-icono" aria-hidden="true"><svg><use href="#i-bolsa"/></svg></span><p><span class="st-donde">Tienda online</span><span class="sep"> · </span><span class="st-prod">Enterito de plush rosa <span class="nw">0-3 m</span></span><span class="sep"> · </span><span class="st-dato st-stock"><span class="st-stock-k">Stock </span><span class="st-num"><span class="st-antes">1</span><span class="sep"> → </span><span class="st-ahora">0</span></span></span></p></li>
+            <li class="st st-local sec sec-fijo" data-espera="250"><span class="st-icono" aria-hidden="true"><svg><use href="#i-local"/></svg></span><p><span class="st-donde">Venta en el local de Ñuñoa</span><span class="sep"> · </span><time class="st-hora" datetime="11:20">11:20</time><span class="sep"> · </span><span class="st-prod">Saco de cordero <span class="nw">15 kg</span></span></p></li>
+            <li class="st st-web st-sigue sec sec-fijo" data-espera="450"><span class="st-icono" aria-hidden="true"><svg><use href="#i-bolsa"/></svg></span><p><span class="st-donde">Tienda online</span><span class="sep"> · </span><span class="st-prod">Saco de cordero <span class="nw">15 kg</span></span><span class="sep"> · </span><span class="st-dato st-stock"><span class="st-stock-k">Ñuñoa </span><span class="st-num"><span class="st-antes">1</span><span class="sep"> → </span><span class="st-ahora">0</span></span></span></p></li>
+            <!-- La miniatura va con estilos en línea: .st-foto, del CSS compartido,
+                 dibuja la prenda de la historia de AR. -->
             <li class="st-vista sec sec-fijo" data-espera="700">
-              <p class="st-vista-producto"><span class="st-vista-k">En la web<span class="sep">: </span></span><span class="st-foto" aria-hidden="true"></span><span class="st-prod">Enterito de plush rosa <span class="nw">0-3 m</span></span><span class="sep"> · </span><span class="st-agotado">Sin stock</span><span class="sep"> · </span><span class="st-boton">Avisarme cuando vuelva</span></p>
-              <p class="st-nota" data-opcional="1"><svg class="icono" aria-hidden="true"><use href="#i-campana"/></svg>Luciana P. pidió aviso cuando vuelva</p>
+              <p class="st-vista-producto"><span class="st-vista-k">En la web<span class="sep">: </span></span><span aria-hidden="true" style="grid-area:foto; display:grid; place-items:center; aspect-ratio:1; border-radius:12px; background:var(--celeste); color:var(--tinta-2)"><svg class="icono" style="width:26px; height:26px"><use href="#i-bolsa"/></svg></span><span class="st-prod">Saco de cordero <span class="nw">15 kg</span></span><span class="sep"> · </span><span class="st-agotado">En Providencia</span><span class="sep"> · </span><span class="st-boton">Despacho o retiro</span></p>
+              <p class="st-nota" data-opcional="1"><svg class="icono" aria-hidden="true"><use href="#i-campana"/></svg>Ignacio P. pidió aviso cuando vuelva a Ñuñoa</p>
             </li>
-            <li class="st st-web st-otra sec sec-fijo" data-espera="750"><span class="st-icono" aria-hidden="true"><svg><use href="#i-bolsa"/></svg></span><p><span class="st-donde">Venta en la web</span><span class="sep"> · </span><time class="st-hora" datetime="12:05">12:05</time><span class="sep"> · </span><span class="st-prod">Gorrito de hilo gris</span></p></li>
-            <li class="st st-local st-sigue sec sec-fijo" data-espera="450"><span class="st-icono" aria-hidden="true"><svg><use href="#i-local"/></svg></span><p><span class="st-donde">Programa del local</span><span class="sep"> · </span><span class="st-prod">Gorrito de hilo gris</span><span class="sep"> · </span><span class="st-dato st-stock"><span class="st-stock-k">Stock </span><span class="st-num"><span class="st-antes">3</span><span class="sep"> → </span><span class="st-ahora">2</span></span></span></p></li>
+            <li class="st st-web st-otra sec sec-fijo" data-espera="750"><span class="st-icono" aria-hidden="true"><svg><use href="#i-bolsa"/></svg></span><p><span class="st-donde">Venta en la web</span><span class="sep"> · </span><time class="st-hora" datetime="12:05">12:05</time><span class="sep"> · </span><span class="st-prod">Arena sanitaria <span class="nw">10 kg</span></span></p></li>
+            <li class="st st-local st-sigue sec sec-fijo" data-espera="450"><span class="st-icono" aria-hidden="true"><svg><use href="#i-local"/></svg></span><p><span class="st-donde">Stock de Providencia</span><span class="sep"> · </span><span class="st-prod">Arena sanitaria <span class="nw">10 kg</span></span><span class="sep"> · </span><span class="st-dato st-stock"><span class="st-stock-k">Stock </span><span class="st-num"><span class="st-antes">6</span><span class="sep"> → </span><span class="st-ahora">5</span></span></span></p></li>
           </ol>
           <p class="st-pie sec sec-fijo" data-espera="500"><svg class="icono" aria-hidden="true"><use href="#i-sync"/></svg><span>Todo al día</span><span class="sep"> · </span><span class="st-pie-sub">sincronizado hace un momento</span></p>
         </div>
@@ -567,35 +583,35 @@
       <div class="cap" id="cap-avisos" data-clave="avisos" style="--fila:8">
         <div class="cap-tarjeta">
           <h3>Avisos que&nbsp;salen solos</h3>
-          <p>Cuando sale un pedido o vuelve un talle, la clienta se entera.</p>
+          <p>Cuando sale un despacho o vuelve un producto, el cliente se entera.</p>
         </div>
       </div>
 
-      <figure class="pantalla-h ph-avisos" data-clave="avisos" style="--fila:8" aria-label="Avisos automáticos de Pichón">
+      <figure class="pantalla-h ph-avisos" data-clave="avisos" style="--fila:8" aria-label="Avisos automáticos de Cachupín">
         <div class="ph-interior">
           <div class="ph-estado ph-estado-claro" aria-hidden="true"><span class="ph-hora">18:40</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <div class="ph-feed avisos-feed">
             <ol class="ph-feed-lista avisos" role="list">
               <li class="aviso-chat sec" data-espera="250">
-                <p class="aviso-nombre"><span class="mini-avatar" data-inicial="M" aria-hidden="true"></span>Martina</p>
+                <p class="aviso-nombre"><span class="mini-avatar" data-inicial="J" aria-hidden="true"></span>Javiera</p>
                 <ol class="aviso-msgs" role="list">
-                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:0"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Hola, Martina! Tu body rayado ya salió&nbsp;📦 Te llega a Carlos Paz entre mañana y el viernes</p></div></li>
-                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:1"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>Podés seguir el envío acá&nbsp;👉 <span class="msg-boton">Ver seguimiento</span></p></div></li>
-                  <li class="msg msg-entra msg-sin-hora" style="--i:2" data-opcional="2"><div class="msg-burbuja"><p><span class="sr">Martina: </span>graciaaas!!</p></div></li>
+                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:0"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Cachupín (automático): </span>¡Hola, Javiera! Tu pedido ya salió&nbsp;📦 Te llega hoy a La Florida antes de las 21:00</p></div></li>
+                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:1"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Cachupín (automático): </span>Puedes seguir el despacho aquí&nbsp;👉 <span class="msg-boton">Ver seguimiento</span></p></div></li>
+                  <li class="msg msg-entra msg-sin-hora" style="--i:2" data-opcional="2"><div class="msg-burbuja"><p><span class="sr">Javiera: </span>graciaaas!!</p></div></li>
                 </ol>
               </li>
               <li class="aviso-chat sec" data-espera="1000">
-                <p class="aviso-nombre"><span class="mini-avatar" data-inicial="L" aria-hidden="true"></span>Luciana</p>
+                <p class="aviso-nombre"><span class="mini-avatar" data-inicial="I" aria-hidden="true"></span>Ignacio</p>
                 <ol class="aviso-msgs" role="list">
-                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:0"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Hola, Luciana! Volvió el enterito de plush rosa en <span class="nw">0-3 meses</span>. ¿Querés que te lo guardemos?</p></div></li>
-                  <li class="msg msg-entra msg-sin-hora" style="--i:1"><div class="msg-burbuja"><p><span class="sr">Luciana: </span>siii porfa!! paso el sábado</p></div></li>
-                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:2" data-opcional="2"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Listo! Queda reservado a tu nombre hasta el sábado&nbsp;💛</p></div></li>
+                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:0"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Cachupín (automático): </span>¡Hola, Ignacio! Volvió el saco de cordero de <span class="nw">15 kg</span> a Ñuñoa. ¿Te lo guardamos?</p></div></li>
+                  <li class="msg msg-entra msg-sin-hora" style="--i:1"><div class="msg-burbuja"><p><span class="sr">Ignacio: </span>sí porfa, paso el sábado</p></div></li>
+                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:2" data-opcional="2"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Cachupín (automático): </span>¡Listo! Queda reservado a tu nombre hasta el lunes</p></div></li>
                 </ol>
               </li>
               <li class="aviso-chat sec" data-espera="900" data-opcional="1">
-                <p class="aviso-nombre"><span class="mini-avatar" data-inicial="S" aria-hidden="true"></span>Sofía</p>
+                <p class="aviso-nombre"><span class="mini-avatar" data-inicial="C" aria-hidden="true"></span>Camila</p>
                 <ol class="aviso-msgs" role="list">
-                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:0"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Pichón (automático): </span>¡Hola, Sofía! Tu paquete para regalo ya está listo. Podés pasar a buscarlo por el local de 10 a 19</p></div></li>
+                  <li class="msg msg-sale msg-autom msg-sin-hora" style="--i:0"><div class="msg-burbuja"><span class="msg-auto" aria-hidden="true"><svg class="icono"><use href="#i-rayo"/></svg>automático</span><p><span class="sr">Cachupín (automático): </span>¡Hola, Camila! Tu pedido está listo para retiro en Providencia</p></div></li>
                 </ol>
               </li>
             </ol>
@@ -603,72 +619,73 @@
         </div>
       </figure>
 
-      <!-- 7 · Cuando la tienda crece -->
+      <!-- 7 · Cuando el negocio crece -->
 
       <div class="cap" id="cap-panel" data-clave="panel" style="--fila:9">
         <div class="cap-tarjeta">
-          <h3>Cuando la&nbsp;tienda crece</h3>
-          <p>Un panel a medida para ver qué se vende y qué reponer.</p>
+          <h3>Cuando el&nbsp;negocio crece</h3>
+          <p>Un panel a medida para ver qué se vende en cada local y qué reponer.</p>
         </div>
       </div>
 
       <figure class="pantalla-h ph-panel" data-clave="panel" style="--fila:9">
         <div class="ph-interior">
           <div class="ph-estado ph-estado-oscuro" aria-hidden="true"><span class="ph-hora">9:00</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
-          <p class="panel-cabecera"><b>Panel de Pichón</b><span class="sep"> · </span><span class="panel-periodo">Esta semana</span></p>
+          <p class="panel-cabecera"><b>Panel de Cachupín</b><span class="sep"> · </span><span class="panel-periodo">Esta semana</span></p>
           <div class="panel-cuerpo">
             <div class="panel-tarjeta">
               <p class="panel-k">Ventas por canal</p>
-              <ul class="panel-barras" role="list"><li style="--v:100%; --i:0"><span class="pb-nombre">Local</span><span class="pb-barra" aria-hidden="true"></span></li><li style="--v:76%; --i:1"><span class="pb-nombre">Instagram</span><span class="pb-barra" aria-hidden="true"></span></li><li style="--v:58%; --i:2"><span class="pb-nombre">WhatsApp</span><span class="pb-barra" aria-hidden="true"></span></li><li style="--v:41%; --i:3"><span class="pb-nombre">Web</span><span class="pb-barra" aria-hidden="true"></span></li></ul>
+              <ul class="panel-barras" role="list"><li style="--v:100%; --i:0"><span class="pb-nombre">Ñuñoa</span><span class="pb-barra" aria-hidden="true"></span></li><li style="--v:76%; --i:1"><span class="pb-nombre">Providencia</span><span class="pb-barra" aria-hidden="true"></span></li><li style="--v:58%; --i:2"><span class="pb-nombre">Instagram</span><span class="pb-barra" aria-hidden="true"></span></li><li style="--v:41%; --i:3"><span class="pb-nombre">Web</span><span class="pb-barra" aria-hidden="true"></span></li></ul>
             </div>
             <div class="panel-tarjeta" data-opcional="1">
               <p class="panel-k">Lo más vendido</p>
-              <ol class="panel-top" role="list"><li style="--i:0">body rayado</li><li style="--i:1">enterito de plush</li><li style="--i:2">set de baberos</li></ol>
+              <ol class="panel-top" role="list"><li style="--i:0">saco de cordero 15&nbsp;kg</li><li style="--i:1">arena sanitaria 10&nbsp;kg</li><li style="--i:2">snacks dentales</li></ol>
             </div>
             <div class="panel-fila">
               <div class="panel-tarjeta">
-                <p class="panel-k">Talles que más salen</p>
-                <p class="panel-talles"><b>3-6</b> y <b>6-9</b> meses</p>
+                <p class="panel-k">Comunas con más despachos</p>
+                <p class="panel-talles"><b>Ñuñoa</b> y <b class="nw">La Florida</b></p>
               </div>
               <div class="panel-tarjeta panel-reponer">
                 <p class="panel-k">Para reponer</p>
-                <ul role="list"><li>body rayado <span class="nw">6-9 m</span></li><li>medias antideslizantes <span class="nw">0-3 m</span></li></ul>
+                <ul role="list"><li>saco de cordero <span class="nw">15 kg</span> en Providencia</li><li>arena sanitaria <span class="nw">10 kg</span> en Ñuñoa</li></ul>
               </div>
             </div>
           </div>
           <div class="panel-resumen">
             <p class="panel-resumen-k"><svg class="icono" aria-hidden="true"><use href="#i-chispa"/></svg>Resumen del lunes<span class="sep">: </span></p>
-            <p>el body rayado <span class="nw">6-9 m</span> se agota cada dos semanas. Conviene pedir más al proveedor</p>
+            <p>el saco de cordero de <span class="nw">15 kg</span> se agota en Providencia cada dos semanas. Conviene mover stock desde Ñuñoa o pedir más al proveedor</p>
           </div>
         </div>
       </figure>
 
-      <!-- 8 · Lo que ganó Vero -->
+      <!-- 8 · Lo que ganó Paula -->
 
       <div class="cap" id="cap-resultados" data-clave="resultados" style="--fila:10">
         <div class="cap-tarjeta">
-          <h3>Lo que ganó Vero</h3>
-          <p>Unos meses después, en Pichón.</p>
+          <h3>Lo que ganó Paula</h3>
+          <p>Unos meses después, en Cachupín.</p>
         </div>
       </div>
 
       <figure class="pantalla-h ph-resultados" data-clave="resultados" style="--fila:10">
-        <!-- Pantalla bloqueada con el mensaje de Vero. Las cuatro tarjetas van
+        <!-- Pantalla bloqueada con el mensaje de Paula. Las cuatro tarjetas van
              antes en el DOM (así las lee un lector de pantalla); a la vista el
              mensaje queda arriba y, en escritorio, las tarjetas salen del
-             teléfono hacia la derecha. -->
+             teléfono hacia la derecha. La clase notif-vero viene de la historia
+             de AR: el CSS es compartido. -->
         <div class="ph-interior">
           <div class="ph-estado ph-estado-bloqueo" aria-hidden="true"><span class="ph-hora"></span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <p class="bloqueo-reloj" aria-hidden="true" data-opcional="1">21:18</p>
           <ul class="resultados" role="list">
-            <li class="res" style="--i:0"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-reloj"/></svg></span><p><span class="res-titulo">Tiempo para lo importante</span><span class="sep">: </span><span class="res-linea">Vero dedica las mañanas a elegir la próxima colección.</span></p></li>
-            <li class="res" style="--i:1"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-bolsa"/></svg></span><p><span class="res-titulo">Ventas que no se pierden</span><span class="sep">: </span><span class="res-linea">La que pregunta de noche compra a la mañana.</span></p></li>
+            <li class="res" style="--i:0"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-reloj"/></svg></span><p><span class="res-titulo">Tiempo para lo importante</span><span class="sep">: </span><span class="res-linea">Paula dedica las mañanas a negociar con proveedores.</span></p></li>
+            <li class="res" style="--i:1"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-bolsa"/></svg></span><p><span class="res-titulo">Ventas que no se pierden</span><span class="sep">: </span><span class="res-linea">El que pregunta de noche compra en la mañana.</span></p></li>
             <li class="res" style="--i:2"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-sync"/></svg></span><p><span class="res-titulo">Stock sin sorpresas</span><span class="sep">: </span><span class="res-linea">Lo que aparece en la web está en el local.</span></p></li>
-            <li class="res" style="--i:3"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-equipo"/></svg></span><p><span class="res-titulo">Cada una con lo suyo</span><span class="sep">: </span><span class="res-linea">Cada charla tiene dueña y las dos ven la misma bandeja.</span></p></li>
+            <li class="res" style="--i:3"><span class="res-icono" aria-hidden="true"><svg class="icono"><use href="#i-equipo"/></svg></span><p><span class="res-titulo">Cada uno con lo suyo</span><span class="sep">: </span><span class="res-linea">Cada conversación tiene dueño y los dos ven la misma bandeja.</span></p></li>
           </ul>
           <div class="notif-vero">
-            <p class="notif-de"><span class="mini-avatar mini-avatar-grande" data-inicial="V" aria-hidden="true"></span><b>Vero</b><span class="sep"> · </span><time datetime="21:17">21:17</time></p>
-            <p class="notif-texto">el sábado atendió caro y yo ni miré el celu. primera vez en años jaja</p>
+            <p class="notif-de"><span class="mini-avatar mini-avatar-grande" data-inicial="P" aria-hidden="true"></span><b>Paula</b><span class="sep"> · </span><time datetime="21:17">21:17</time></p>
+            <p class="notif-texto">el sábado tomás cerró providencia y yo ni miré el celular. primera vez en años jaja</p>
           </div>
         </div>
       </figure>
@@ -687,14 +704,14 @@
           <div class="ph-estado ph-estado-claro" aria-hidden="true"><span class="ph-hora">9:30</span><svg class="ph-iconos"><use href="#i-estado"/></svg></div>
           <div class="cierre-cuerpo">
             <span class="cierre-caras" aria-hidden="true" style="--i:0" data-opcional="1">
-              <img src="img/equipo/felipe-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
               <img src="img/equipo/benjamin-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
               <img src="img/equipo/camilo-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
+              <img src="img/equipo/felipe-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
             </span>
             <p class="cierre-titulo" style="--i:1">Diagnóstico gratuito</p>
             <ul class="cierre-datos" role="list" style="--i:2">
               <li><svg class="icono" aria-hidden="true"><use href="#i-reloj"/></svg>De 30 minutos a 1 hora</li>
-              <li><svg class="icono" aria-hidden="true"><use href="#i-pin"/></svg>Por videollamada o en persona en Córdoba, Santiago o Temuco</li>
+              <li><svg class="icono" aria-hidden="true"><use href="#i-pin"/></svg>Por videollamada o en persona en Santiago, Temuco o Córdoba</li>
             </ul>
             <a class="boton boton-principal boton-grande cierre-boton" style="--i:3" href="https://calendly.com/felipe-incba" target="_blank" rel="noopener" data-fb-event="Schedule" data-fb-name="historia">
               <svg class="icono" aria-hidden="true"><use href="#i-calendario"/></svg>
@@ -710,7 +727,7 @@
       <ol class="hist-pasos" aria-hidden="true">
         <li data-paso="respuestas" style="--i:0"><span class="hp-punto"></span><span class="hp-nombre">Respuestas</span></li>
         <li data-paso="bandeja" style="--i:1"><span class="hp-punto"></span><span class="hp-nombre">Bandeja</span></li>
-        <li data-paso="stock" style="--i:2"><span class="hp-punto"></span><span class="hp-nombre">Web y local</span></li>
+        <li data-paso="stock" style="--i:2"><span class="hp-punto"></span><span class="hp-nombre">Locales y web</span></li>
         <li data-paso="avisos" style="--i:3"><span class="hp-punto"></span><span class="hp-nombre">Avisos</span></li>
         <li data-paso="panel" style="--i:4"><span class="hp-punto"></span><span class="hp-nombre">Panel</span></li>
       </ol>
@@ -729,7 +746,71 @@
     <!-- incluir:situaciones -->
 
     <!-- ============ Diagnóstico gratuito ============ -->
-    <!-- incluir:diagnostico -->
+    <section class="seccion diagnostico" id="diagnostico" aria-labelledby="titulo-diagnostico">
+      <div class="contenedor">
+        <div class="diag-panel">
+          <div class="diag-intro">
+            <h2 id="titulo-diagnostico">El primer paso es un <span class="resalte">diagnóstico gratuito</span></h2>
+            <p class="diag-bajada">Antes de hablar de propuestas o de presupuestos, nos sentamos a entender tu negocio.</p>
+            <p class="diag-que-es">La reunión dura de 30 minutos a una hora. Conversamos sobre cómo trabajas y lo que te gustaría resolver, y al final te decimos lo que vemos y por dónde conviene empezar.</p>
+          </div>
+
+          <ul class="modalidades" role="list">
+            <li class="modalidad">
+              <div class="modalidad-cabecera">
+                <span class="modalidad-icono" aria-hidden="true"><svg><use href="#i-video"/></svg></span>
+                <h3>Por videollamada</h3>
+              </div>
+              <p>Eliges el día y el horario en nuestra agenda online y nos conectamos desde donde estés.</p>
+              <a class="boton boton-principal boton-grande" href="https://calendly.com/felipe-incba" target="_blank" rel="noopener" data-fb-event="Schedule" data-fb-name="diagnostico-videollamada">
+                <svg class="icono" aria-hidden="true"><use href="#i-calendario"/></svg>
+                Agendar videollamada
+              </a>
+            </li>
+            <li class="modalidad">
+              <div class="modalidad-cabecera">
+                <span class="modalidad-icono" aria-hidden="true"><svg><use href="#i-pin"/></svg></span>
+                <h3>En persona</h3>
+                <span class="modalidad-caras" aria-hidden="true">
+                  <img src="img/equipo/benjamin-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
+                  <img src="img/equipo/camilo-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
+                  <img src="img/equipo/felipe-144.jpg" alt="" width="144" height="144" loading="lazy" decoding="async">
+                </span>
+              </div>
+              <p>Si estás en Santiago, Temuco, Córdoba Capital o alrededores, parte del equipo puede ir a verte.</p>
+              <a class="boton boton-secundario boton-grande" href="https://wa.me/56957400433?text=Hola%2C%20quiero%20coordinar%20un%20diagn%C3%B3stico%20en%20persona" target="_blank" rel="noopener" data-fb-name="diagnostico-en-persona">
+                <svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>
+                Coordinar visita por WhatsApp
+              </a>
+            </li>
+          </ul>
+
+          <div class="cercania">
+            <p class="cercania-texto">Nos gusta visitar a los clientes en su negocio. Ahí se ve mejor cómo funciona todo, por ejemplo quién contesta los mensajes o dónde se anotan los pedidos. Y conversando cara a cara es más fácil explicar cada cosa sin tecnicismos.</p>
+            <figure class="mapa">
+              <div class="mapa-lienzo">
+                <svg class="mapa-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-95 4 340 504" width="340" height="504" role="img" aria-labelledby="mapa-t" focusable="false">
+<!-- Cada punto del mapa es un trazo de largo cero con punta redonda: un
+     path por país en lugar de mil círculos sueltos. -->
+<title id="mapa-t">Mapa de Chile y Argentina con Santiago, Temuco y Córdoba marcadas</title>
+<path class="mapa-ar" d="M107.2 71.5h0M114.4 71.5h0M121.5 71.5h0M128.7 71.5h0M135.8 71.5h0M143.0 71.5h0M100.1 78.7h0M107.2 78.7h0M114.4 78.7h0M121.5 78.7h0M128.7 78.7h0M135.8 78.7h0M143.0 78.7h0M150.1 78.7h0M100.1 85.8h0M107.2 85.8h0M114.4 85.8h0M121.5 85.8h0M128.7 85.8h0M135.8 85.8h0M143.0 85.8h0M150.1 85.8h0M157.3 85.8h0M92.9 93.0h0M100.1 93.0h0M107.2 93.0h0M114.4 93.0h0M121.5 93.0h0M128.7 93.0h0M135.8 93.0h0M143.0 93.0h0M150.1 93.0h0M157.3 93.0h0M164.4 93.0h0M85.8 100.1h0M92.9 100.1h0M100.1 100.1h0M107.2 100.1h0M114.4 100.1h0M121.5 100.1h0M128.7 100.1h0M135.8 100.1h0M143.0 100.1h0M150.1 100.1h0M157.3 100.1h0M164.4 100.1h0M171.6 100.1h0M178.7 100.1h0M85.8 107.3h0M92.9 107.3h0M100.1 107.3h0M107.2 107.3h0M114.4 107.3h0M121.5 107.3h0M128.7 107.3h0M135.8 107.3h0M143.0 107.3h0M150.1 107.3h0M157.3 107.3h0M164.4 107.3h0M171.6 107.3h0M178.7 107.3h0M185.9 107.3h0M193.0 107.3h0M85.8 114.4h0M92.9 114.4h0M100.1 114.4h0M107.2 114.4h0M114.4 114.4h0M121.5 114.4h0M128.7 114.4h0M135.8 114.4h0M143.0 114.4h0M150.1 114.4h0M157.3 114.4h0M164.4 114.4h0M171.6 114.4h0M178.7 114.4h0M185.9 114.4h0M193.0 114.4h0M228.8 114.4h0M85.8 121.6h0M92.9 121.6h0M100.1 121.6h0M107.2 121.6h0M114.4 121.6h0M121.5 121.6h0M128.7 121.6h0M135.8 121.6h0M143.0 121.6h0M150.1 121.6h0M157.3 121.6h0M164.4 121.6h0M171.6 121.6h0M178.7 121.6h0M185.9 121.6h0M193.0 121.6h0M228.8 121.6h0M235.9 121.6h0M85.8 128.7h0M92.9 128.7h0M100.1 128.7h0M107.2 128.7h0M114.4 128.7h0M121.5 128.7h0M128.7 128.7h0M135.8 128.7h0M143.0 128.7h0M150.1 128.7h0M157.3 128.7h0M164.4 128.7h0M171.6 128.7h0M178.7 128.7h0M185.9 128.7h0M193.0 128.7h0M200.2 128.7h0M221.6 128.7h0M228.8 128.7h0M235.9 128.7h0M78.6 135.9h0M85.8 135.9h0M92.9 135.9h0M100.1 135.9h0M107.2 135.9h0M114.4 135.9h0M121.5 135.9h0M128.7 135.9h0M135.8 135.9h0M143.0 135.9h0M150.1 135.9h0M157.3 135.9h0M164.4 135.9h0M171.6 135.9h0M178.7 135.9h0M185.9 135.9h0M193.0 135.9h0M200.2 135.9h0M207.3 135.9h0M214.5 135.9h0M221.6 135.9h0M228.8 135.9h0M78.6 143.0h0M85.8 143.0h0M92.9 143.0h0M100.1 143.0h0M107.2 143.0h0M114.4 143.0h0M121.5 143.0h0M128.7 143.0h0M135.8 143.0h0M143.0 143.0h0M150.1 143.0h0M157.3 143.0h0M164.4 143.0h0M171.6 143.0h0M178.7 143.0h0M185.9 143.0h0M193.0 143.0h0M200.2 143.0h0M207.3 143.0h0M214.5 143.0h0M221.6 143.0h0M71.5 150.2h0M78.6 150.2h0M85.8 150.2h0M92.9 150.2h0M100.1 150.2h0M107.2 150.2h0M114.4 150.2h0M121.5 150.2h0M128.7 150.2h0M135.8 150.2h0M143.0 150.2h0M150.1 150.2h0M157.3 150.2h0M164.4 150.2h0M171.6 150.2h0M178.7 150.2h0M185.9 150.2h0M193.0 150.2h0M200.2 150.2h0M207.3 150.2h0M71.5 157.3h0M78.6 157.3h0M85.8 157.3h0M92.9 157.3h0M100.1 157.3h0M107.2 157.3h0M114.4 157.3h0M121.5 157.3h0M128.7 157.3h0M135.8 157.3h0M143.0 157.3h0M150.1 157.3h0M157.3 157.3h0M164.4 157.3h0M171.6 157.3h0M178.7 157.3h0M185.9 157.3h0M193.0 157.3h0M200.2 157.3h0M207.3 157.3h0M71.5 164.5h0M78.6 164.5h0M85.8 164.5h0M92.9 164.5h0M100.1 164.5h0M107.2 164.5h0M114.4 164.5h0M121.5 164.5h0M128.7 164.5h0M135.8 164.5h0M143.0 164.5h0M150.1 164.5h0M157.3 164.5h0M164.4 164.5h0M171.6 164.5h0M178.7 164.5h0M185.9 164.5h0M193.0 164.5h0M200.2 164.5h0M71.5 171.6h0M78.6 171.6h0M85.8 171.6h0M92.9 171.6h0M100.1 171.6h0M107.2 171.6h0M114.4 171.6h0M121.5 171.6h0M128.7 171.6h0M135.8 171.6h0M143.0 171.6h0M150.1 171.6h0M157.3 171.6h0M164.4 171.6h0M171.6 171.6h0M178.7 171.6h0M185.9 171.6h0M193.0 171.6h0M64.3 178.8h0M71.5 178.8h0M78.6 178.8h0M85.8 178.8h0M92.9 178.8h0M100.1 178.8h0M107.2 178.8h0M114.4 178.8h0M121.5 178.8h0M128.7 178.8h0M135.8 178.8h0M143.0 178.8h0M150.1 178.8h0M157.3 178.8h0M164.4 178.8h0M171.6 178.8h0M178.7 178.8h0M185.9 178.8h0M193.0 178.8h0M64.3 185.9h0M71.5 185.9h0M78.6 185.9h0M85.8 185.9h0M92.9 185.9h0M100.1 185.9h0M107.2 185.9h0M114.4 185.9h0M121.5 185.9h0M128.7 185.9h0M135.8 185.9h0M143.0 185.9h0M150.1 185.9h0M157.3 185.9h0M164.4 185.9h0M171.6 185.9h0M178.7 185.9h0M185.9 185.9h0M64.3 193.1h0M71.5 193.1h0M78.6 193.1h0M85.8 193.1h0M92.9 193.1h0M100.1 193.1h0M107.2 193.1h0M114.4 193.1h0M121.5 193.1h0M128.7 193.1h0M135.8 193.1h0M143.0 193.1h0M150.1 193.1h0M157.3 193.1h0M164.4 193.1h0M171.6 193.1h0M178.7 193.1h0M185.9 193.1h0M64.3 200.2h0M71.5 200.2h0M78.6 200.2h0M85.8 200.2h0M92.9 200.2h0M100.1 200.2h0M107.2 200.2h0M114.4 200.2h0M121.5 200.2h0M128.7 200.2h0M135.8 200.2h0M143.0 200.2h0M150.1 200.2h0M157.3 200.2h0M164.4 200.2h0M171.6 200.2h0M178.7 200.2h0M185.9 200.2h0M64.3 207.4h0M71.5 207.4h0M78.6 207.4h0M85.8 207.4h0M92.9 207.4h0M100.1 207.4h0M107.2 207.4h0M114.4 207.4h0M121.5 207.4h0M128.7 207.4h0M135.8 207.4h0M143.0 207.4h0M150.1 207.4h0M157.3 207.4h0M164.4 207.4h0M171.6 207.4h0M178.7 207.4h0M185.9 207.4h0M71.5 214.5h0M78.6 214.5h0M85.8 214.5h0M92.9 214.5h0M100.1 214.5h0M107.2 214.5h0M114.4 214.5h0M121.5 214.5h0M128.7 214.5h0M135.8 214.5h0M143.0 214.5h0M150.1 214.5h0M157.3 214.5h0M164.4 214.5h0M171.6 214.5h0M178.7 214.5h0M185.9 214.5h0M71.5 221.7h0M78.6 221.7h0M85.8 221.7h0M92.9 221.7h0M100.1 221.7h0M107.2 221.7h0M114.4 221.7h0M121.5 221.7h0M128.7 221.7h0M135.8 221.7h0M143.0 221.7h0M150.1 221.7h0M157.3 221.7h0M164.4 221.7h0M171.6 221.7h0M178.7 221.7h0M185.9 221.7h0M64.3 228.8h0M71.5 228.8h0M78.6 228.8h0M85.8 228.8h0M92.9 228.8h0M100.1 228.8h0M107.2 228.8h0M114.4 228.8h0M121.5 228.8h0M128.7 228.8h0M135.8 228.8h0M143.0 228.8h0M150.1 228.8h0M157.3 228.8h0M164.4 228.8h0M171.6 228.8h0M178.7 228.8h0M185.9 228.8h0M64.3 236.0h0M71.5 236.0h0M78.6 236.0h0M85.8 236.0h0M92.9 236.0h0M100.1 236.0h0M107.2 236.0h0M114.4 236.0h0M121.5 236.0h0M128.7 236.0h0M135.8 236.0h0M143.0 236.0h0M150.1 236.0h0M157.3 236.0h0M164.4 236.0h0M171.6 236.0h0M178.7 236.0h0M185.9 236.0h0M193.0 236.0h0M64.3 243.1h0M71.5 243.1h0M78.6 243.1h0M85.8 243.1h0M92.9 243.1h0M100.1 243.1h0M107.2 243.1h0M114.4 243.1h0M121.5 243.1h0M128.7 243.1h0M135.8 243.1h0M143.0 243.1h0M150.1 243.1h0M157.3 243.1h0M164.4 243.1h0M171.6 243.1h0M178.7 243.1h0M185.9 243.1h0M193.0 243.1h0M200.2 243.1h0M57.2 250.2h0M64.3 250.2h0M71.5 250.2h0M78.6 250.2h0M85.8 250.2h0M92.9 250.2h0M100.1 250.2h0M107.2 250.2h0M114.4 250.2h0M121.5 250.2h0M128.7 250.2h0M135.8 250.2h0M143.0 250.2h0M150.1 250.2h0M157.3 250.2h0M164.4 250.2h0M171.6 250.2h0M178.7 250.2h0M185.9 250.2h0M193.0 250.2h0M200.2 250.2h0M57.2 257.4h0M64.3 257.4h0M71.5 257.4h0M78.6 257.4h0M85.8 257.4h0M92.9 257.4h0M100.1 257.4h0M107.2 257.4h0M114.4 257.4h0M121.5 257.4h0M128.7 257.4h0M135.8 257.4h0M143.0 257.4h0M150.1 257.4h0M157.3 257.4h0M164.4 257.4h0M171.6 257.4h0M178.7 257.4h0M185.9 257.4h0M193.0 257.4h0M200.2 257.4h0M57.2 264.5h0M64.3 264.5h0M71.5 264.5h0M78.6 264.5h0M85.8 264.5h0M92.9 264.5h0M100.1 264.5h0M107.2 264.5h0M114.4 264.5h0M121.5 264.5h0M128.7 264.5h0M135.8 264.5h0M143.0 264.5h0M150.1 264.5h0M157.3 264.5h0M164.4 264.5h0M171.6 264.5h0M178.7 264.5h0M185.9 264.5h0M193.0 264.5h0M200.2 264.5h0M57.2 271.7h0M64.3 271.7h0M71.5 271.7h0M78.6 271.7h0M85.8 271.7h0M92.9 271.7h0M100.1 271.7h0M107.2 271.7h0M114.4 271.7h0M121.5 271.7h0M128.7 271.7h0M135.8 271.7h0M143.0 271.7h0M150.1 271.7h0M157.3 271.7h0M164.4 271.7h0M171.6 271.7h0M178.7 271.7h0M185.9 271.7h0M193.0 271.7h0M57.2 278.8h0M64.3 278.8h0M71.5 278.8h0M78.6 278.8h0M85.8 278.8h0M92.9 278.8h0M100.1 278.8h0M107.2 278.8h0M114.4 278.8h0M121.5 278.8h0M128.7 278.8h0M135.8 278.8h0M143.0 278.8h0M150.1 278.8h0M157.3 278.8h0M164.4 278.8h0M171.6 278.8h0M178.7 278.8h0M185.9 278.8h0M57.2 286.0h0M64.3 286.0h0M71.5 286.0h0M78.6 286.0h0M85.8 286.0h0M92.9 286.0h0M100.1 286.0h0M107.2 286.0h0M114.4 286.0h0M121.5 286.0h0M128.7 286.0h0M135.8 286.0h0M143.0 286.0h0M50.0 293.1h0M57.2 293.1h0M64.3 293.1h0M71.5 293.1h0M78.6 293.1h0M85.8 293.1h0M92.9 293.1h0M100.1 293.1h0M107.2 293.1h0M114.4 293.1h0M121.5 293.1h0M128.7 293.1h0M135.8 293.1h0M143.0 293.1h0M50.0 300.3h0M57.2 300.3h0M64.3 300.3h0M71.5 300.3h0M78.6 300.3h0M85.8 300.3h0M92.9 300.3h0M100.1 300.3h0M107.2 300.3h0M114.4 300.3h0M121.5 300.3h0M128.7 300.3h0M135.8 300.3h0M143.0 300.3h0M50.0 307.4h0M57.2 307.4h0M64.3 307.4h0M71.5 307.4h0M78.6 307.4h0M85.8 307.4h0M92.9 307.4h0M100.1 307.4h0M107.2 307.4h0M114.4 307.4h0M121.5 307.4h0M128.7 307.4h0M135.8 307.4h0M50.0 314.6h0M57.2 314.6h0M64.3 314.6h0M71.5 314.6h0M78.6 314.6h0M85.8 314.6h0M92.9 314.6h0M100.1 314.6h0M107.2 314.6h0M114.4 314.6h0M121.5 314.6h0M128.7 314.6h0M50.0 321.7h0M57.2 321.7h0M64.3 321.7h0M71.5 321.7h0M78.6 321.7h0M85.8 321.7h0M92.9 321.7h0M100.1 321.7h0M107.2 321.7h0M114.4 321.7h0M121.5 321.7h0M128.7 321.7h0M50.0 328.9h0M57.2 328.9h0M64.3 328.9h0M71.5 328.9h0M78.6 328.9h0M85.8 328.9h0M92.9 328.9h0M100.1 328.9h0M107.2 328.9h0M114.4 328.9h0M121.5 328.9h0M128.7 328.9h0M50.0 336.0h0M57.2 336.0h0M64.3 336.0h0M71.5 336.0h0M78.6 336.0h0M85.8 336.0h0M92.9 336.0h0M100.1 336.0h0M107.2 336.0h0M114.4 336.0h0M121.5 336.0h0M50.0 343.2h0M57.2 343.2h0M64.3 343.2h0M71.5 343.2h0M78.6 343.2h0M85.8 343.2h0M92.9 343.2h0M100.1 343.2h0M107.2 343.2h0M114.4 343.2h0M50.0 350.3h0M57.2 350.3h0M64.3 350.3h0M71.5 350.3h0M78.6 350.3h0M85.8 350.3h0M92.9 350.3h0M100.1 350.3h0M107.2 350.3h0M50.0 357.5h0M57.2 357.5h0M64.3 357.5h0M71.5 357.5h0M78.6 357.5h0M85.8 357.5h0M92.9 357.5h0M100.1 357.5h0M107.2 357.5h0M50.0 364.6h0M57.2 364.6h0M64.3 364.6h0M71.5 364.6h0M78.6 364.6h0M85.8 364.6h0M92.9 364.6h0M100.1 364.6h0M50.0 371.8h0M57.2 371.8h0M64.3 371.8h0M71.5 371.8h0M78.6 371.8h0M85.8 371.8h0M92.9 371.8h0M50.0 378.9h0M57.2 378.9h0M64.3 378.9h0M71.5 378.9h0M78.6 378.9h0M85.8 378.9h0M50.0 386.1h0M57.2 386.1h0M64.3 386.1h0M71.5 386.1h0M78.6 386.1h0M85.8 386.1h0M92.9 386.1h0M42.9 393.2h0M50.0 393.2h0M57.2 393.2h0M64.3 393.2h0M71.5 393.2h0M78.6 393.2h0M85.8 393.2h0M92.9 393.2h0M100.1 393.2h0M42.9 400.4h0M50.0 400.4h0M57.2 400.4h0M64.3 400.4h0M71.5 400.4h0M78.6 400.4h0M85.8 400.4h0M92.9 400.4h0M100.1 400.4h0M35.7 407.5h0M42.9 407.5h0M50.0 407.5h0M57.2 407.5h0M64.3 407.5h0M71.5 407.5h0M78.6 407.5h0M85.8 407.5h0M92.9 407.5h0M100.1 407.5h0M35.7 414.7h0M42.9 414.7h0M50.0 414.7h0M57.2 414.7h0M64.3 414.7h0M71.5 414.7h0M78.6 414.7h0M85.8 414.7h0M92.9 414.7h0M35.7 421.8h0M42.9 421.8h0M50.0 421.8h0M57.2 421.8h0M64.3 421.8h0M71.5 421.8h0M78.6 421.8h0M85.8 421.8h0M35.7 429.0h0M42.9 429.0h0M50.0 429.0h0M57.2 429.0h0M64.3 429.0h0M71.5 429.0h0M78.6 429.0h0M35.7 436.1h0M42.9 436.1h0M50.0 436.1h0M57.2 436.1h0M64.3 436.1h0M71.5 436.1h0M78.6 436.1h0M42.9 443.3h0M50.0 443.3h0M57.2 443.3h0M64.3 443.3h0M71.5 443.3h0M42.9 450.4h0M50.0 450.4h0M57.2 450.4h0M64.3 450.4h0M71.5 450.4h0M71.5 457.6h0M78.6 457.6h0M85.8 479.0h0M85.8 486.2h0M92.9 486.2h0M100.1 486.2h0"/>
+<path class="mapa-cl" d="M64.3 14.3h0M71.5 14.3h0M64.3 21.5h0M71.5 21.5h0M64.3 28.6h0M71.5 28.6h0M64.3 35.8h0M71.5 35.8h0M64.3 42.9h0M71.5 42.9h0M64.3 50.1h0M71.5 50.1h0M78.6 50.1h0M64.3 57.2h0M71.5 57.2h0M78.6 57.2h0M64.3 64.4h0M71.5 64.4h0M78.6 64.4h0M85.8 64.4h0M64.3 71.5h0M71.5 71.5h0M78.6 71.5h0M85.8 71.5h0M64.3 78.7h0M71.5 78.7h0M78.6 78.7h0M85.8 78.7h0M92.9 78.7h0M64.3 85.8h0M71.5 85.8h0M78.6 85.8h0M85.8 85.8h0M92.9 85.8h0M64.3 93.0h0M71.5 93.0h0M78.6 93.0h0M85.8 93.0h0M64.3 100.1h0M71.5 100.1h0M78.6 100.1h0M64.3 107.3h0M71.5 107.3h0M78.6 107.3h0M64.3 114.4h0M71.5 114.4h0M78.6 114.4h0M57.2 121.6h0M64.3 121.6h0M71.5 121.6h0M78.6 121.6h0M57.2 128.7h0M64.3 128.7h0M71.5 128.7h0M78.6 128.7h0M57.2 135.9h0M64.3 135.9h0M71.5 135.9h0M57.2 143.0h0M64.3 143.0h0M71.5 143.0h0M57.2 150.2h0M64.3 150.2h0M57.2 157.3h0M64.3 157.3h0M57.2 164.5h0M64.3 164.5h0M50.0 171.6h0M57.2 171.6h0M64.3 171.6h0M50.0 178.8h0M57.2 178.8h0M50.0 185.9h0M57.2 185.9h0M50.0 193.1h0M57.2 193.1h0M50.0 200.2h0M57.2 200.2h0M50.0 207.4h0M57.2 207.4h0M50.0 214.5h0M57.2 214.5h0M64.3 214.5h0M50.0 221.7h0M57.2 221.7h0M64.3 221.7h0M42.9 228.8h0M50.0 228.8h0M57.2 228.8h0M42.9 236.0h0M50.0 236.0h0M57.2 236.0h0M42.9 243.1h0M50.0 243.1h0M57.2 243.1h0M35.7 250.2h0M42.9 250.2h0M50.0 250.2h0M35.7 257.4h0M42.9 257.4h0M50.0 257.4h0M28.6 264.5h0M35.7 264.5h0M42.9 264.5h0M50.0 264.5h0M28.6 271.7h0M35.7 271.7h0M42.9 271.7h0M50.0 271.7h0M28.6 278.8h0M35.7 278.8h0M42.9 278.8h0M50.0 278.8h0M28.6 286.0h0M35.7 286.0h0M42.9 286.0h0M50.0 286.0h0M28.6 293.1h0M35.7 293.1h0M42.9 293.1h0M28.6 300.3h0M35.7 300.3h0M42.9 300.3h0M28.6 307.4h0M35.7 307.4h0M42.9 307.4h0M28.6 314.6h0M35.7 314.6h0M42.9 314.6h0M28.6 321.7h0M35.7 321.7h0M42.9 321.7h0M21.4 328.9h0M28.6 328.9h0M35.7 328.9h0M42.9 328.9h0M21.4 336.0h0M28.6 336.0h0M35.7 336.0h0M42.9 336.0h0M21.4 343.2h0M28.6 343.2h0M35.7 343.2h0M42.9 343.2h0M21.4 350.3h0M28.6 350.3h0M35.7 350.3h0M42.9 350.3h0M21.4 357.5h0M28.6 357.5h0M35.7 357.5h0M42.9 357.5h0M14.3 364.6h0M21.4 364.6h0M28.6 364.6h0M35.7 364.6h0M42.9 364.6h0M14.3 371.8h0M21.4 371.8h0M28.6 371.8h0M35.7 371.8h0M42.9 371.8h0M7.1 378.9h0M14.3 378.9h0M21.4 378.9h0M28.6 378.9h0M35.7 378.9h0M42.9 378.9h0M14.3 386.1h0M21.4 386.1h0M28.6 386.1h0M35.7 386.1h0M42.9 386.1h0M14.3 393.2h0M21.4 393.2h0M28.6 393.2h0M35.7 393.2h0M14.3 400.4h0M21.4 400.4h0M28.6 400.4h0M35.7 400.4h0M14.3 407.5h0M21.4 407.5h0M28.6 407.5h0M7.1 414.7h0M14.3 414.7h0M21.4 414.7h0M28.6 414.7h0M7.1 421.8h0M14.3 421.8h0M21.4 421.8h0M28.6 421.8h0M7.1 429.0h0M14.3 429.0h0M21.4 429.0h0M28.6 429.0h0M14.3 436.1h0M21.4 436.1h0M28.6 436.1h0M14.3 443.3h0M21.4 443.3h0M28.6 443.3h0M35.7 443.3h0M14.3 450.4h0M21.4 450.4h0M28.6 450.4h0M35.7 450.4h0M14.3 457.6h0M21.4 457.6h0M28.6 457.6h0M35.7 457.6h0M42.9 457.6h0M50.0 457.6h0M57.2 457.6h0M64.3 457.6h0M21.4 464.7h0M28.6 464.7h0M35.7 464.7h0M42.9 464.7h0M50.0 464.7h0M57.2 464.7h0M64.3 464.7h0M71.5 464.7h0M78.6 464.7h0M28.6 471.9h0M35.7 471.9h0M42.9 471.9h0M50.0 471.9h0M57.2 471.9h0M64.3 471.9h0M71.5 471.9h0M78.6 471.9h0M35.7 479.0h0M42.9 479.0h0M50.0 479.0h0M57.2 479.0h0M64.3 479.0h0M71.5 479.0h0M78.6 479.0h0M50.0 486.2h0M57.2 486.2h0M64.3 486.2h0M71.5 486.2h0M78.6 486.2h0M64.3 493.3h0M71.5 493.3h0M78.6 493.3h0M85.8 493.3h0M85.8 500.5h0M92.9 500.5h0"/>
+<g class="mapa-ciudad" data-ciudad="Córdoba"><circle class="mapa-halo" cx="125.9" cy="187.5" r="17.6"/><circle class="mapa-pin" cx="125.9" cy="187.5" r="6"/></g>
+<g class="mapa-ciudad" data-ciudad="Santiago"><circle class="mapa-halo" cx="56.8" cy="213.9" r="17.6"/><circle class="mapa-pin" cx="56.8" cy="213.9" r="6"/></g>
+<g class="mapa-ciudad" data-ciudad="Temuco"><circle class="mapa-halo" cx="36.2" cy="282.6" r="17.6"/><circle class="mapa-pin" cx="36.2" cy="282.6" r="6"/></g>
+</svg>
+                <ul class="mapa-rotulos" role="list">
+                  <li class="mapa-rotulo rotulo-santiago"><b>Santiago</b><span class="sep">, </span><span>Chile</span></li>
+                  <li class="mapa-rotulo rotulo-temuco"><b>Temuco</b><span class="sep">, </span><span>Chile</span></li>
+                  <li class="mapa-rotulo rotulo-cordoba"><b>Córdoba</b><span class="sep">, </span><span>Argentina</span></li>
+                </ul>
+              </div>
+              <figcaption class="mapa-leyenda"><span class="mapa-simbolo" aria-hidden="true"></span>Aquí está el equipo. Si estás cerca, podemos visitarte.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ============ Servicios ============ -->
     <!-- incluir:servicios -->
@@ -741,16 +822,149 @@
     <!-- incluir:como-trabajamos -->
 
     <!-- ============ Equipo ============ -->
-    <!-- incluir:equipo -->
+    <section class="seccion equipo" id="equipo" aria-labelledby="titulo-equipo">
+      <div class="contenedor">
+        <header class="encabezado">
+          <h2 id="titulo-equipo">Quiénes te van a atender</h2>
+          <p>Somos los tres fundadores de INCBA, desarrolladores full stack en Santiago, Temuco y Córdoba. Hablas directamente con quienes programan tu proyecto.</p>
+        </header>
+
+        <ul class="personas" role="list">
+          <li class="persona">
+            <a class="persona-foto" href="https://www.linkedin.com/in/bnavarreteo/" target="_blank" rel="noopener" aria-label="LinkedIn de Benjamín Navarrete">
+              <img src="img/equipo/benjamin.jpg" alt="" width="640" height="640" loading="lazy" decoding="async">
+              <span class="persona-foto-marca" aria-hidden="true"><svg><use href="#i-externo"/></svg></span>
+            </a>
+            <h3>Ing. Benjamín Navarrete</h3>
+            <p class="persona-rol">Automatización e infraestructura</p>
+            <ul class="persona-temas" role="list" aria-label="Especialidades">
+              <li>n8n</li>
+              <li>IA aplicada</li>
+              <li>Python</li>
+              <li>Kubernetes</li>
+              <li>AWS</li>
+            </ul>
+            <p class="persona-bio">Benjamín es Ingeniero Civil en Informática (Universidad Católica de Temuco) y lleva más de cinco años entre el desarrollo y la infraestructura en la nube, con proyectos para bancos y aseguradoras. En INCBA se ocupa sobre todo de automatizar procesos.</p>
+            <a class="persona-linkedin" href="https://www.linkedin.com/in/bnavarreteo/" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="#i-linkedin"/></svg>Ver perfil en LinkedIn</a>
+          </li>
+          <li class="persona">
+            <a class="persona-foto" href="https://www.linkedin.com/in/camilo-acencio/" target="_blank" rel="noopener" aria-label="LinkedIn de Camilo Acencio">
+              <img src="img/equipo/camilo.jpg" alt="" width="640" height="640" loading="lazy" decoding="async">
+              <span class="persona-foto-marca" aria-hidden="true"><svg><use href="#i-externo"/></svg></span>
+            </a>
+            <h3>Ing. Camilo Acencio</h3>
+            <p class="persona-rol">Finanzas y procesos de negocio</p>
+            <ul class="persona-temas" role="list" aria-label="Especialidades">
+              <li>Linux</li>
+              <li>Redes</li>
+              <li>Virtualización</li>
+              <li>Python</li>
+              <li>BI y datos</li>
+            </ul>
+            <p class="persona-bio">Camilo desarrolla herramientas de todo tipo, en especial para finanzas y procesos centrales del negocio, y es muy fuerte en servidores, redes e infraestructura. Es Ingeniero en Informática (Universidad Tecnológica de Chile), con más de diez años en tecnología.</p>
+            <a class="persona-linkedin" href="https://www.linkedin.com/in/camilo-acencio/" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="#i-linkedin"/></svg>Ver perfil en LinkedIn</a>
+          </li>
+          <li class="persona">
+            <a class="persona-foto" href="https://www.linkedin.com/in/felipe-rebolledo-5ba018200/" target="_blank" rel="noopener" aria-label="LinkedIn de Felipe Rebolledo">
+              <img src="img/equipo/felipe.jpg" alt="" width="640" height="640" loading="lazy" decoding="async">
+              <span class="persona-foto-marca" aria-hidden="true"><svg><use href="#i-externo"/></svg></span>
+            </a>
+            <h3>Felipe Rebolledo</h3>
+            <p class="persona-rol">Dirección de proyectos</p>
+            <ul class="persona-temas" role="list" aria-label="Especialidades">
+              <li>React</li>
+              <li>TypeScript</li>
+              <li>Node.js</li>
+              <li>PHP</li>
+              <li>AWS y GCP</li>
+            </ul>
+            <p class="persona-bio">Felipe, Técnico Superior en Desarrollo Web y Aplicaciones Digitales (ISPC), lidera los proyectos y su arquitectura. Hace más de cinco años que programa sistemas de gestión y tiendas online a medida, y renueva o integra plataformas que ya están en uso.</p>
+            <a class="persona-linkedin" href="https://www.linkedin.com/in/felipe-rebolledo-5ba018200/" target="_blank" rel="noopener"><svg class="icono" aria-hidden="true"><use href="#i-linkedin"/></svg>Ver perfil en LinkedIn</a>
+          </li>
+        </ul>
+      </div>
+    </section>
 
     <!-- ============ Clientes ============ -->
-    <!-- incluir:clientes -->
+    <section class="seccion clientes" id="clientes" aria-labelledby="titulo-clientes">
+      <div class="contenedor">
+        <header class="encabezado">
+          <h2 id="titulo-clientes">Nuestros clientes</h2>
+        </header>
+
+        <!-- --w es el ancho de cada logo calculado para que todos ocupen un área
+             parecida (tamaño óptico parejo) y --o, su opacidad, para emparejar el
+             peso: los macizos bajan y los de trazo fino suben. "es-oscuro" = logo
+             blanco, se invierte para verse sobre claro; "es-claro" = logo de
+             tono muy claro, se oscurece. -->
+        <ul class="logos" role="list">
+          <li class="es-claro"><img src="img/clientes-web/emacof.webp" alt="EMACOF" width="432" height="118" style="--w:112px; --o:.8" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/fullerton.png" alt="Fullerton" width="300" height="78" style="--w:124px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/kuyen.webp" alt="Kuyen Climbing" width="256" height="256" style="--w:60px; --o:.45" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/betamotor.webp" alt="Betamotor" width="646" height="616" style="--w:58px; --o:.45" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/norviguet.webp" alt="Norviguet" width="2010" height="523" style="--w:112px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/btob.webp" alt="BtoB" width="830" height="392" style="--w:86px" loading="lazy" decoding="async"></li>
+          <li class="es-claro"><img src="img/clientes-web/xinu.webp" alt="Xinu Perfumería" width="575" height="230" style="--w:116px; --o:.8" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/clinica-creare.webp" alt="Clínica Creare" width="1024" height="264" style="--w:120px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/ingav.png" alt="INGAV" width="445" height="194" style="--w:116px; --o:.45" loading="lazy" decoding="async"></li>
+          <li class="es-claro"><img src="img/clientes-web/docesoles.webp" alt="Doce Soles" width="403" height="443" style="--w:64px; --o:.8" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/norpan.webp" alt="NOR-PAN" width="240" height="86" style="--w:106px" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/jaque-content.webp" alt="Jaque Content" width="84" height="49" style="--w:70px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/preciowow.webp" alt="Precio WOW" width="802" height="470" style="--w:82px" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/silexis.webp" alt="Silexis" width="700" height="150" style="--w:128px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/rc-ingenieria.webp" alt="RC Ingeniería" width="200" height="123" style="--w:62px; --o:.5" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/onalulu-deco.webp" alt="Onalulú Deco" width="191" height="54" style="--w:110px; --o:.8" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/camino-estrellas.webp" alt="Camino de las Estrellas" width="1744" height="490" style="--w:108px; --o:.45" loading="lazy" decoding="async"></li>
+          <li class="es-claro"><img src="img/clientes-web/rincon-de-ideas.webp" alt="Rincón de Ideas" width="3334" height="975" style="--w:138px; --o:.8" loading="lazy" decoding="async"></li>
+          <li class="es-oscuro"><img src="img/clientes-web/dietetica-almendra.webp" alt="Dietética Almendra" width="504" height="432" style="--w:60px" loading="lazy" decoding="async"></li>
+          <li><img src="img/clientes-web/ipone.webp" alt="IPONE" width="157" height="41" style="--w:94px; --o:.45" loading="lazy" decoding="async"></li>
+        </ul>
+      </div>
+    </section>
 
     <!-- ============ Agencias ============ -->
     <!-- incluir:agencias -->
 
     <!-- ============ Contacto ============ -->
-    <!-- incluir:contacto -->
+    <section class="seccion banda-celeste contacto" id="contacto" aria-labelledby="titulo-contacto">
+      <div class="contenedor">
+        <div class="contacto-panel">
+          <div class="contacto-texto">
+            <h2 id="titulo-contacto">Cuéntanos qué necesitas</h2>
+            <p>Puedes escribirnos aunque no sepas bien cómo se llama lo que buscas. Con que nos expliques cómo trabajas hoy y qué te gustaría cambiar, ya tenemos por dónde empezar.</p>
+          </div>
+
+          <div class="contacto-acciones">
+            <a class="boton boton-principal boton-grande" href="https://calendly.com/felipe-incba" target="_blank" rel="noopener" data-fb-event="Schedule" data-fb-name="contacto">
+              <svg class="icono" aria-hidden="true"><use href="#i-calendario"/></svg>
+              Agendar diagnóstico gratuito
+            </a>
+            <a class="boton boton-secundario boton-grande" href="https://wa.me/56957400433?text=Hola%2C%20quiero%20hacer%20una%20consulta" target="_blank" rel="noopener" data-fb-name="contacto">
+              <svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>
+              Escribir por WhatsApp
+            </a>
+            <!-- draggable="false" deja seleccionar el texto de los enlaces
+                 arrastrando, para copiar el dato sin abrir nada. -->
+            <p class="contacto-dato">
+              <svg class="icono" aria-hidden="true"><use href="#i-correo"/></svg>
+              <span>O si prefieres, por correo: <a class="dato-valor dato-correo" href="mailto:contacto@incba.cl" draggable="false" data-fb-name="contacto-correo">contacto@incba.cl</a></span>
+            </p>
+            <ul class="telefonos" role="list">
+              <li class="contacto-dato">
+                <svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>
+                <span class="telefono-pais">Chile</span>
+                <a class="dato-valor" href="https://wa.me/56957400433" target="_blank" rel="noopener" draggable="false" data-fb-name="contacto-telefono-cl">+56 9 5740 0433</a>
+              </li>
+              <li class="contacto-dato">
+                <svg class="icono icono-wa" aria-hidden="true"><use href="#i-wa"/></svg>
+                <span class="telefono-pais">Argentina</span>
+                <a class="dato-valor" href="https://wa.me/5493517422702" target="_blank" rel="noopener" draggable="false" data-fb-name="contacto-telefono-ar">+54 9 351 742 2702</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
@@ -777,7 +991,7 @@
 
   <!-- ============ Botón flotante ============
        Solo con JS (sin JS no podría abrirse). Se oculta mientras se ven el
-       hero y la historia de Pichón, las modalidades del diagnóstico y la
+       hero y la historia de Cachupín, las modalidades del diagnóstico y la
        sección de contacto, que ya tienen las mismas opciones. -->
   <div class="flotante oculto" id="flotante">
     <button class="flotante-boton" id="flotante-boton" type="button" aria-expanded="false" aria-controls="flotante-menu">
