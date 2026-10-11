@@ -1,15 +1,26 @@
 /**
- * Genera el sitio de incba.cl a partir del de incba.com.ar.
+ * Genera el sitio de incba.cl.
  *
- * incba.com.ar e incba.cl son el mismo sitio con distinta orientación de país.
- * En vez de mantener dos copias del HTML, la versión chilena se deriva de
- * index.html en cada deploy, así el contenido nunca se desincroniza.
+ * La portada chilena vive en _cl/index.html: tiene su propio <head>, su hero y
+ * su historia. Las secciones que comparte con incba.com.ar no se copian a mano:
+ * _cl/index.html lleva un marcador <!-- incluir:id --> y el build pone ahí la
+ * <section id="id"> de index.html, con los CTA de WhatsApp y el correo de Chile
+ * y con los textos de REEMPLAZOS_CL (boleta, bodega, Webpay...).
+ *
+ * Las secciones que _cl/index.html trae escritas (hero, historia, diagnóstico,
+ * equipo, clientes y contacto) son propias: no reciben los cambios de index.html.
+ *
+ * Antes de escribir nada, la salida pasa por invariantes (SEO, Meta, píxel,
+ * historia). Si alguna falla, el build sale con error y dist-cl/ no se toca.
+ *
+ * _cl/ empieza con guion bajo para que Jekyll no la publique en incba.com.ar.
  *
  * Uso:  node tools/build-cl.mjs   ->  genera dist-cl/
  */
 
-import { readFileSync, writeFileSync, rmSync, mkdirSync, cpSync } from 'node:fs'
+import { readFileSync, writeFileSync, rmSync, mkdirSync, cpSync, existsSync, realpathSync } from 'node:fs'
 import { join, dirname } from 'node:path'
+import { execFileSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -17,75 +28,159 @@ const OUT = join(ROOT, 'dist-cl')
 
 const AR = 'https://incba.com.ar'
 const CL = 'https://incba.cl'
-const BUILD_DATE = new Date().toISOString().slice(0, 10)
+const FB = 'dakeik5ldma7s0z9idjeu1b3v4fso3'
 
-/**
- * Reemplazos para la variante chilena, con la cantidad exacta de coincidencias
- * que debe encontrar cada uno. Si index.html cambia y una regla deja de
- * coincidir, el build falla en vez de publicar incba.cl con las etiquetas SEO
- * apuntando a Argentina, que es el error que desindexaría el dominio.
- *
- * Ojo: las etiquetas hreflang NO se tocan. Son idénticas en ambos dominios
- * porque Google exige que las referencias sean recíprocas.
- */
-const RULES = [
-  // --- Idioma y orientación de país ---
-  ['<html lang="es-AR">', '<html lang="es-CL">', 1],
-  [
-    '<title>INCBA — Consultora Tecnológica en Argentina | Conectamos sistemas. Aceleramos negocios.</title>',
-    '<title>INCBA — Consultora Tecnológica en Chile | Conectamos sistemas. Aceleramos negocios.</title>',
-    1,
-  ],
-  // Cubre description, og:description, twitter:description, la tarjeta
-  // "Experiencia regional" y el tagline del footer.
-  ['Argentina y Chile', 'Chile y Argentina', 5],
-  // Badge del hero y bloque de contacto.
-  ['Argentina &amp; Chile', 'Chile &amp; Argentina', 2],
-  ['eCommerce, Argentina, Chile"', 'eCommerce, Chile, Argentina"', 1],
+// El Calendly de Chile reemplaza al de AR en toda la salida. Vacío = se usa el de AR.
+const CALENDLY_AR = 'https://calendly.com/felipe-incba'
+const CALENDLY_CL = 'https://calendly.com/benjamin-incba'
 
-  // --- Verificación del dominio ante Meta ---
-  // La metaetiqueta va solo en la variante chilena: incba.com.ar se verificó
-  // por registro TXT y no la necesita.
-  [
-    '<meta name="theme-color" content="#0B1C2D">',
-    '<meta name="theme-color" content="#0B1C2D">\n' +
-      '  <meta name="facebook-domain-verification" content="dakeik5ldma7s0z9idjeu1b3v4fso3" />',
-    1,
-  ],
+// Textos argentinos de las secciones comunes y su versión chilena:
+// [id de la sección, de, a, cantidad]. Cada frase tiene que aparecer exactamente
+// `cantidad` veces en esa sección de index.html; si no, el build falla y dice
+// cuál. Así nos enteramos al armar cuando una de estas frases cambia en AR.
+export const REEMPLAZOS_CL = [
+  ['situaciones', 'Facturo cada venta a mano', 'Hago cada boleta a mano', 1],
+  ['situaciones', 'en el sistema de facturación y después mandas la factura por correo', 'en el sistema de boletas y después mandas la boleta por correo', 1],
 
-  // --- Contacto de Chile ---
-  // El WhatsApp y el teléfono de la versión chilena apuntan al número local.
-  ['https://wa.me/5493517422702', 'https://wa.me/56957400433', 1],
-  [
-    '<a href="tel:+5493517422702">+54 9 351 742 2702</a>',
-    '<a href="tel:+56957400433">+56 9 5740 0433</a>',
-    1,
-  ],
+  // Paula es la protagonista de la historia chilena: la clienta del recordatorio pasa a ser Carolina.
+  ['servicios', 'Recordatorio de turnos por WhatsApp', 'Recordatorio de horas por WhatsApp', 1],
+  ['servicios', 'Hola, Paula. Te recordamos el turno de Simón', 'Hola, Carolina. Te recordamos la hora de Simón', 1],
+  ['servicios', '<span class="mc-autor">Paula</span>', '<span class="mc-autor">Carolina</span>', 1],
+  ['servicios', 'Turno confirmado en la agenda', 'Hora confirmada en la agenda', 1],
+  ['servicios', 'Parte del turno por correo', 'Reporte del turno por correo', 1],
+  ['servicios', 'Parte del turno tarde', 'Reporte del turno tarde', 1],
+  ['servicios', 'Se emite la factura', 'Se emite la boleta', 1],
+  ['servicios', 'Cobro mensual con Mercado Pago', 'Cobro mensual con Webpay', 1],
+  ['servicios', 'Factura enviada a Camila por correo', 'Boleta enviada a Camila por correo', 1],
+  ['servicios', 'seña cobrada', 'adelanto pagado', 1],
+  ['servicios', 'Aceite de girasol 1,5 L × 12', 'Aceite de maravilla 1 L × 12', 1],
+  ['servicios', 'Camión AB 123 CD', 'Camión PHJL-27', 1],
+  ['servicios', '4 quedan en depósito', '4 quedan en bodega', 1],
+  ['servicios', 'Distribuidora Santa Rita', 'Distribuidora del Maule', 1],
+  ['servicios', 'Caja de 12 alfajores de maicena', 'Miel de ulmo 500 g', 1],
 
-  // --- URLs canónicas y sociales ---
-  [`<link rel="canonical" href="${AR}/">`, `<link rel="canonical" href="${CL}/">`, 1],
-  [`<meta property="og:url" content="${AR}/">`, `<meta property="og:url" content="${CL}/">`, 1],
-  [`${AR}/img/og-image.jpg`, `${CL}/img/og-image.jpg`, 2],
-  ['<meta property="og:locale" content="es_AR">', '<meta property="og:locale" content="es_CL">', 1],
-  [
-    '<meta property="og:locale:alternate" content="es_CL">',
-    '<meta property="og:locale:alternate" content="es_AR">',
-    1,
-  ],
-
-  // --- Datos estructurados ---
-  [`"url": "${AR}",`, `"url": "${CL}",`, 1],
-  [`"logo": "${AR}/img/logo-light.png",`, `"logo": "${CL}/img/logo-light.png",`, 1],
-  ['"addressCountry": "AR"', '"addressCountry": "CL"', 1],
-  ['"areaServed": ["AR", "CL"],', '"areaServed": ["CL", "AR"],', 1],
+  ['para-quien', 'los comercios, las dietéticas, las clínicas', 'los comercios, las tiendas naturistas, las clínicas', 1],
+  ['para-quien', 'en la tienda online de una dietética', 'en la tienda online de una tienda a granel', 1],
 ]
 
-const ROBOTS = `User-agent: *
+// Lo que no puede llegar a incba.cl. «seña» va como palabra suelta: «diseñamos» la contiene.
+const PROHIBIDAS = [
+  ['Mercado Pago', /Mercado Pago/i],
+  ['seña', /(?<!\p{L})señas?(?!\p{L})/iu],
+  ['AB 123 CD', /AB 123 CD/],
+  ['alfajores', /alfajores/i],
+  ['dietétic', /dietétic/i],
+  ['girasol', /girasol/i],
+  ['Santa Rita', /Santa Rita/i],
+  ['depósito', /depósito/i],
+  ['Pichón', /Pichón/i],
+  ['Güemes', /Güemes/i],
+]
+
+// Todo a LF: con core.autocrlf=true la copia local queda en CRLF y el CI en LF.
+const lf = (s) => s.replace(/\r\n/g, '\n')
+const cuenta = (h, n) => h.split(n).length - 1
+const leer = (ruta) => lf(readFileSync(join(ROOT, ruta), 'utf8'))
+
+/** La <section id="id"> de primer nivel de html (index.html no anida <section>). */
+export function seccion(html, id) {
+  const re = /<(\/?)section\b[^>]*>/g
+  let m, d = 0, ini = -1
+  while ((m = re.exec(html))) {
+    if (!m[1]) { if (d === 0 && m[0].includes(`id="${id}"`)) ini = m.index; d++ }
+    else { d--; if (d === 0 && ini >= 0) return html.slice(ini, re.lastIndex) }
+  }
+  throw new Error(`index.html no tiene <section id="${id}">. ¿Se renombró? Actualiza el marcador en _cl/index.html.`)
+}
+
+/** Sólo los CTA de WhatsApp (llevan ?text=) y el correo. El teléfono AR de la lista de contacto queda. */
+export const aChile = (s) =>
+  s.split('https://wa.me/5493517422702?text=').join('https://wa.me/56957400433?text=')
+    .split('contacto@incba.com.ar').join('contacto@incba.cl')
+
+/** Aplica REEMPLAZOS_CL a una sección ya incluida. Devuelve [sección, reglas que fallaron]. */
+export function reemplazar(s, id, reglas = REEMPLAZOS_CL) {
+  const fallas = []
+  for (const [sec, de, a, cantidad] of reglas) {
+    if (sec !== id) continue
+    const hay = cuenta(s, de)
+    if (hay !== cantidad) fallas.push(`  ${id}: «${de}» aparece ${hay} ${hay === 1 ? 'vez' : 'veces'} y se esperaba ${cantidad}`)
+    else s = s.split(de).join(a)
+  }
+  return [s, fallas]
+}
+
+export function resolver(fuente, ar, reglas = REEMPLAZOS_CL, calendly = CALENDLY_CL) {
+  const fallas = []
+  const incluidas = new Set()
+  let html = fuente.replace(/<!-- incluir:([\w-]+) -->/g, (_, id) => {
+    incluidas.add(id)
+    const [s, f] = reemplazar(aChile(seccion(ar, id)), id, reglas)
+    fallas.push(...f)
+    return s
+  })
+  // Una regla sobre una sección que _cl/index.html no incluye no se aplicaría nunca.
+  for (const id of new Set(reglas.map((r) => r[0]))) {
+    if (!incluidas.has(id)) fallas.push(`  ${id}: tiene reglas en REEMPLAZOS_CL y _cl/index.html no la incluye`)
+  }
+  if (fallas.length) {
+    throw new Error(`Estas reglas de REEMPLAZOS_CL no calzan con index.html (dist-cl/ no se tocó):\n\n${fallas.join('\n')}\n\n¿Cambió la frase en AR? Actualiza la regla en tools/build-cl.mjs.`)
+  }
+  if (calendly) html = html.split(CALENDLY_AR).join(calendly)
+  return html
+}
+
+/** Devuelve { nombre: bool } con cada invariante de la salida. */
+export function invariantes(html, ar, calendly = CALENDLY_CL) {
+  const hreflang = (s) => (s.match(/<link rel="alternate" hreflang="[^"]+" href="[^"]+">/g) || []).join('\n')
+  // Los <script> del <head> tienen que ser los de AR: ahí están la media query
+  // de la historia y la guarda del píxel.
+  const scriptsHead = (s) => s.slice(s.indexOf('<script>'), s.indexOf('</head>')).replace(/^\s*\/\/.*\n/gm, '')
+  let jsonld = null
+  try { jsonld = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]) } catch {}
+  const caps = [...html.matchAll(/<div class="cap"[^>]*data-clave="([^"]+)"[^>]*--fila:(\d+)/g)].map((m) => [m[1], +m[2]])
+  const pasos = [...html.matchAll(/<li data-paso="([^"]+)"/g)].map((m) => m[1])
+  const assets = [...html.matchAll(/(?:src|href)="((?:css|js|img)\/[^"#?]+)"/g)].map((m) => m[1])
+  const faltantes = assets.filter((a) => !existsSync(join(ROOT, decodeURIComponent(a))))
+  // «Dietética Almendra» es el nombre de un cliente, en el alt de su logo: ese se queda.
+  const sinClientes = html.split('alt="Dietética Almendra"').join('')
+  const prohibidas = PROHIBIDAS.filter(([, re]) => re.test(sinClientes)).map(([nombre]) => nombre)
+
+  return {
+    'lang es-CL': cuenta(html, '<html lang="es-CL">') === 1,
+    'una sola canónica, la de incba.cl': cuenta(html, `<link rel="canonical" href="${CL}/">`) === 1 && cuenta(html, 'rel="canonical"') === 1,
+    'hreflang idéntico al de index.html (4 líneas)': hreflang(html) === hreflang(ar) && hreflang(ar).split('\n').length === 4,
+    'metaetiqueta de Meta exacta, una vez': cuenta(html, `<meta name="facebook-domain-verification" content="${FB}" />`) === 1,
+    'indexable': cuenta(html, 'content="index, follow"') === 1 && !html.includes('noindex'),
+    'sólo 3 URLs de incba.com.ar (las de hreflang)': cuenta(html, `${AR}/`) + cuenta(html, `"${AR}"`) === 3,
+    'ningún CTA con el WhatsApp AR': cuenta(html, 'wa.me/5493517422702?text=') === 0,
+    'ningún contacto@incba.com.ar': cuenta(html, 'contacto@incba.com.ar') === 0,
+    'JSON-LD de Chile': !!jsonld && jsonld.url === CL && jsonld.address?.addressCountry === 'CL' &&
+      String(jsonld.telephone).startsWith('+56') && !jsonld.address?.addressLocality,
+    'guarda del píxel': html.includes(String.raw`window.INCBA_PIXEL_ON = /^(www\.)?(incba\.com\.ar|incba\.cl)$/.test(location.hostname);`),
+    'scripts del <head> iguales a los de index.html (sin contar comentarios)': scriptsHead(html) === scriptsHead(ar),
+    '9 capítulos con --fila de 3 a 11': caps.length === 9 && caps.every(([, f], i) => f === i + 3),
+    'consulta primero y cierre último': caps[0]?.[0] === 'consulta' && caps.at(-1)?.[0] === 'cierre',
+    'la primera pantalla es el chat': /<figure class="pantalla-h ph-chat[^"]*" data-clave="consulta"/.test(html),
+    '5 pasos y cada uno es un capítulo': pasos.length === 5 && pasos.every((p) => caps.some(([c]) => c === p)),
+    'ningún marcador sin resolver': !/<!--\s*incluir\s*:/.test(html),
+    [`ningún texto argentino de la lista${prohibidas.length ? ` (aparece: ${prohibidas.join(', ')})` : ''}`]: prohibidas.length === 0,
+    'el Calendly es el de Chile (ningún felipe-incba)': calendly ? !html.includes('felipe-incba') && html.includes(calendly) : html.includes(CALENDLY_AR),
+    [`assets relativos existentes (${assets.length}${faltantes.length ? `; faltan ${faltantes.join(', ')}` : ''})`]: faltantes.length === 0,
+  }
+}
+
+// La fecha del último commit, no la del build: así sitemap.xml no cambia en cada deploy.
+function fechaCommit() {
+  return execFileSync('git', ['log', '-1', '--format=%cs'], { cwd: ROOT, encoding: 'utf8' }).trim()
+}
+
+const robots = () => `User-agent: *
 Allow: /
 Sitemap: ${CL}/sitemap.xml
 `
 
-const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
+const sitemap = (lastmod) => `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
@@ -94,66 +189,49 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
     <xhtml:link rel="alternate" hreflang="es-CL" href="${CL}/"/>
     <xhtml:link rel="alternate" hreflang="es" href="${AR}/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${AR}/"/>
-    <lastmod>${BUILD_DATE}</lastmod>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
 </urlset>
 `
 
-function countOf(haystack, needle) {
-  return haystack.split(needle).length - 1
-}
-
 function build() {
-  let html = readFileSync(join(ROOT, 'index.html'), 'utf8')
-
-  const problems = []
-  for (const [from, to, expected] of RULES) {
-    const found = countOf(html, from)
-    if (found !== expected) {
-      problems.push(`  ${found} de ${expected} coincidencias: ${JSON.stringify(from.slice(0, 78))}`)
-      continue
-    }
-    html = html.split(from).join(to)
-  }
-
-  if (problems.length) {
-    console.error('\nEl build de incba.cl no coincide con index.html:\n')
-    console.error(problems.join('\n'))
-    console.error(
-      '\nAlguien editó index.html sin actualizar tools/build-cl.mjs.' +
-        '\nAjustá las reglas antes de publicar, o incba.cl queda con SEO de incba.com.ar.\n'
-    )
+  const ar = leer('index.html')
+  let html
+  try {
+    html = resolver(leer('_cl/index.html'), ar)
+  } catch (e) {
+    console.error(`\n${e.message}\n`)
     process.exit(1)
   }
 
-  // Sólo deben sobrevivir las tres referencias a incba.com.ar de hreflang
-  // (es-AR, es genérico y x-default). Cualquier otra significa una URL
-  // sin traducir, que es lo que desindexaría incba.cl.
-  const leftovers = countOf(html, `${AR}/`) + countOf(html, `"${AR}"`)
-  if (leftovers !== 3) {
-    console.error(
-      `\nQuedaron ${leftovers} URLs de incba.com.ar en el HTML chileno (deberían ser 3: hreflang es-AR, es y x-default).\n`
-    )
+  const checks = invariantes(html, ar)
+  const fallas = Object.keys(checks).filter((k) => !checks[k])
+  if (fallas.length) {
+    console.error('\nEl build de incba.cl no cumple estas invariantes (dist-cl/ no se tocó):\n')
+    console.error(fallas.map((k) => `  FALLA ${k}`).join('\n'))
+    console.error('\nRevisa _cl/index.html o lo que cambió en index.html antes de publicar.\n')
     process.exit(1)
   }
+
+  const lastmod = fechaCommit()
 
   rmSync(OUT, { recursive: true, force: true })
   mkdirSync(OUT, { recursive: true })
-
   for (const asset of ['css', 'js', 'img']) {
     cpSync(join(ROOT, asset), join(OUT, asset), { recursive: true })
   }
   cpSync(join(ROOT, 'site.webmanifest'), join(OUT, 'site.webmanifest'))
 
   writeFileSync(join(OUT, 'index.html'), html)
-  writeFileSync(join(OUT, 'robots.txt'), ROBOTS)
-  writeFileSync(join(OUT, 'sitemap.xml'), SITEMAP)
+  writeFileSync(join(OUT, 'robots.txt'), robots())
+  writeFileSync(join(OUT, 'sitemap.xml'), sitemap(lastmod))
   writeFileSync(join(OUT, 'CNAME'), 'incba.cl\n')
   writeFileSync(join(OUT, '.nojekyll'), '')
 
-  console.log(`incba.cl generado en dist-cl/ (${RULES.length} reglas aplicadas, ${BUILD_DATE})`)
+  console.log(`incba.cl generado en dist-cl/ (${Object.keys(checks).length} invariantes OK, lastmod ${lastmod})`)
 }
 
-build()
+// La forma con `file://${process.argv[1]}` no funciona en Windows.
+if (process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))) build()
