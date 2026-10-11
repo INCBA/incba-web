@@ -60,7 +60,7 @@ export const REEMPLAZOS_CL = [
   ['servicios', 'Caja de 12 alfajores de maicena', 'Miel de ulmo 500 g', 1],
 
   ['para-quien', 'los comercios, las dietéticas, las clínicas', 'los comercios, las tiendas naturistas, las clínicas', 1],
-  ['para-quien', 'en la tienda online de una dietética', 'en la tienda online de una tienda a granel', 1],
+  ['para-quien', 'Que en la tienda online de una dietética se pueda comprar a granel: 250&nbsp;g, 500&nbsp;g o los gramos que quiera cada cliente.', 'Que en tu tienda puedas vender por unidad, a granel o en distintas medidas.', 1],
 ]
 
 // Lo que no puede llegar a incba.cl. «seña» va como palabra suelta: «diseñamos» la contiene.
