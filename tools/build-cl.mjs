@@ -54,7 +54,7 @@ export const REEMPLAZOS_CL = [
   ['servicios', 'Factura enviada a Camila por correo', 'Boleta enviada a Camila por correo', 1],
   ['servicios', 'seña cobrada', 'adelanto pagado', 1],
   ['servicios', 'Aceite de girasol 1,5 L × 12', 'Aceite de maravilla 1 L × 12', 1],
-  ['servicios', 'Camión AB 123 CD', 'Camión PHJL-27', 1],
+  ['servicios', 'Camión AB 123 CD', 'Camión ABCD-12', 1],
   ['servicios', '4 quedan en depósito', '4 quedan en bodega', 1],
   ['servicios', 'Distribuidora Santa Rita', 'Distribuidora del Maule', 1],
   ['servicios', 'Caja de 12 alfajores de maicena', 'Miel de ulmo 500 g', 1],
